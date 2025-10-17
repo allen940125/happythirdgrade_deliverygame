@@ -9,6 +9,7 @@ namespace Game.SceneManagement
     {
         MainMenuScene,
         LoadingScene,
+        GameScene,
         TestGameScene1,
         TestGameScene2,
     }
