@@ -119,9 +119,28 @@ public class SimpleCarController : MonoBehaviour
             rearRightWheel.steerAngle = 0f;
         }
 
-        // 馬達扭力分配
+        // ───────────────────────────────
+        // 驅動力與方向邏輯
+        // ───────────────────────────────
+        float movingDirection = Vector3.Dot(transform.forward, rb.linearVelocity);
+        float brakeTorque = brakeForce * brakeInput;
         torque = maxMotorTorque * motorInput;
-        
+
+        // 當方向與輸入相反 → 改為煞車
+        if ((movingDirection > 0.5f && motorInput < 0) ||
+            (movingDirection < -0.5f && motorInput > 0))
+        {
+            ApplyBrake(brakeForce);
+            torque = 0f;
+        }
+        else
+        {
+            ApplyBrake(brakeTorque);
+        }
+
+        // ───────────────────────────────
+        // 馬達扭力分配
+        // ───────────────────────────────
         switch (driveType)
         {
             case DriveType.FWD:
@@ -130,12 +149,14 @@ public class SimpleCarController : MonoBehaviour
                 rearLeftWheel.motorTorque = 0f;
                 rearRightWheel.motorTorque = 0f;
                 break;
+
             case DriveType.RWD:
                 rearLeftWheel.motorTorque = torque;
                 rearRightWheel.motorTorque = torque;
                 frontLeftWheel.motorTorque = 0f;
                 frontRightWheel.motorTorque = 0f;
                 break;
+
             case DriveType.AWD:
                 float splitTorque = torque * 0.5f;
                 frontLeftWheel.motorTorque = splitTorque;
@@ -145,15 +166,13 @@ public class SimpleCarController : MonoBehaviour
                 break;
         }
 
-        // 自動阻力 / 煞車
-        float brakeTorque = brakeForce * brakeInput;
-        if (motorInput == 0f && brakeInput == 0f)
+        // ───────────────────────────────
+        // 自動阻力
+        // ───────────────────────────────
+        if (motorInput == 0f && brakeInput == 0f && rb.linearVelocity.sqrMagnitude > 0.1f)
         {
             rb.AddForce(-rb.linearVelocity.normalized * autoBrakeForce, ForceMode.Acceleration);
         }
-
-
-        ApplyBrake(brakeTorque);
 
         // 更新輪胎模型
         UpdateWheelPose(frontLeftWheel, frontLeftMesh);
@@ -161,9 +180,10 @@ public class SimpleCarController : MonoBehaviour
         UpdateWheelPose(rearLeftWheel, rearLeftMesh);
         UpdateWheelPose(rearRightWheel, rearRightMesh);
 
-        // 速度
+        // 更新速度 (km/h)
         currentSpeed = rb.linearVelocity.magnitude * 3.6f;
     }
+
 
     void ApplyBrake(float brakeTorque)
     {
