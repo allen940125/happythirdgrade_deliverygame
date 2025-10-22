@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &7977951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7438,7 +7438,7 @@ Transform:
   m_GameObject: {fileID: 941969488}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 17.860508, z: -10}
+  m_LocalPosition: {x: 0, y: 35.18102, z: -20.000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7578,7 +7578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3303184570194359497, guid: 04edef29c801a134b9e05ddf2f1d3694, type: 3}
       propertyPath: CameraDistance
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3987064234615391787, guid: 04edef29c801a134b9e05ddf2f1d3694, type: 3}
       propertyPath: m_Enabled
@@ -7598,11 +7598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7522247111663242657, guid: 04edef29c801a134b9e05ddf2f1d3694, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.860508
+      value: 35.18102
       objectReference: {fileID: 0}
     - target: {fileID: 7522247111663242657, guid: 04edef29c801a134b9e05ddf2f1d3694, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -20.000002
       objectReference: {fileID: 0}
     - target: {fileID: 7522247111663242657, guid: 04edef29c801a134b9e05ddf2f1d3694, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9184,7 +9184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1536930038
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10009,7 +10009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1770451212
 Transform:
   m_ObjectHideFlags: 0
@@ -11002,7 +11002,35 @@ MonoBehaviour:
   lowSpeedSteerFactor: -0.5
   highSpeedSteerFactor: 0.3
   fourWS_SpeedThreshold: 15
-  currentSpeed: 0
+  downforceCoefficient: 5
+  steerBySpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 100
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  useSpeedTorqueFalloff: 1
+  maxEffectiveSpeed: 160
+  currentSpeed_H: 0
+  currentSpeed_S: 0
   torque: 0
 --- !u!4 &2035546912
 Transform:
@@ -11040,7 +11068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &2070458629
 BoxCollider:
   m_ObjectHideFlags: 0
