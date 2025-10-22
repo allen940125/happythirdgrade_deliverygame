@@ -24,10 +24,19 @@ public class SimpleCarController : MonoBehaviour
     public Transform rearRightMesh;
 
     [Header("車輛設定")]
-    public float maxMotorTorque = 5000f;  // 調整後，對1000kg車輛合理
+    public float maxMotorTorque = 5000f;  // 輪子最大扭力（越大加速越快）
     public float maxSteerAngle = 30f;
-    public float brakeForce = 8000f;      // 調整後煞車手感合理
-    public float autoBrakeForce = 10f;   // 沒油門時的自動阻力
+    public float brakeForce = 8000f;
+    public float autoBrakeForce = 10f;
+
+    [Header("檔位與引擎設定")]
+    public float idleRPM = 800f;
+    public float maxRPM = 6000f;
+    public float rpmSmoothSpeed = 5f;
+    public float[] gearRatios = { 3.2f, 2.1f, 1.4f, 1.0f, 0.8f }; // 五速自排
+    public int currentGear = 0;
+    public float currentRPM;
+    public float targetRPM;
 
     [Header("四輪轉向設定")]
     [Tooltip("低速時後輪與前輪反向的最大角度比例")]
@@ -38,10 +47,7 @@ public class SimpleCarController : MonoBehaviour
     public float fourWS_SpeedThreshold = 15f;
 
     [Header("調試用")]
-    [Tooltip("當前車輛速度 (km/h)")]
     public float currentSpeed = 0f;
-
-    [Tooltip("馬達扭力分配")]
     public float torque;
 
     private float motorInput;
@@ -67,12 +73,10 @@ public class SimpleCarController : MonoBehaviour
         sidewaysFriction.stiffness = 1f;
         wheel.sidewaysFriction = sidewaysFriction;
     }
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // Rigidbody drag 調整
         rb.linearDamping = 0.05f;
         rb.angularDamping = 0.05f;
 
@@ -98,7 +102,9 @@ public class SimpleCarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // ───────────────────────────────
         // 前輪轉向
+        // ───────────────────────────────
         float steerAngle = maxSteerAngle * steerInput;
         frontLeftWheel.steerAngle = steerAngle;
         frontRightWheel.steerAngle = steerAngle;
@@ -109,7 +115,6 @@ public class SimpleCarController : MonoBehaviour
             float speed = rb.linearVelocity.magnitude;
             float factor = (speed < fourWS_SpeedThreshold) ? lowSpeedSteerFactor : highSpeedSteerFactor;
             float rearSteerAngle = steerAngle * factor;
-
             rearLeftWheel.steerAngle = rearSteerAngle;
             rearRightWheel.steerAngle = rearSteerAngle;
         }
@@ -120,13 +125,13 @@ public class SimpleCarController : MonoBehaviour
         }
 
         // ───────────────────────────────
-        // 驅動力與方向邏輯
+        // 驅動與煞車
         // ───────────────────────────────
         float movingDirection = Vector3.Dot(transform.forward, rb.linearVelocity);
         float brakeTorque = brakeForce * brakeInput;
         torque = maxMotorTorque * motorInput;
 
-        // 當方向與輸入相反 → 改為煞車
+        // 若方向與輸入相反 → 自動煞車
         if ((movingDirection > 0.5f && motorInput < 0) ||
             (movingDirection < -0.5f && motorInput > 0))
         {
@@ -138,50 +143,57 @@ public class SimpleCarController : MonoBehaviour
             ApplyBrake(brakeTorque);
         }
 
-        // ───────────────────────────────
-        // 馬達扭力分配
-        // ───────────────────────────────
-        switch (driveType)
-        {
-            case DriveType.FWD:
-                frontLeftWheel.motorTorque = torque;
-                frontRightWheel.motorTorque = torque;
-                rearLeftWheel.motorTorque = 0f;
-                rearRightWheel.motorTorque = 0f;
-                break;
+        // 扭力分配
+        ApplyDriveTorque();
 
-            case DriveType.RWD:
-                rearLeftWheel.motorTorque = torque;
-                rearRightWheel.motorTorque = torque;
-                frontLeftWheel.motorTorque = 0f;
-                frontRightWheel.motorTorque = 0f;
-                break;
-
-            case DriveType.AWD:
-                float splitTorque = torque * 0.5f;
-                frontLeftWheel.motorTorque = splitTorque;
-                frontRightWheel.motorTorque = splitTorque;
-                rearLeftWheel.motorTorque = splitTorque;
-                rearRightWheel.motorTorque = splitTorque;
-                break;
-        }
-
-        // ───────────────────────────────
-        // 自動阻力
-        // ───────────────────────────────
+        // 沒油門與煞車時 → 自動阻力
         if (motorInput == 0f && brakeInput == 0f && rb.linearVelocity.sqrMagnitude > 0.1f)
         {
             rb.AddForce(-rb.linearVelocity.normalized * autoBrakeForce, ForceMode.Acceleration);
         }
+
+        // 更新車速
+        currentSpeed = rb.linearVelocity.magnitude * 3.6f;
+
+        // 更新檔位與轉速
+        UpdateGearAndRPM();
 
         // 更新輪胎模型
         UpdateWheelPose(frontLeftWheel, frontLeftMesh);
         UpdateWheelPose(frontRightWheel, frontRightMesh);
         UpdateWheelPose(rearLeftWheel, rearLeftMesh);
         UpdateWheelPose(rearRightWheel, rearRightMesh);
+    }
 
-        // 更新速度 (km/h)
-        currentSpeed = rb.linearVelocity.magnitude * 3.6f;
+    void ApplyDriveTorque()
+    {
+        float gearEffect = gearRatios[currentGear];
+        float effectiveTorque = maxMotorTorque * motorInput * gearEffect;
+
+        switch (driveType)
+        {
+            case DriveType.FWD:
+                frontLeftWheel.motorTorque = effectiveTorque;
+                frontRightWheel.motorTorque = effectiveTorque;
+                rearLeftWheel.motorTorque = 0f;
+                rearRightWheel.motorTorque = 0f;
+                break;
+
+            case DriveType.RWD:
+                rearLeftWheel.motorTorque = effectiveTorque;
+                rearRightWheel.motorTorque = effectiveTorque;
+                frontLeftWheel.motorTorque = 0f;
+                frontRightWheel.motorTorque = 0f;
+                break;
+
+            case DriveType.AWD:
+                float splitTorque = effectiveTorque * 0.5f;
+                frontLeftWheel.motorTorque = splitTorque;
+                frontRightWheel.motorTorque = splitTorque;
+                rearLeftWheel.motorTorque = splitTorque;
+                rearRightWheel.motorTorque = splitTorque;
+                break;
+        }
     }
 
 
@@ -199,5 +211,23 @@ public class SimpleCarController : MonoBehaviour
         collider.GetWorldPose(out Vector3 pos, out Quaternion rot);
         mesh.position = pos;
         mesh.rotation = rot;
+    }
+
+    // ───────────────────────────────
+    // 自動檔位與轉速系統
+    // ───────────────────────────────
+    void UpdateGearAndRPM()
+    {
+        // 根據車速與檔位，估算引擎轉速（簡化模擬）
+        float wheelRPM = (currentSpeed * 60f) / (2f * Mathf.PI * 0.34f); // 假設輪胎半徑 0.34m
+        targetRPM = idleRPM + wheelRPM * gearRatios[currentGear];
+        targetRPM = Mathf.Clamp(targetRPM, idleRPM, maxRPM);
+        currentRPM = Mathf.Lerp(currentRPM, targetRPM, Time.deltaTime * rpmSmoothSpeed);
+
+        // 自動升檔與降檔
+        if (currentRPM > 5500f && currentGear < gearRatios.Length - 1)
+            currentGear++;
+        else if (currentRPM < 2000f && currentGear > 0)
+            currentGear--;
     }
 }
