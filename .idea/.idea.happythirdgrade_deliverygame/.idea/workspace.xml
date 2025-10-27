@@ -5,7 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/InkSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InkSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/InputManager/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/InputManager/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/Manager.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/Manager.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Car/01 - Default.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Car/01 - Default.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/LICENSE.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,19 +51,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Old-Android6.1",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="附加到 Unity 编辑器.附加到 Unity 编辑器">
     <configuration name="启动 Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.6f2\Editor\Unity.exe" />
@@ -95,6 +123,7 @@
       <workItem from="1760977177142" duration="1379000" />
       <workItem from="1761022708537" duration="426000" />
       <workItem from="1761116923361" duration="12435000" />
+      <workItem from="1761221662318" duration="940000" />
     </task>
     <servers />
   </component>
