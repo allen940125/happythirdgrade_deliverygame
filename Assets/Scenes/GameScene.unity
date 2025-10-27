@@ -10252,6 +10252,184 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
+  m_EditorClassIdentifier: EasyRoads3Dv3.dll::EasyRoads3Dv3.ERMarkerExt
+  OSMNodeID: 0
+  activeSplineNode: 1
+  leftIndent: 2
+  leftIndentAlignment: 0
+  rightIndent: 2
+  rightIndentAlignment: 0
+  leftSurrounding: 2
+  rightSurrounding: 2
+  leftSurroundingAdjusted: 0
+  rightSurroundingAdjusted: 0
+  radius: 0
+  bridgeObject: 0
+  bridgeStartLevelDistance: 0
+  bridgeEndLevelDistance: 0
+  rotation: 0
+  position: {x: 20.208118, y: 5.779813, z: -2.827797}
+  oldPosition: {x: 20.208118, y: 5.779813, z: -2.827797}
+  positionTmp: {x: 0, y: 0, z: 0}
+  controlType: 0
+  controlTypeTmp: 0
+  rotations: 0
+  circularRadius: 1
+  circularAngle: 90
+  circularSegments: 10
+  splineStrength: 0.5
+  direction: {x: 0.4565229, y: -0.21920897, z: 0.86228436}
+  direction1: {x: 0.4679033, y: 0, z: 0.8837797}
+  rl: {x: 12.292039, y: 5.77994, z: 0.17690608}
+  rr: {x: 28.124197, y: 5.7796855, z: -5.8324995}
+  followTerrainContours: 0
+  startSplinePoint: 9
+  startDistance: 17.731543
+  startUVY: 0
+  totalDistance: 30.66786
+  totalDistanceString: 30.67 m
+  slopeAngle: 9.328857
+  angleString: 9.33
+  gradeString: 16.94
+  rotationCenter: 0.5
+  soData: []
+  controllerType: 0
+  randomYPosition: 0
+  randomMinYPosition: 0
+  randomMaxYPosition: 0
+  minRandomYPositionDistance: 0
+  maxRandomYPositionDistance: 0
+  randomMinRotation: 0
+  randomMaxRotation: 0
+  minRandomRotationDistance: 0
+  maxRandomRotationDistance: 0
+  prevLeftIndent: 0
+  prevRightIndent: 0
+  prevLeftSurrounding: 0
+  prevRightSurrounding: 0
+  prevControlType: 0
+  snappedMarker: 0
+  attachExit: 0
+  exitType: 0
+  exitGeometryType: 0
+  startExitInt: 0
+  endExitInt: 0
+  startExitOffset: 0
+  extrusionDistance: 10
+  extrusionType: 0
+  fixedDistance: 10
+  connectionAngle: 10
+  connectionRadius: 5
+  exitMaterial: {fileID: 0}
+  connectionMaterial: {fileID: 0}
+  exitRoadType: 0
+  connectionRoadType: 0
+  exitInnerVertices: []
+  customColor: {r: 0, g: 0, b: 0, a: 0}
+  roadMarkerWidth: 0
+  roadShape:
+  - {x: 7.5, y: 0}
+  - {x: -7.5, y: 0}
+  roadShapeVecsGlobal:
+  - {x: 13.196241, y: 5.77994, z: -0.16629767}
+  - {x: 27.219995, y: 5.7796855, z: -5.489296}
+  roadShapeDistanceMin: 0
+  roadShapeDistanceMax: 1
+  perpDir: {x: -0.9042024, y: 0, z: 0.34320375}
+  perpDirRotated: {x: -0.9349169, y: 0.000016975402, z: 0.35486653}
+  markerStartUVY: 0.5463085
+  customPoints: []
+  handleObject: {fileID: 0}
+--- !u!4 &1612483418 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 78026444054102503, guid: d159380a7c0c01c4dac6eabea554b84f, type: 3}
+  m_PrefabInstance: {fileID: 1240483088}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1631533990
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.179129
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.09999895
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.080286
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_Name
+      value: 'year 3  slot machine[01]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7064906
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7077201
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0011128138
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0014758906
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.231
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 64.609
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776092207063721000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -64.58002
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 07912f0c3facdea439d288a602960ed3, type: 3}
   serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
@@ -11693,7 +11871,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c11de4ab41a9428498f0a802196c7cd0, type: 2}
+  - {fileID: 2100000, guid: 858fd740dfa345243bf85ff5d1415abb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11768,7 +11946,7 @@ MonoBehaviour:
   m_Script: {fileID: 365290288, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectid: 
+  projectid: 176113565600374
   updateInt: 10
   newSplatMapRestoreCode: 0
   toolbarInt: 1
@@ -12834,3 +13012,4 @@ SceneRoots:
   - {fileID: 48684997}
   - {fileID: 2119785539}
   - {fileID: 2137831854}
+  - {fileID: 1631533990}
