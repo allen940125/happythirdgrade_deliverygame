@@ -6,21 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/DataSystem/Scripts/SaveData/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/DataSystem/Scripts/SaveData/SaveManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/DialogueSystem/DialogueManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/DialogueSystem/DialogueManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameSpeedManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameSpeedManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/InputManager/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/InputManager/InputManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/InputManager/Input_System/GameInputActions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/InputManager/Input_System/GameInputActions.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/InputManager/Input_System/GameInputActions.inputactions.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/InputManager/Input_System/GameInputActions.inputactions.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/InventorySystem/Scripts/InventoryManager/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/InventorySystem/Scripts/InventoryManager/InventoryManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/StoreSystem/Scripts/StoreManager/StoreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/StoreSystem/Scripts/StoreManager/StoreManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/UISystem/Scrips/Panel/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/UISystem/Scrips/Panel/HUDs/GameHUD.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test/MainMenuScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +20,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/SteeringWheelController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Tests/Editor/PostProcessDataTests/1.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -116,6 +106,7 @@
       <workItem from="1761530571732" duration="729000" />
       <workItem from="1761531310161" duration="4948000" />
       <workItem from="1761542679896" duration="3972000" />
+      <workItem from="1761567635511" duration="3703000" />
     </task>
     <servers />
   </component>

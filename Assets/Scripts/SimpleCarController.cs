@@ -135,6 +135,7 @@ public class SimpleCarController : MonoBehaviour
     void Update()
     {
         motorInput = MovementInput.y;
+        //motorInput = 1f;
         steerInput = MovementInput.x;
         //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
         
