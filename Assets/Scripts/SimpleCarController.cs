@@ -171,7 +171,6 @@ public class SimpleCarController : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
             }
         }
-
         
         // 檔位與轉速
         UpdateGearAndRPM();
