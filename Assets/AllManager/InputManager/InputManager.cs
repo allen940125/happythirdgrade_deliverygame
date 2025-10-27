@@ -298,7 +298,7 @@ namespace Game.Input
                 {
                     case InputType.Player:
                         {
-                            EnterPlayer();
+                            //EnterPlayer();
                             break;
                         }
                     case InputType.UI:

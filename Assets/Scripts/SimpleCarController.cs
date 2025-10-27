@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SimpleCarController : MonoBehaviour
 {
+    [Header("Input System")]
+    public InputAction moveAction; // 指向虛擬搖桿或 WASD/箭頭等
+    
     //──────────────────────────────────────────────
     // ENUMS
     //──────────────────────────────────────────────
@@ -90,13 +94,23 @@ public class SimpleCarController : MonoBehaviour
     // 私有成員
     //──────────────────────────────────────────────
     private Rigidbody rb;
-    private float motorInput;
-    private float steerInput;
-    private float brakeInput;
+    [SerializeField] private float motorInput;
+    [SerializeField] private float steerInput;
+    [SerializeField] private float brakeInput;
 
     //──────────────────────────────────────────────
     // 初始化
     //──────────────────────────────────────────────
+    void OnEnable()
+    {
+        moveAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        moveAction.Disable();
+    }
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -115,16 +129,18 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     void Update()
     {
-        motorInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-        brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+        Vector2 input = moveAction.ReadValue<Vector2>();
+        
+        motorInput = input.y;  // y 軸控制前後油門
+        steerInput = input.x;  // x 軸控制左右方向
+        //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
 
-        // 驅動/轉向模式切換
-        if (Input.GetKeyDown(KeyCode.Alpha1)) driveType = DriveType.FWD;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) driveType = DriveType.RWD;
-        if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
+        // // 驅動/轉向模式切換
+        // if (Input.GetKeyDown(KeyCode.Alpha1)) driveType = DriveType.FWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha2)) driveType = DriveType.RWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha4))
+        //     steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
     }
 
     //──────────────────────────────────────────────
