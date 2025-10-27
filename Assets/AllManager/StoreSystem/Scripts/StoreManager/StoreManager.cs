@@ -39,15 +39,15 @@ public class StoreManager : Singleton<StoreManager>
 
     private void Update()
     {
-        // 開啟商店時
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            LoadStoreData(1001);
-        }
-        else if(Input.GetKeyDown(KeyCode.L))
-        {
-            LoadStoreData(1002);
-        }
+        // // 開啟商店時
+        // if (Input.GetKeyDown(KeyCode.K))
+        // {
+        //     LoadStoreData(1001);
+        // }
+        // else if(Input.GetKeyDown(KeyCode.L))
+        // {
+        //     LoadStoreData(1002);
+        // }
     }
 
     #region 初始化

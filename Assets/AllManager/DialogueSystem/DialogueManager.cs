@@ -15,15 +15,14 @@ public class DialogueManager : Singleton<DialogueManager>
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J) && !DialogueManager.Instance.DialogueIsPlaying)
-        {
-            DialogueManager.Instance.StartDialogue("Test1002", inkTestAsset0002).Forget();
-        }
-        if (Input.GetKeyDown(KeyCode.G) && !DialogueManager.Instance.DialogueIsPlaying)
-        {
-            DialogueManager.Instance.StartDialogue("Test1001", inkTestAsset0001).Forget();
-        }
-
+        // if (Input.GetKeyDown(KeyCode.J) && !DialogueManager.Instance.DialogueIsPlaying)
+        // {
+        //     DialogueManager.Instance.StartDialogue("Test1002", inkTestAsset0002).Forget();
+        // }
+        // if (Input.GetKeyDown(KeyCode.G) && !DialogueManager.Instance.DialogueIsPlaying)
+        // {
+        //     DialogueManager.Instance.StartDialogue("Test1001", inkTestAsset0001).Forget();
+        // }
     }
     
     public async UniTask StartDialogue(string npcId, TextAsset inkJson)

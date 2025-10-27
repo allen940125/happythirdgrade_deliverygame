@@ -264,11 +264,11 @@ namespace Game.Input
             SetActionsMap(InputType.UI);
 
             // 顯示滑鼠
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
 
             // 停止遊戲時間（如有需要）
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
         }
 
         /// <summary>
@@ -279,11 +279,11 @@ namespace Game.Input
             SetActionsMap(InputType.Player);
 
             // 隱藏滑鼠並將其位置設為螢幕中央
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
 
             // 恢復遊戲時間
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
         }
 
         /// <summary>
