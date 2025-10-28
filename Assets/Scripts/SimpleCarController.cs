@@ -95,8 +95,8 @@ public class SimpleCarController : MonoBehaviour
     // 私有成員
     //──────────────────────────────────────────────
     private Rigidbody rb;
-    private float motorInput;
-    private float steerInput;
+    [SerializeField] private float motorInput;
+    [SerializeField] private float steerInput;
     private float brakeInput;
 
     //──────────────────────────────────────────────
@@ -134,11 +134,13 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     void Update()
     {
-        motorInput = MovementInput.y;
-        //motorInput = 1f;
-        steerInput = MovementInput.x;
+        //motorInput = MovementInput.y;
+        //steerInput = MovementInput.x;
         //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-        
+
+        motorInput = MovementInputState.Y;
+        steerInput = MovementInputState.X;
+
         // motorInput = Input.GetAxis("Vertical");
         // steerInput = Input.GetAxis("Horizontal");
         // brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
@@ -384,4 +386,47 @@ public class SimpleCarController : MonoBehaviour
         mesh.SetPositionAndRotation(pos, rot);
     }
     #endregion
+}
+
+public static class MovementInputState
+{
+    // 只保留一個中央來源
+    public static event Action<Vector2> OnChanged;
+
+    private static float _x = 0f;
+    private static float _y = 0f;
+
+    public static float X
+    {
+        get => _x;
+        set
+        {
+            if (!Mathf.Approximately(_x, value))
+            {
+                _x = Mathf.Clamp(value, -1f, 1f);
+                Notify();
+            }
+        }
+    }
+
+    public static float Y
+    {
+        get => _y;
+        set
+        {
+            if (!Mathf.Approximately(_y, value))
+            {
+                _y = Mathf.Clamp(value, -1f, 1f);
+                Notify();
+            }
+        }
+    }
+
+    private static void Notify()
+    {
+        OnChanged?.Invoke(new Vector2(_x, _y));
+    }
+
+    // 可選：強制發送目前值
+    public static void PublishCurrent() => OnChanged?.Invoke(new Vector2(_x, _y));
 }

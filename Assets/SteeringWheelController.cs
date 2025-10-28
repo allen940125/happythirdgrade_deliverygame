@@ -112,8 +112,11 @@ public class SteeringWheelController : MonoBehaviour, IPointerDownHandler, IDrag
     private void SendMovement(float x)
     {
         // 你現有的 MoveInput 之前是 Vector2 (x,y) 用法：
-        Vector2 move = new Vector2(x, 0f);
-        GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = move });
+        MovementInputState.X = x;
+        
+        //Vector2 move = new Vector2(x, MovementInputManager.CurrentY);
+
+        //GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = move });
         // Debug.Log($"[SteeringWheel] Send MoveInput {move}");
     }
 }

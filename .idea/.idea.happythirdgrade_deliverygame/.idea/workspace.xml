@@ -6,10 +6,52 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Car/01 - Default.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Car/01 - Default.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/LICENSE.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/year 3  slot machine[01].fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/UnityURPToonLitShaderExample-master/year 3  slot machine[01].fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/LICENSE.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloInvLerpRemap.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloOutlineUtil.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/NiloZOffset.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_LightingEquation.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/大公司角色模型套用Unity包/Sharder/三渲二/UnityURPToonLitShaderExample-master/SimpleURPToonLitOutlineExample_Shared.hlsl.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +149,9 @@
       <workItem from="1761531310161" duration="4948000" />
       <workItem from="1761542679896" duration="3972000" />
       <workItem from="1761567635511" duration="3703000" />
+      <workItem from="1761580512254" duration="60000" />
+      <workItem from="1761580785853" duration="303000" />
+      <workItem from="1761623322164" duration="1000" />
     </task>
     <servers />
   </component>

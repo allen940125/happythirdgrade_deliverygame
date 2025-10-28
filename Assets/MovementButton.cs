@@ -7,10 +7,10 @@ using UnityEngine.UI;
 namespace Game.UI
 {
     /// <summary>
-    /// 簡單單檔版：
-    /// - 每個按鈕設 direction (例如 Up = (0,1))
-    /// - 按下時把 direction 加入全域 pressed set、放開或離開時移除
-    /// - 每次集合變動時計算合併向量並發送 MovementKeyPressedEvent
+    /// 簡單單檔版（修改後）：
+    /// - Buttons 只控制 Y 軸（上下）
+    /// - X 軸由其他輸入（例如 SteeringWheelController）更新到 MovementInputState.CurrentX
+    /// - 本類別計算被按下的 Y 合併值，更新 MovementInputState.CurrentY 並發送 (CurrentX, CurrentY)
     /// </summary>
     [RequireComponent(typeof(Button))]
     public class MovementButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
@@ -22,6 +22,7 @@ namespace Game.UI
         public bool repeatWhileHeld = false;
 
         // 全域被按下的 direction 集合（靜態，跨所有 MovementButton）
+        // 我們仍存 Vector2，但實際上只會用到 y 分量
         private static readonly HashSet<Vector2> pressed = new HashSet<Vector2>(new Vector2EqualityComparer());
         private bool _isHeld = false;
 
@@ -87,21 +88,31 @@ namespace Game.UI
         }
 
         // 計算集合合併向量並發送（只有變化才發送）
-        private static Vector2 _lastSent = Vector2.positiveInfinity;
+        private static Vector2 _lastSent = new Vector2(float.NaN, float.NaN);
         private void SendCombinedIfChanged(bool forceSend = false)
         {
-            Vector2 combined = Vector2.zero;
-            foreach (var v in pressed) combined += v;
+            // 只累加 Y 分量（X 由 SteeringWheel 或其他輸入管理）
+            float combinedY = 0f;
+            foreach (var v in pressed) combinedY += v.y;
 
-            // 若你不想在對角線變得更快，請改用 normalized：
-            // if (combined.magnitude > 1f) combined = combined.normalized;
+            // clamp Y 到 [-1,1]
+            combinedY = Mathf.Clamp(combinedY, -1f, 1f);
 
-            if (forceSend || !ApproximatelyEqual(combined, _lastSent))
+            // 更新全域 Y（供其他系統查詢）
+            MovementInputState.Y = combinedY;
+
+            // 讀取目前的 X（可能由 SteeringWheelController 或其他地方更新）
+            float currentX = MovementInputState.X;
+
+            Vector2 toSend = new Vector2(currentX, combinedY);
+
+            if (forceSend || !ApproximatelyEqual(toSend, _lastSent))
             {
-                _lastSent = combined;
+                _lastSent = toSend;
                 // 發送事件
-                GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = combined });
-                Debug.Log($"[MovementButton] Sent MoveInput {combined}");
+                
+                //GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = toSend });
+                Debug.Log($"[MovementButton] Sent MoveInput {toSend}");
             }
         }
 
