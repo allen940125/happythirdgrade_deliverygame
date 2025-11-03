@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System;
-using UnityEngine.UI;
+﻿using System;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.Arm;
 
 public class GameControll : MonoBehaviour
 {
@@ -60,31 +61,32 @@ public class GameControll : MonoBehaviour
     }
     private void CheckResults()
     {
-        if (Rows[0].stoppedSlot =="Diamond" 
-            && Rows[1].stoppedSlot == "Diamond" 
+        //中三連獎
+        if (Rows[0].stoppedSlot == "Diamond"
+            && Rows[1].stoppedSlot == "Diamond"
             && Rows[2].stoppedSlot == "Diamond")
         {
             PrizeValue = 200;
         }
-        else if (Rows[0].stoppedSlot == "Crown" 
+        else if (Rows[0].stoppedSlot == "Crown"
             && Rows[1].stoppedSlot == "Crown"
             && Rows[2].stoppedSlot == "Crown")
         {
             PrizeValue = 400;
         }
-        else if (Rows[0].stoppedSlot == "Melon" 
-            && Rows[1].stoppedSlot == "Melon" 
+        else if (Rows[0].stoppedSlot == "Melon"
+            && Rows[1].stoppedSlot == "Melon"
             && Rows[2].stoppedSlot == "Melon")
         {
             PrizeValue = 600;
         }
-        else if (Rows[0].stoppedSlot == "Bar" 
-            && Rows[1].stoppedSlot == "Bar" 
+        else if (Rows[0].stoppedSlot == "Bar"
+            && Rows[1].stoppedSlot == "Bar"
             && Rows[2].stoppedSlot == "Bar")
         {
             PrizeValue = 800;
         }
-        else if (Rows[0].stoppedSlot == "Seven" 
+        else if (Rows[0].stoppedSlot == "Seven"
             && Rows[1].stoppedSlot == "Seven"
             && Rows[2].stoppedSlot == "Seven")
         {
@@ -102,10 +104,90 @@ public class GameControll : MonoBehaviour
         {
             PrizeValue = 5000;
         }
-        else if
-        else
-        {
-            PrizeValue = 0;
-        }
+        //中二連獎
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Diamond"))
+
+            || ((Rows[0].stoppedSlot== Rows[2].stoppedSlot)
+            &&(Rows[0].stoppedSlot=="Diamond"))
+            
+            ||((Rows[1].stoppedSlot== Rows[2].stoppedSlot)
+            &&(Rows[1].stoppedSlot=="Diamond")))    
+            {
+            PrizeValue = 100;
+            }
+
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Crown"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Crown"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Crown")))
+            {
+            PrizeValue = 300;
+            }
+
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Melon"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Melon"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Melon")))
+            {
+            PrizeValue = 500;
+            }
+
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Bar"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Bar"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Bar")))
+            {
+            PrizeValue = 700;
+            }
+
+         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Seven"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Seven"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Seven")))
+            {
+            PrizeValue = 1000;
+            }
+
+           else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Cherry"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Cherry"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Cherry")))
+            {
+            PrizeValue = 2000;
+            }
+
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+            && (Rows[0]stoppedSlot == "Lemon"))
+
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Lemon"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Lemon")))
+            {
+            PrizeValue = 4000;
+            }
+        ResultsChecked = true;
     }
 }
