@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Collections;
@@ -36,7 +36,7 @@ public class GameControll : MonoBehaviour
         }
 
     }
-    private void OnMouseDown() //§ï¤â¾÷¥­¥x´ú¸Õ®ÉÀ³§ó§ï¦¨¤â¾÷ªºÄ²±±¨Æ¥ó
+    private void OnMouseDown() //æ”¹æ‰‹æ©Ÿå¹³å°æ¸¬è©¦æ™‚æ‡‰æ›´æ”¹æˆæ‰‹æ©Ÿçš„è§¸æ§äº‹ä»¶
     {
         if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
         {
@@ -50,9 +50,9 @@ public class GameControll : MonoBehaviour
             Handle.Rotate(0, 0, i);
             yield return new WaitForSeconds(0.1f);
         }
-       HandlePulled();
+       HandlePulled(); //è§¸ç™¼æ‹‰æ¡¿äº‹ä»¶
 
-         for (int i = 0; i < 0; i += 5)
+        for (int i = 0; i < 15; i += 5)
           {
                 Handle.Rotate(0, 0, -i);
                 yield return new WaitForSeconds(0.1f);
