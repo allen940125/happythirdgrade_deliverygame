@@ -58,4 +58,54 @@ public class GameControll : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
         }
     }
+    private void CheckResults()
+    {
+        if (Rows[0].stoppedSlot =="Diamond" 
+            && Rows[1].stoppedSlot == "Diamond" 
+            && Rows[2].stoppedSlot == "Diamond")
+        {
+            PrizeValue = 200;
+        }
+        else if (Rows[0].stoppedSlot == "Crown" 
+            && Rows[1].stoppedSlot == "Crown"
+            && Rows[2].stoppedSlot == "Crown")
+        {
+            PrizeValue = 400;
+        }
+        else if (Rows[0].stoppedSlot == "Melon" 
+            && Rows[1].stoppedSlot == "Melon" 
+            && Rows[2].stoppedSlot == "Melon")
+        {
+            PrizeValue = 600;
+        }
+        else if (Rows[0].stoppedSlot == "Bar" 
+            && Rows[1].stoppedSlot == "Bar" 
+            && Rows[2].stoppedSlot == "Bar")
+        {
+            PrizeValue = 800;
+        }
+        else if (Rows[0].stoppedSlot == "Seven" 
+            && Rows[1].stoppedSlot == "Seven"
+            && Rows[2].stoppedSlot == "Seven")
+        {
+            PrizeValue = 1500;
+        }
+        else if (Rows[0].stoppedSlot == "Cherry"
+           && Rows[1].stoppedSlot == "Cherry"
+           && Rows[2].stoppedSlot == "Cherry")
+        {
+            PrizeValue = 3000;
+        }
+        else if (Rows[0].stoppedSlot == "Lemon"
+            && Rows[1].stoppedSlot == "Lemon"
+            && Rows[2].stoppedSlot == "Lemon")
+        {
+            PrizeValue = 5000;
+        }
+        else if
+        else
+        {
+            PrizeValue = 0;
+        }
+    }
 }
