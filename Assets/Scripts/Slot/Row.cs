@@ -29,11 +29,11 @@ public class Row : MonoBehaviour
 
         for (int i = 0; i < 30; i++)
         {
-            if (transform.position.y <= 3.5f)
+            if (transform.position.y <= 3.5f) //我的版本最上面的是-1f 之後改
             {
                 transform.position = new Vector2(transform.position.x, 1.75f);
             }
-            transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f); //我的圖片是每小格-1f 而不是-0.25f 共三格 之後改
 
             yield return new WaitForSeconds(TimeInterval);
         }

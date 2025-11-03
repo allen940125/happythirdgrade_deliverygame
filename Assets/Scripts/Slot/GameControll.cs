@@ -106,7 +106,7 @@ public class GameControll : MonoBehaviour
         }
         //中二連獎
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Diamond"))
+            && (Rows[0].stoppedSlot == "Diamond"))
 
             || ((Rows[0].stoppedSlot== Rows[2].stoppedSlot)
             &&(Rows[0].stoppedSlot=="Diamond"))
@@ -118,7 +118,7 @@ public class GameControll : MonoBehaviour
             }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Crown"))
+            && (Rows[0].stoppedSlot == "Crown"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Crown"))
@@ -130,7 +130,7 @@ public class GameControll : MonoBehaviour
             }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Melon"))
+            && (Rows[0].stoppedSlot == "Melon"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Melon"))
@@ -142,7 +142,7 @@ public class GameControll : MonoBehaviour
             }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Bar"))
+            && (Rows[0].stoppedSlot == "Bar"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Bar"))
@@ -154,7 +154,7 @@ public class GameControll : MonoBehaviour
             }
 
          else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Seven"))
+            && (Rows[0].stoppedSlot == "Seven"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Seven"))
@@ -166,7 +166,7 @@ public class GameControll : MonoBehaviour
             }
 
            else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Cherry"))
+            && (Rows[0].stoppedSlot == "Cherry"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Cherry"))
@@ -178,7 +178,7 @@ public class GameControll : MonoBehaviour
             }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0]stoppedSlot == "Lemon"))
+            && (Rows[0].stoppedSlot == "Lemon"))
 
             || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[0].stoppedSlot == "Lemon"))
