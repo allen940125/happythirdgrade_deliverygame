@@ -66,12 +66,12 @@ public class GameManager : Singleton<GameManager>
         // 若 UIManager 為 null 可做防呆檢查
         UIManager?.Update();
         
-        if (UnityEngine.Input.GetKeyDown(KeyCode.H))
-        {
-            UIManager.OpenPanel<FadeInOutWindow>(UIType.FadeInOutWindow);
-            //UIManager.GetPanel<FadeInOutWindow>(UIType.FadeInOutWindow).SetFadeImage(sprite);
-            UIManager.GetPanel<FadeInOutWindow>(UIType.FadeInOutWindow).FadeIn(1,4);
-        }
+        // if (UnityEngine.Input.GetKeyDown(KeyCode.H))
+        // {
+        //     UIManager.OpenPanel<FadeInOutWindow>(UIType.FadeInOutWindow);
+        //     //UIManager.GetPanel<FadeInOutWindow>(UIType.FadeInOutWindow).SetFadeImage(sprite);
+        //     UIManager.GetPanel<FadeInOutWindow>(UIType.FadeInOutWindow).FadeIn(1,4);
+        // }
         
         InputManagers.DebugCheckInputSwitch();
     }

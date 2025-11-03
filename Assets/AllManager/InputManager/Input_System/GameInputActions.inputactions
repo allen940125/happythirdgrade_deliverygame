@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "GameInputActions",
     "maps": [
         {
@@ -82,7 +83,7 @@
                     "type": "Value",
                     "id": "203b61d5-90a9-4f98-973a-001dadf067c1",
                     "expectedControlType": "Axis",
-                    "processors": "Clamp(min=-0.1,max=0.1),Invert",
+                    "processors": "Clamp(min=-0.1,max=0.1);Invert",
                     "interactions": "",
                     "initialStateCheck": true
                 },
