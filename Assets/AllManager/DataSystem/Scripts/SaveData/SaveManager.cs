@@ -35,12 +35,12 @@ public class SaveManager : Singleton<SaveManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SaveGame(); // 統一保存存檔
-            SaveSettings();
-            Debug.Log("已儲存遊戲");
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     SaveGame(); // 統一保存存檔
+        //     SaveSettings();
+        //     Debug.Log("已儲存遊戲");
+        // }
     }
 
     // 保存存檔

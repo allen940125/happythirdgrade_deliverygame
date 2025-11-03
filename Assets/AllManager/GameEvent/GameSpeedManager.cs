@@ -6,14 +6,14 @@ public class GameSpeedManager : MonoBehaviour
     [SerializeField] private float _defaultTimeScale = 1f;
     [SerializeField] private float _step = 0.1f; // 每次調整的增量
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.RightBracket)) // ] 增加速度
-            IncreaseSpeed();
-
-        if (Input.GetKeyDown(KeyCode.LeftBracket)) // [ 減少速度
-            DecreaseSpeed();
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.RightBracket)) // ] 增加速度
+    //         IncreaseSpeed();
+    //
+    //     if (Input.GetKeyDown(KeyCode.LeftBracket)) // [ 減少速度
+    //         DecreaseSpeed();
+    // }
 
     private void OnValidate()
     {

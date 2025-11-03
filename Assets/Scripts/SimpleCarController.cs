@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SimpleCarController : MonoBehaviour
@@ -8,10 +10,13 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     public enum DriveType { FWD, RWD, AWD }
     public enum SteeringType { FrontOnly, FourWheel }
-
+    
     //──────────────────────────────────────────────
     // 車輛設定
     //──────────────────────────────────────────────
+    [Header("玩家輸入")]
+    public Vector2 MovementInput;
+    
     [Header("驅動與轉向設定")]
     public DriveType driveType = DriveType.FWD;
     public SteeringType steeringType = SteeringType.FrontOnly;
@@ -90,13 +95,27 @@ public class SimpleCarController : MonoBehaviour
     // 私有成員
     //──────────────────────────────────────────────
     private Rigidbody rb;
-    private float motorInput;
-    private float steerInput;
+    [SerializeField] private float motorInput;
+    [SerializeField] private float steerInput;
     private float brakeInput;
 
     //──────────────────────────────────────────────
     // 初始化
     //──────────────────────────────────────────────
+    private void OnEnable()
+    {
+        // 事件訂閱（使用更清楚的命名）
+        GameManager.Instance.MainGameEvent.SetSubscribe(
+            GameManager.Instance.MainGameEvent.OnMovementKeyPressedEvent,
+            cmd => {
+                Debug.Log("Movement Event Triggered: " + cmd.MoveInput);
+                MovementInput = cmd.MoveInput;
+            }
+        );
+        
+        
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -115,16 +134,23 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     void Update()
     {
-        motorInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-        brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+        //motorInput = MovementInput.y;
+        //steerInput = MovementInput.x;
+        //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
 
-        // 驅動/轉向模式切換
-        if (Input.GetKeyDown(KeyCode.Alpha1)) driveType = DriveType.FWD;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) driveType = DriveType.RWD;
-        if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
+        motorInput = MovementInputState.Y;
+        steerInput = MovementInputState.X;
+
+        // motorInput = Input.GetAxis("Vertical");
+        // steerInput = Input.GetAxis("Horizontal");
+        // brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+
+        // // 驅動/轉向模式切換
+        // if (Input.GetKeyDown(KeyCode.Alpha1)) driveType = DriveType.FWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha2)) driveType = DriveType.RWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
+        // if (Input.GetKeyDown(KeyCode.Alpha4))
+        //     steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
     }
 
     //──────────────────────────────────────────────
@@ -171,7 +197,6 @@ public class SimpleCarController : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
             }
         }
-
         
         // 檔位與轉速
         UpdateGearAndRPM();
@@ -361,4 +386,47 @@ public class SimpleCarController : MonoBehaviour
         mesh.SetPositionAndRotation(pos, rot);
     }
     #endregion
+}
+
+public static class MovementInputState
+{
+    // 只保留一個中央來源
+    public static event Action<Vector2> OnChanged;
+
+    private static float _x = 0f;
+    private static float _y = 0f;
+
+    public static float X
+    {
+        get => _x;
+        set
+        {
+            if (!Mathf.Approximately(_x, value))
+            {
+                _x = Mathf.Clamp(value, -1f, 1f);
+                Notify();
+            }
+        }
+    }
+
+    public static float Y
+    {
+        get => _y;
+        set
+        {
+            if (!Mathf.Approximately(_y, value))
+            {
+                _y = Mathf.Clamp(value, -1f, 1f);
+                Notify();
+            }
+        }
+    }
+
+    private static void Notify()
+    {
+        OnChanged?.Invoke(new Vector2(_x, _y));
+    }
+
+    // 可選：強制發送目前值
+    public static void PublishCurrent() => OnChanged?.Invoke(new Vector2(_x, _y));
 }

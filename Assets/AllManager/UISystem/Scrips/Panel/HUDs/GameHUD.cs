@@ -1,50 +1,52 @@
-using Game.SceneManagement;
 using Gamemanager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
     public class GameHUD : BasePanel
     {
-        [Header("轉換的場景名稱")] [SerializeField] SceneType sceneType;
+        [Header("移動按鈕 (請在 Inspector 把 MovementButton 加到這些按鈕上)")]
+        [SerializeField] private Button upButton;
+        [SerializeField] private Button downButton;
+        [SerializeField] private Button leftButton;
+        [SerializeField] private Button rightButton;
 
-        [SerializeField] private float playerDrunkennessValue;
-        
-        [SerializeField] private float playerCurWineBottle;
-        
-        [SerializeField] private float playerCurWineBottleRemainingAlcohol;
-        
-        [SerializeField] private TMP_Text text_PlayerDrunkennessValue;
-        
-        [SerializeField] private TMP_Text text_CurWineBottle;
-        
-        [SerializeField] private TMP_Text text_CurWineBottleRemainingAlcohol;
-
+        // 其他 UI 欄位略...（你現有的 UI 欄位可以保留）
         protected override void Awake()
         {
             base.Awake();
+
+            // 檢查並初始化 direction（如果你想用程式設預設）
+            EnsureMovementButton(upButton, Vector2.up);
+            EnsureMovementButton(downButton, Vector2.down);
+            EnsureMovementButton(leftButton, Vector2.left);
+            EnsureMovementButton(rightButton, Vector2.right);
         }
 
         void Start()
         {
+            // 隱藏游標（如你原本做法）
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = false });
         }
-        private void Update()
-        {
-            playerDrunkennessValue = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerDrunkennessValue;
-            playerCurWineBottle = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottle;
-            playerCurWineBottleRemainingAlcohol = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCurWineBottleRemainingAlcohol;
-            
-            UpdateText();
-        }
 
-        void UpdateText()
+        /// <summary>
+        /// 若按鈕沒有 MovementButton 組件，會自動新增並指定 direction。
+        /// 若已經存在，會覆寫 direction（方便快速配置）。
+        /// </summary>
+        private void EnsureMovementButton(Button btn, Vector2 dir)
         {
-            // text_PlayerDrunkennessValue.text = "酒精值" + playerDrunkennessValue.ToString();
-            // text_CurWineBottle.text = "酒瓶數量" + playerCurWineBottle.ToString();
-            // text_CurWineBottleRemainingAlcohol.text = "剩餘酒量" + playerCurWineBottleRemainingAlcohol.ToString();
+            if (btn == null) return;
+
+            var mb = btn.GetComponent<MovementButton>();
+            if (mb == null)
+            {
+                mb = btn.gameObject.AddComponent<MovementButton>();
+            }
+
+            mb.direction = dir;
+            // mb.repeatWhileHeld = true; // 若你想按住時持續傳送，可解除註解
         }
     }
 }
-
