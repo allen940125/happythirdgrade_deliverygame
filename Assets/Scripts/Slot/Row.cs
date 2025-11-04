@@ -29,9 +29,9 @@ public class Row : MonoBehaviour
 
         for (int i = 0; i < 30; i++)
         {
-            if (transform.position.y <= 3.5f) //我的版本最上面的是-1f 之後改
+            if (transform.position.y <= 3.5f) //f設定地一張
             {
-                transform.position = new Vector2(transform.position.x, 1.75f);
+                transform.position = new Vector2(transform.position.x, 1.75f);//f設定地一張 造成循環
             }
             transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f); //我的圖片是每小格-1f 而不是-0.25f 共三格 之後改
 
