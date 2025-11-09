@@ -3,13 +3,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using static Unity.Burst.Intrinsics.Arm;
+using TMPro;
+using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
-public class GameControll : MonoBehaviour
+public class GameControll : MonoBehaviour, IPointerDownHandler
 {
     public static event Action HandlePulled = delegate { };
 
     [SerializeField]
-    private Text PrizeText;
+    private TMP_Text PrizeText;
 
     [SerializeField]
     private Row[] Rows;
@@ -37,26 +40,29 @@ public class GameControll : MonoBehaviour
         }
 
     }
-    private void OnMouseDown() //改手機平台測試時應更改成手機的觸控事件
+    public void OnPointerDown(PointerEventData eventData) //改手機平台測試時應更改成手機的觸控事件
     {
-        if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            StartCoroutine("PullHandle");
+            if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
+            {
+                StartCoroutine("PullHandle");
+            }
         }
     }
     private IEnumerator PullHandle()
     {
-       for(int i=0;i<15; i += 5)
+        for (int i = 0; i < 15; i += 5)
         {
             Handle.Rotate(0, 0, i);
             yield return new WaitForSeconds(0.1f);
         }
-       HandlePulled(); //觸發拉桿事件
+        HandlePulled(); //觸發拉桿事件
 
         for (int i = 0; i < 15; i += 5)
-          {
-                Handle.Rotate(0, 0, -i);
-                yield return new WaitForSeconds(0.1f);
+        {
+            Handle.Rotate(0, 0, -i);
+            yield return new WaitForSeconds(0.1f);
         }
     }
     private void CheckResults()
@@ -108,14 +114,14 @@ public class GameControll : MonoBehaviour
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
             && (Rows[0].stoppedSlot == "Diamond"))
 
-            || ((Rows[0].stoppedSlot== Rows[2].stoppedSlot)
-            &&(Rows[0].stoppedSlot=="Diamond"))
-            
-            ||((Rows[1].stoppedSlot== Rows[2].stoppedSlot)
-            &&(Rows[1].stoppedSlot=="Diamond")))    
-            {
+            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[0].stoppedSlot == "Diamond"))
+
+            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+            && (Rows[1].stoppedSlot == "Diamond")))
+        {
             PrizeValue = 100;
-            }
+        }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
             && (Rows[0].stoppedSlot == "Crown"))
@@ -125,9 +131,9 @@ public class GameControll : MonoBehaviour
 
             || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[1].stoppedSlot == "Crown")))
-            {
+        {
             PrizeValue = 300;
-            }
+        }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
             && (Rows[0].stoppedSlot == "Melon"))
@@ -137,9 +143,9 @@ public class GameControll : MonoBehaviour
 
             || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[1].stoppedSlot == "Melon")))
-            {
+        {
             PrizeValue = 500;
-            }
+        }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
             && (Rows[0].stoppedSlot == "Bar"))
@@ -149,33 +155,33 @@ public class GameControll : MonoBehaviour
 
             || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[1].stoppedSlot == "Bar")))
-            {
+        {
             PrizeValue = 700;
-            }
+        }
 
-         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0].stoppedSlot == "Seven"))
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+           && (Rows[0].stoppedSlot == "Seven"))
 
-            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
-            && (Rows[0].stoppedSlot == "Seven"))
+           || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+           && (Rows[0].stoppedSlot == "Seven"))
 
-            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
-            && (Rows[1].stoppedSlot == "Seven")))
-            {
+           || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+           && (Rows[1].stoppedSlot == "Seven")))
+        {
             PrizeValue = 1000;
-            }
+        }
 
-           else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
-            && (Rows[0].stoppedSlot == "Cherry"))
+        else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
+         && (Rows[0].stoppedSlot == "Cherry"))
 
-            || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
-            && (Rows[0].stoppedSlot == "Cherry"))
+         || ((Rows[0].stoppedSlot == Rows[2].stoppedSlot)
+         && (Rows[0].stoppedSlot == "Cherry"))
 
-            || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
-            && (Rows[1].stoppedSlot == "Cherry")))
-            {
+         || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
+         && (Rows[1].stoppedSlot == "Cherry")))
+        {
             PrizeValue = 2000;
-            }
+        }
 
         else if (((Rows[0].stoppedSlot == Rows[1].stoppedSlot)
             && (Rows[0].stoppedSlot == "Lemon"))
@@ -185,9 +191,9 @@ public class GameControll : MonoBehaviour
 
             || ((Rows[1].stoppedSlot == Rows[2].stoppedSlot)
             && (Rows[1].stoppedSlot == "Lemon")))
-            {
+        {
             PrizeValue = 4000;
-            }
+        }
         ResultsChecked = true;
     }
 }
