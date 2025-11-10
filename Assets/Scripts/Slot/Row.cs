@@ -33,7 +33,7 @@ public class Row : MonoBehaviour
             {
                 transform.position = new Vector2(transform.position.x, 20.5f);//f設定地一張 造成循環
             }
-            transform.position = new Vector2(transform.position.x, transform.position.y - 3); //我的圖片是每小格-3f 而不是-0.25f 共三格 之後改
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1); //我的圖片是每小格-3f 而不是-0.25f 共三格 之後改
 
             yield return new WaitForSeconds(TimeInterval);
         } //開始旋轉
@@ -54,7 +54,7 @@ public class Row : MonoBehaviour
             {
                 transform.position = new Vector2(transform.position.x, 20.5f);//f設定地一張 造成循環
             }
-            transform.position = new Vector2(transform.position.x, transform.position.y - 3); //我的圖片是每小格-3f 而不是-0.25f 共三格 之後改
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1); //我的圖片是每小格-3f 而不是-0.25f 共三格 之後改
 
             if (i > Mathf.RoundToInt(RandomValue * 0.25f)) 
             {
@@ -105,10 +105,7 @@ public class Row : MonoBehaviour
         {
             stoppedSlot = "Lemon";
         }
-        else if (transform.position.y == 20.5f)
-        {
-            stoppedSlot = "Diamond";
-        } 
+        
         RowStopped = true;
         //判斷停在哪個圖案上
 

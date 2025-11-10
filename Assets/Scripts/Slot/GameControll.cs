@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 
 public class GameControll : MonoBehaviour, IPointerDownHandler
 {
-    public static event Action HandlePulled = delegate { };
+    public static event Action HandlePulled = delegate { }; //拉霸事件
 
     [SerializeField]
     private TMP_Text PrizeText;
@@ -54,7 +54,7 @@ public class GameControll : MonoBehaviour, IPointerDownHandler
     {
         for (int i = 0; i < 15; i += 5)
         {
-            Handle.Rotate(0, 0, i);
+            Handle.Rotate(0, 0, i); //拉桿動畫
             yield return new WaitForSeconds(0.1f);
         }
         HandlePulled(); //觸發拉桿事件
