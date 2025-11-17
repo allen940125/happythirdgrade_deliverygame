@@ -112,8 +112,6 @@ public class SimpleCarController : MonoBehaviour
                 MovementInput = cmd.MoveInput;
             }
         );
-        
-        
     }
 
     void Start()
@@ -138,9 +136,6 @@ public class SimpleCarController : MonoBehaviour
         //steerInput = MovementInput.x;
         //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
 
-        motorInput = MovementInputState.Y;
-        steerInput = MovementInputState.X;
-
         // motorInput = Input.GetAxis("Vertical");
         // steerInput = Input.GetAxis("Horizontal");
         // brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
@@ -151,6 +146,22 @@ public class SimpleCarController : MonoBehaviour
         // if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
         // if (Input.GetKeyDown(KeyCode.Alpha4))
         //     steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
+        
+        steerInput = MovementInput.x;
+
+        // 檢查是否有明確的後退/煞車/停止訊號
+        if (MovementInput.y < 0f) // 訊號為負 (後退/雙按 UI 鍵)
+        {
+            motorInput = -1f;       // 全力倒車
+            brakeInput = 0f;
+        }
+        // 這是最關鍵的一步：如果沒有後退訊號，就保持前進狀態 (Auto-Drive)
+        else 
+        {
+            // 只要沒有明確的倒車訊號，一律保持油門
+            motorInput = 1f;       // 全力油門 (Auto-Drive 核心)
+            brakeInput = 0f;
+        }
     }
 
     //──────────────────────────────────────────────
@@ -388,45 +399,3 @@ public class SimpleCarController : MonoBehaviour
     #endregion
 }
 
-public static class MovementInputState
-{
-    // 只保留一個中央來源
-    public static event Action<Vector2> OnChanged;
-
-    private static float _x = 0f;
-    private static float _y = 0f;
-
-    public static float X
-    {
-        get => _x;
-        set
-        {
-            if (!Mathf.Approximately(_x, value))
-            {
-                _x = Mathf.Clamp(value, -1f, 1f);
-                Notify();
-            }
-        }
-    }
-
-    public static float Y
-    {
-        get => _y;
-        set
-        {
-            if (!Mathf.Approximately(_y, value))
-            {
-                _y = Mathf.Clamp(value, -1f, 1f);
-                Notify();
-            }
-        }
-    }
-
-    private static void Notify()
-    {
-        OnChanged?.Invoke(new Vector2(_x, _y));
-    }
-
-    // 可選：強制發送目前值
-    public static void PublishCurrent() => OnChanged?.Invoke(new Vector2(_x, _y));
-}

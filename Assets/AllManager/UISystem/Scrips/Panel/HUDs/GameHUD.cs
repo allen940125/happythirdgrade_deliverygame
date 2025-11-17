@@ -1,52 +1,92 @@
-using Gamemanager;
-using TMPro;
+using Gamemanager; 
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public class GameHUD : BasePanel
+    public class GameHUD : BasePanel 
     {
-        [Header("移動按鈕 (請在 Inspector 把 MovementButton 加到這些按鈕上)")]
-        [SerializeField] private Button upButton;
-        [SerializeField] private Button downButton;
-        [SerializeField] private Button leftButton;
-        [SerializeField] private Button rightButton;
+        [Header("按鈕參照 (請將掛有 SimplePressButton 的物件拖入)")]
+        [SerializeField] private SimplePressButton leftButton;
+        [SerializeField] private SimplePressButton rightButton;
 
-        // 其他 UI 欄位略...（你現有的 UI 欄位可以保留）
+        // 用來避免重複發送一樣的訊號，節省效能
+        private Vector2 _lastSentInput = new Vector2(-999, -999); 
+
         protected override void Awake()
         {
             base.Awake();
-
-            // 檢查並初始化 direction（如果你想用程式設預設）
-            EnsureMovementButton(upButton, Vector2.up);
-            EnsureMovementButton(downButton, Vector2.down);
-            EnsureMovementButton(leftButton, Vector2.left);
-            EnsureMovementButton(rightButton, Vector2.right);
         }
 
         void Start()
         {
-            // 隱藏游標（如你原本做法）
+            // 隱藏游標 (照舊)
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = false });
         }
 
-        /// <summary>
-        /// 若按鈕沒有 MovementButton 組件，會自動新增並指定 direction。
-        /// 若已經存在，會覆寫 direction（方便快速配置）。
-        /// </summary>
-        private void EnsureMovementButton(Button btn, Vector2 dir)
+        void Update()
         {
-            if (btn == null) return;
+            HandleMovementLogic();
+        }
 
-            var mb = btn.GetComponent<MovementButton>();
-            if (mb == null)
+        private void HandleMovementLogic()
+        {
+            bool isLeft = leftButton.IsPressed;
+            bool isRight = rightButton.IsPressed;
+
+            Vector2 targetInput;
+
+            // 1. 決定 X 軸 (Steer)
+            float inputX = 0f;
+            if (isLeft && !isRight)
             {
-                mb = btn.gameObject.AddComponent<MovementButton>();
+                inputX = -1f; // 左轉
+            }
+            else if (isRight && !isLeft)
+            {
+                inputX = 1f; // 右轉
+            }
+            // 雙按或都沒按，X 軸都是 0
+
+            // 2. 決定 Y 軸 (Throttle/Brake)
+            float inputY = 0f;
+            if (isLeft && isRight)
+            {
+                // 【雙按】：後退 (Y=-1)
+                inputY = -1f;
+            }
+            else
+            {
+                // 【單按或都沒按】：前進 (Y=1)
+                inputY = 1f;
             }
 
-            mb.direction = dir;
-            // mb.repeatWhileHeld = true; // 若你想按住時持續傳送，可解除註解
+            // 組合最終訊號
+            targetInput = new Vector2(inputX, inputY);
+
+            // ... (後續的發送和檢查邏輯不變)
+            if (targetInput != _lastSentInput)
+            {
+                SendMovementEvent(targetInput);
+                _lastSentInput = targetInput;
+            }
+        }
+
+        private void SendMovementEvent(Vector2 input)
+        {
+            // 這裡使用你 InputManager 裡定義的事件名稱：MovementKeyPressedEvent
+            GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() 
+            { 
+                MoveInput = input 
+            });
+        }
+        
+        // 當 UI 被關閉時，為了安全起見，發送歸零訊號 (或是你可以選擇繼續跑)
+        private void OnDisable()
+        {
+             // 這裡視你的需求而定。
+             // 如果關閉 UI 車子要停，就傳 Vector2.zero。
+             // 如果關閉 UI 車子要繼續往前跑，就不用傳。
+             // SendMovementEvent(Vector2.zero); 
         }
     }
 }
