@@ -11,19 +11,31 @@ public class GameControll : MonoBehaviour, IPointerDownHandler
 {
     public static event Action HandlePulled = delegate { }; //拉霸事件
 
-    [SerializeField]
-    private TMP_Text PrizeText;
+    [SerializeField] private TMP_Text PrizeText;
 
-    [SerializeField]
-    private Row[] Rows;
+    [SerializeField] private Row[] Rows;
 
-    [SerializeField]
-    private Transform Handle;
+    [SerializeField] private Transform Handle;
 
     private int PrizeValue;
 
     private bool ResultsChecked = false;
+
     // Update is called once per frame
+    
+    public void Pulled()
+    {
+        if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
+        {
+            StartCoroutine("PullHandle");
+        }
+    }
+
+    void OnEnable()
+    {
+        Pulled();
+    }
+
     void Update()
     {
         if (!Rows[0].RowStopped || !Rows[1].RowStopped || !Rows[2].RowStopped)
