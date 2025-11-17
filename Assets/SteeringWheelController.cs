@@ -40,42 +40,42 @@ public class SteeringWheelController : MonoBehaviour, IPointerDownHandler, IDrag
     private float _targetInput = 0f; // 目標輸入（-1..1）
     private float _currentInput = 0f; // 當前輸入（用於平滑）
 
-    void Awake()
-    {
-        _rect = GetComponent<RectTransform>();
-        if (dragArea == null) dragArea = _rect;
-    }
+    // void Awake()
+    // {
+    //     _rect = GetComponent<RectTransform>();
+    //     if (dragArea == null) dragArea = _rect;
+    // }
+    //
+    // void Update()
+    // {
+    //     // 平滑插值 current 到 target（或直接指派）
+    //     if (smoothReturn || _isDragging)
+    //     {
+    //         _currentInput = Mathf.Lerp(_currentInput, _targetInput, Time.deltaTime * returnSpeed);
+    //     }
+    //     else
+    //     {
+    //         _currentInput = _targetInput;
+    //     }
+    //
+    //     // 更新 UI 方向盤旋轉（負號是為了把向右 input 對應為 clockwise）
+    //     if (directionWheelImage != null)
+    //     {
+    //         float rot = -_currentInput * maxWheelRotation;
+    //         directionWheelImage.rectTransform.localRotation = Quaternion.Euler(0f, 0f, rot);
+    //     }
+    // }
 
-    void Update()
-    {
-        // 平滑插值 current 到 target（或直接指派）
-        if (smoothReturn || _isDragging)
-        {
-            _currentInput = Mathf.Lerp(_currentInput, _targetInput, Time.deltaTime * returnSpeed);
-        }
-        else
-        {
-            _currentInput = _targetInput;
-        }
-
-        // 更新 UI 方向盤旋轉（負號是為了把向右 input 對應為 clockwise）
-        if (directionWheelImage != null)
-        {
-            float rot = -_currentInput * maxWheelRotation;
-            directionWheelImage.rectTransform.localRotation = Quaternion.Euler(0f, 0f, rot);
-        }
-    }
-
-    // 每幀或每次 target 變化時要發送事件（只有當值改變時發）
-    private float _lastSent = float.NaN;
-    void LateUpdate()
-    {
-        if (!Mathf.Approximately(_lastSent, _currentInput))
-        {
-            _lastSent = _currentInput;
-            SendMovement(_currentInput);
-        }
-    }
+    // // 每幀或每次 target 變化時要發送事件（只有當值改變時發）
+    // private float _lastSent = float.NaN;
+    // void LateUpdate()
+    // {
+    //     if (!Mathf.Approximately(_lastSent, _currentInput))
+    //     {
+    //         _lastSent = _currentInput;
+    //         SendMovement(_currentInput);
+    //     }
+    // }
 
     // IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
@@ -112,7 +112,7 @@ public class SteeringWheelController : MonoBehaviour, IPointerDownHandler, IDrag
     private void SendMovement(float x)
     {
         // 你現有的 MoveInput 之前是 Vector2 (x,y) 用法：
-        MovementInputState.X = x;
+        //MovementInputState.X = x;
         
         //Vector2 move = new Vector2(x, MovementInputManager.CurrentY);
 
