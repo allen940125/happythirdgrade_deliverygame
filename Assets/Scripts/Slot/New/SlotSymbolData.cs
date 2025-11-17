@@ -8,8 +8,8 @@ public class SlotSymbolData : ScriptableObject
     [System.Serializable]
     public class SymbolInfo
     {
-        public string symbolName; // 例如 "Diamond", "Crown"
         public Sprite symbolSprite; // 要顯示的圖形
         public int Weight; // 機率權重 
     }
+    public List<SymbolInfo> symbols;
 }

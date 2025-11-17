@@ -6,5 +6,5 @@ using System.Collections.Generic;
 public class ReelStrip : ScriptableObject
 {
     //陣列，可以在檢視面板中編輯 [25]
-    public List<SlotSymbol> symbols = new List<SlotSymbol>();
+    //public List<SlotSymbol> symbols = new List<SlotSymbol>();
 }
