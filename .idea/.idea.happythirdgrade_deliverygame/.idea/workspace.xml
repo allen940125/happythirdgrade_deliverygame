@@ -6,12 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/UISystem/Scrips/Panel/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/UISystem/Scrips/Panel/HUDs/GameHUD.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MovementButton.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MovementButton.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/PlayerCamera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/PlayerCamera.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/House/year3 house1[08].fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/House/year3 house1[08].fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/GameControll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/GameControll.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/Row.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/Row.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +32,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/SteeringWheelController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Tests/Editor/PostProcessDataTests/1.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -113,7 +124,7 @@
       <workItem from="1761580512254" duration="60000" />
       <workItem from="1761580785853" duration="303000" />
       <workItem from="1761623322164" duration="1000" />
-      <workItem from="1763343723630" duration="3832000" />
+      <workItem from="1763343723630" duration="6745000" />
     </task>
     <servers />
   </component>

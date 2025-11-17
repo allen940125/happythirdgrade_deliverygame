@@ -10,7 +10,7 @@ public class Row : MonoBehaviour
     public string stoppedSlot;
 
     //Use this for initialization
-    void Start()
+    void Awake()
     {
         RowStopped = true;
         GameControll.HandlePulled += StartRotating; //訂閱拉桿事件
