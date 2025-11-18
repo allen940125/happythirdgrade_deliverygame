@@ -6,22 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AllManager/PlayerCamera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/PlayerCamera.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/House/year3 house1[08].fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/House/year3 house1[08].fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_small.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_small.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_3.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_3.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/GameControll.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/GameControll.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/Row.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/Row.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SteeringWheelController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/New/ReelStrip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/New/ReelStrip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +119,8 @@
       <workItem from="1761580785853" duration="303000" />
       <workItem from="1761623322164" duration="1000" />
       <workItem from="1763343723630" duration="6745000" />
+      <workItem from="1763377255894" duration="369000" />
+      <workItem from="1763377659080" duration="2976000" />
     </task>
     <servers />
   </component>

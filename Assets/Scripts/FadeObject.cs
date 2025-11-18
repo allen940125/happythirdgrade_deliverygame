@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FadeObject : MonoBehaviour
 {
-    // 儲存原始的 Material 和 Renderers，方便還原
+    // 儲存原始的 Material 和 Renderers
     private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
     private Renderer[] renderers;
 
@@ -14,66 +14,89 @@ public class FadeObject : MonoBehaviour
 
     private bool isFading = false;
     private float currentAlpha = 1.0f;
+    
+    // 關鍵優化：追蹤當前的渲染模式
+    private bool isCurrentlyTransparent = false;
 
     void Start()
     {
         renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers)
         {
-            // 複製一份材質 (重要!)，避免修改到共享的 Material Asset
+            // 複製一份材質 (重要!)
             r.material = new Material(r.material);
             originalMaterials.Add(r, r.material);
         }
+        
+        // 初始狀態為不透明
+        UpdateMaterialAlpha(1.0f);
     }
 
-    void Update()
+    // [Update() 已經被移除]
+
+    /// <summary>
+    /// 由管理器呼叫，執行一幀的淡入淡出邏輯
+    /// </summary>
+    /// <returns>如果還在 Fading 中，返回 true；如果已達到目標 Alpha，返回 false</returns>
+    public bool DoFadeUpdate(float deltaTime)
     {
-        // 根據是否需要淡化來調整透明度
-        if (isFading)
+        float targetAlpha = isFading ? targetTransparency : 1.0f;
+
+        // 如果已經達到目標，就不用更新了
+        if (Mathf.Approximately(currentAlpha, targetAlpha))
         {
-            currentAlpha = Mathf.Lerp(currentAlpha, targetTransparency, Time.deltaTime * fadeSpeed);
-        }
-        else
-        {
-            currentAlpha = Mathf.Lerp(currentAlpha, 1.0f, Time.deltaTime * fadeSpeed);
+            return false;
         }
 
+        // 執行 Lerp
+        currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha, deltaTime * fadeSpeed);
+        
         // 應用新的 Alpha 值
-        UpdateMaterialAlpha();
+        UpdateMaterialAlpha(currentAlpha);
+        
+        // 檢查是否已非常接近目標值
+        if (Mathf.Abs(currentAlpha - targetAlpha) < 0.01f)
+        {
+            currentAlpha = targetAlpha;
+            UpdateMaterialAlpha(currentAlpha); // 最後再設定一次確保精確
+            return false; // 停止更新
+        }
+
+        return true; // 需要繼續更新
     }
 
-    private void UpdateMaterialAlpha()
+    private void UpdateMaterialAlpha(float alpha)
     {
-        // URP Lit Shader 的基礎顏色屬性名稱固定為 _BaseColor
+        // URP Lit Shader 的基礎顏色屬性名稱
         const string URP_COLOR_PROPERTY = "_BaseColor"; 
 
+        // 決定是否需要切換渲染模式
+        bool needsTransparentMode = alpha < 1.0f;
+        
+        // *** 核心優化 ***
+        // 只有在 "需要切換" 的時候才呼叫 SetMaterialMode
+        if (needsTransparentMode && !isCurrentlyTransparent)
+        {
+            // Opaque -> Transparent
+            SetAllMaterialsMode(true);
+            isCurrentlyTransparent = true;
+        }
+        else if (!needsTransparentMode && isCurrentlyTransparent)
+        {
+            // Transparent -> Opaque
+            SetAllMaterialsMode(false);
+            isCurrentlyTransparent = false;
+        }
+
+        // 只更新顏色屬性 (這比較便宜)
         foreach (var pair in originalMaterials)
         {
             Material mat = pair.Value;
-        
-            // 確保材質是 URP Lit 或支援 _BaseColor
             if (mat.HasProperty(URP_COLOR_PROPERTY))
             {
                 Color color = mat.GetColor(URP_COLOR_PROPERTY);
-                color.a = currentAlpha;
+                color.a = alpha;
                 mat.SetColor(URP_COLOR_PROPERTY, color);
-
-                // 處理渲染模式切換 (必須，透明度才能生效)
-                if (currentAlpha < 1.0f)
-                {
-                    // 進入透明模式 (RenderQueue = Transparent)
-                    SetMaterialMode(mat, true);
-                }
-                else
-                {
-                    // 恢復不透明模式 (RenderQueue = Opaque)
-                    SetMaterialMode(mat, false);
-                }
-            }
-            else
-            {
-                // 理論上，如果所有材質都轉換為 URP Lit，這裡不應觸發
-                Debug.LogWarning($"Shader '{mat.shader.name}' 缺少 URP 標準屬性 '{URP_COLOR_PROPERTY}'。請確認是否已完全轉換為 URP Lit。");
             }
         }
     }
@@ -90,42 +113,41 @@ public class FadeObject : MonoBehaviour
         isFading = false;
     }
     
-    // 處理標準 Unity Shaders 的渲染模式切換
-    // FadeObject.cs
+    // 將 SetMaterialMode 邏輯抽出來，一次設定所有材質
+    private void SetAllMaterialsMode(bool transparent)
+    {
+        foreach (var pair in originalMaterials)
+        {
+            SetMaterialMode(pair.Value, transparent);
+        }
+    }
 
+    // 處理 URP Lit Shader 的渲染模式切換
     private void SetMaterialMode(Material material, bool transparent)
     {
-        // URP Lit Shader 使用 _Surface 屬性來控制渲染模式 (0=Opaque, 1=Transparent)
         const string SURFACE_MODE_PROPERTY = "_Surface";
     
         if (transparent)
         {
-            // 設置為 Transparent Mode
             material.SetFloat(SURFACE_MODE_PROPERTY, 1f); // 1 = Transparent
             material.SetOverrideTag("RenderType", "Transparent");
-        
-            // 設置混合模式：SrcAlpha OneMinusSrcAlpha
             material.SetInt("_Blend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            material.SetInt("_ZWrite", 0); // 關閉深度寫入
+            material.SetInt("_ZWrite", 0);
             material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
         }
         else
         {
-            // 設置為 Opaque Mode
             material.SetFloat(SURFACE_MODE_PROPERTY, 0f); // 0 = Opaque
             material.SetOverrideTag("RenderType", "Opaque");
-        
-            // 設置混合模式：Opaque
             material.SetInt("_Blend", (int)UnityEngine.Rendering.BlendMode.One);
             material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
             material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-            material.SetInt("_ZWrite", 1); // 開啟深度寫入
+            material.SetInt("_ZWrite", 1);
             material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Geometry;
         }
     
-        // 刷新材質關鍵字以確保渲染管線正確處理
         material.DisableKeyword("_ALPHATEST_ON");
         material.DisableKeyword("_ALPHABLEND_ON");
         material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
