@@ -11,8 +11,18 @@ public class SlotMachineController : MonoBehaviour
     private SpriteRenderer[,] cells; // 用於存儲格子對象的二維數組
     void Start()
     {
-        cells= new SpriteRenderer[reelCount, rowCount];
+        cells = new SpriteRenderer[rowCount, reelCount];// 初始化二維數組
+        for (int row = 0; row < rowCount; row++)//行數
+        {
+            for (int col=0; col<reelCount; col++)//軸數
+            {
+                GameObject cellObj = Instantiate(cellPrefab, transform); 
+                cellObj.name=$"Cell_{row}_{col}"; // 命名格子物件以便識別
+                cellObj.transform.localPosition = new Vector3(col * cellSpacing, -row * cellSpacing, 0); // 設置格子位置
+                cells[row, col] = cellObj.GetComponent<SpriteRenderer>(); // 獲取並存儲SpriteRenderer組件
+            }
+        }
     }
 
-   
+
 }

@@ -114727,6 +114727,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotMachine
       objectReference: {fileID: 0}
+    - target: {fileID: 3328926525642747283, guid: 5ed426e9ad732e145ba58b23fb1afc0c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463845300663571751, guid: 5ed426e9ad732e145ba58b23fb1afc0c, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9149579534883504666, guid: 5ed426e9ad732e145ba58b23fb1afc0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -503.9484
@@ -114782,3 +114790,4 @@ SceneRoots:
   - {fileID: 824672051}
   - {fileID: 5187465799060351595}
   - {fileID: 448683900}
+  - {fileID: 567966539}
