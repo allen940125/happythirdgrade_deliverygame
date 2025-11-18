@@ -10,7 +10,7 @@ public class SlotSymbolData : ScriptableObject //ScriptableObject 可存放資�
     public class SymbolInfo
     { 
         public Sprite symbolSprite; // 要顯示的圖形
-        public int Weight; // 機率權重 
+        public int weight; // 機率權重 
     }
     public List<SymbolInfo> symbols;
 }
