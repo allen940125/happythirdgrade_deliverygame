@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8842b4dd3872534482dc99149265c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeObject
-  targetTransparency: 0.2
+  targetTransparency: 0.1
   fadeSpeed: 5
 --- !u!1001 &4077982548993900401
 PrefabInstance:
