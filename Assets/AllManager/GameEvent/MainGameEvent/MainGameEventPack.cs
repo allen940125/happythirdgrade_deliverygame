@@ -28,6 +28,15 @@ namespace Gamemanager
         public IObservable<PurchaseItemClickedEvent> OnPurchaseItemClickedEvent => getSubject<PurchaseItemClickedEvent>();
 
         // ======================
+        // Quest Event Streams
+        // ======================
+        
+        public IObservable<MoneyChangedEvent> OnMoneyChangedEvent => getSubject<MoneyChangedEvent>();
+        public IObservable<DeliverySuccessfulEvent> OnDeliverySuccessfulEvent => getSubject<DeliverySuccessfulEvent>();
+        public IObservable<GameQuestCompletedEvent> OnGameQuestCompletedEvent => getSubject<GameQuestCompletedEvent>();
+        public IObservable<AchievementUnlockedEvent> OnAchievementUnlockedEvent => getSubject<AchievementUnlockedEvent>();
+        
+        // ======================
         // Scene Event Streams
         // ======================
 

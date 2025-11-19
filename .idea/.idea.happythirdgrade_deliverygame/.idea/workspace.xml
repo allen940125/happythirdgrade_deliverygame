@@ -6,16 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameEventCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/GameEvent/GameEventCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/GameEvent/MainGameEvent/MainGameEventPack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/GameEvent/MainGameEvent/MainGameEventPack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestTestData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestTestData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestTestData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AllManager/QuestSysyem/QuestTestData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_001.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_002.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_003.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_004.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_005.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_small.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/lamp_pole_small.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_1.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_3.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Versatile Studio Assets/Demo City By Versatile Studio/Prefabs/tree_3.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/House/House_006.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/New/ReelStrip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/New/ReelStrip.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +29,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/AllManager/AchievementData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/AllManager/GameQuestManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/AllManager/GameScoreManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/AllManager/SessionSingleton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DeliveryAnchor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DeliveryManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraOcclusionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/SteeringWheelController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -121,6 +130,7 @@
       <workItem from="1763343723630" duration="6745000" />
       <workItem from="1763377255894" duration="369000" />
       <workItem from="1763377659080" duration="2976000" />
+      <workItem from="1763512235608" duration="17205000" />
     </task>
     <servers />
   </component>

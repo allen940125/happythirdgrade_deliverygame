@@ -1,72 +1,165 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Gamemanager;
 
-public class QuestManager : Singleton<QuestManager>
+// 全局成就管理器
+public class PlayerAchievementManager : Singleton<PlayerAchievementManager>
 {
-    [Header("任務資料列表")]
-    public List<QuestData> testQuests = new List<QuestData>();
+    [Header("所有成就配置 (ScriptableObject)")]
+    public List<AchievementData> allAchievementConfigs;
 
-    // 初始化任務（可以重新塞一批新的）
-    public void InitializeQuests(List<QuestData> presetQuests)
+    private List<AchievementData> _playerAchievements = new List<AchievementData>();
+    public IReadOnlyList<AchievementData> PlayerAchievements => _playerAchievements;
+
+    // =============================================================
+    // Unity 生命周期
+    // =============================================================
+
+    protected override void Awake()
     {
-        testQuests = new List<QuestData>();
+        base.Awake();
+        SubscribeToEvents();
+    }
 
-        foreach (var quest in presetQuests)
+    private void OnDestroy()
+    {
+        UnsubscribeFromEvents();
+    }
+
+    protected override void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
+    }
+
+    // =============================================================
+    // 存檔資料（由 SaveManager 調用）
+    // =============================================================
+
+    /// <summary>
+    /// SaveManager 載入後會呼叫這個方法
+    /// 將存檔與 ScriptableObject 配置合併
+    /// </summary>
+    public void LoadAchievements(List<AchievementData> loadedData)
+    {
+        _playerAchievements.Clear();
+
+        foreach (var config in allAchievementConfigs)
         {
-            testQuests.Add(new QuestData
+            var loaded = loadedData?.FirstOrDefault(a => a.achievementID == config.achievementID);
+
+            if (loaded != null)
             {
-                questID = quest.questID,
-                title = quest.title,
-                status = QuestStatus.NotStarted
-            });
+                _playerAchievements.Add(loaded); // 使用存檔資料
+            }
+            else
+            {
+                _playerAchievements.Add(config.Clone()); // 新增成就 or 未存檔 → 用預設
+            }
+        }
+
+        Debug.Log("[PlayerAchievementManager] 成就進度已載入並初始化。");
+
+        CheckAllAchievementsProgress();
+    }
+
+    /// <summary>
+    /// SaveManager 在存檔時會呼叫取得資料
+    /// </summary>
+    public List<AchievementData> GetSaveData()
+    {
+        return _playerAchievements.Select(a => a.Clone()).ToList();
+    }
+
+    // =============================================================
+    // 事件系統
+    // =============================================================
+
+    private void SubscribeToEvents()
+    {
+        var gameEvent = GameManager.Instance.MainGameEvent;
+
+        gameEvent.SetSubscribe(gameEvent.OnMoneyChangedEvent, OnMoneyChangedEvent);
+        gameEvent.SetSubscribe(gameEvent.OnDeliverySuccessfulEvent, OnDeliverySuccessfulEvent);
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        var gameEvent = GameManager.Instance.MainGameEvent;
+
+        gameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
+        gameEvent.Unsubscribe<DeliverySuccessfulEvent>(OnDeliverySuccessfulEvent);
+    }
+
+    // =============================================================
+    // 事件處理
+    // =============================================================
+
+    private void OnMoneyChangedEvent(MoneyChangedEvent cmd)
+    {
+        int totalMoneyEarned = cmd.CurrentTotalMoney; // 必須是跨局累積數字
+
+        var achievementsToUpdate = _playerAchievements
+            .Where(a => !a.isUnlocked && a.type == AchievementType.TotalMoneyEarned)
+            .ToList();
+
+        foreach (var achievement in achievementsToUpdate)
+        {
+            achievement.currentValue = totalMoneyEarned;
+
+            if (achievement.IsCompleted)
+                UnlockAchievement(achievement.achievementID);
         }
     }
 
-    // 取得任務狀態
-    public QuestStatus GetQuestStatus(int questID)
+    private void OnDeliverySuccessfulEvent(DeliverySuccessfulEvent eventData)
     {
-        var quest = testQuests.Find(q => q.questID == questID);
-        if (quest != null)
-        {
-            return quest.status;
-        }
-        return QuestStatus.NotStarted;
-    }
+        var achievementsToUpdate = _playerAchievements
+            .Where(a => !a.isUnlocked && a.type == AchievementType.TotalPackagesDelivered)
+            .ToList();
 
-    // 開始任務
-    public void StartQuest(int questID)
-    {
-        var quest = testQuests.Find(q => q.questID == questID);
-        if (quest != null)
+        foreach (var achievement in achievementsToUpdate)
         {
-            quest.status = QuestStatus.InProgress;
-            Debug.Log($"任務 [{questID}] 已開始");
-        }
-        else
-        {
-            Debug.LogError($"找不到任務 ID: {questID}");
+            achievement.currentValue++; // 若你有 PlayerStatsManager，可改為 eventData.totalDeliveries
+
+            if (achievement.IsCompleted)
+                UnlockAchievement(achievement.achievementID);
         }
     }
 
-    // 完成任務
-    public void CompleteQuest(int questID)
+    // =============================================================
+    // 成就操作
+    // =============================================================
+
+    private void CheckAllAchievementsProgress()
     {
-        var quest = testQuests.Find(q => q.questID == questID);
-        if (quest != null)
+        foreach (var achievement in _playerAchievements.Where(a => !a.isUnlocked))
         {
-            quest.status = QuestStatus.Completed;
-            Debug.Log($"任務 [{questID}] 已完成");
+            if (achievement.IsCompleted)
+            {
+                UnlockAchievement(achievement.achievementID);
+            }
         }
     }
 
-    // 失敗任務
-    public void FailedQuest(int questID)
+    public bool IsAchievementUnlocked(int achievementID)
     {
-        var quest = testQuests.Find(q => q.questID == questID);
-        if (quest != null)
-        {
-            quest.status = QuestStatus.Failed;
-            Debug.Log($"任務 [{questID}] 失敗");
-        }
+        return _playerAchievements
+            .FirstOrDefault(a => a.achievementID == achievementID)?
+            .isUnlocked ?? false;
+    }
+
+    private void UnlockAchievement(int achievementID)
+    {
+        var achievement = _playerAchievements.Find(a => a.achievementID == achievementID);
+        if (achievement == null || achievement.isUnlocked) return;
+
+        achievement.isUnlocked = true;
+
+        Debug.Log($"[PlayerAchievementManager] 成就解鎖！ -> {achievement.title}");
+
+        GameManager.Instance.MainGameEvent.Send(new AchievementUnlockedEvent { AchievementID = achievementID });
+        // 要求 SaveManager 存檔
+        //SaveManager.Instance.RequestSave();
     }
 }

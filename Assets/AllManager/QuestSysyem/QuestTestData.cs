@@ -38,11 +38,31 @@ public class QuestTestDataEditor : Editor
     {
         base.OnInspectorGUI();
         
-        if (GUILayout.Button("注入测试数据"))
+        // 仅在 Editor 模式下显示按钮
+        if (Application.isPlaying) 
         {
-            var data = (QuestTestData)target;
-            QuestManager.Instance.InitializeQuests(data.testQuests);
-            Debug.Log("已注入测试任务数据");
+            if (GUILayout.Button("【运行时】注入测试数据"))
+            {
+                var data = (QuestTestData)target;
+                
+                // 1. 检查 GameQuestManager 是否已存在于场景
+                var questManager = GameQuestManager.Instance;
+                
+                if (questManager != null)
+                {
+                    // 2. 调用初始化方法
+                    questManager.InitializeRun(data.testQuests);
+                    Debug.Log("已通过 Editor 按钮注入测试任务数据");
+                }
+                else
+                {
+                    Debug.LogError("场景中找不到 GameQuestManager 实例，请确保它已挂载到 GameSession 上。");
+                }
+            }
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("此按钮仅在游戏运行时有效。", MessageType.Info);
         }
     }
 }

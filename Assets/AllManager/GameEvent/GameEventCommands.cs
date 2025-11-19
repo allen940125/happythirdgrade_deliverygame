@@ -49,6 +49,32 @@ namespace Gamemanager
     {
         
     }
+    
+    // ======================
+    // Quest Event Streams
+    // ======================
+    
+    public class MoneyChangedEvent : GameEventMessageBase
+    {
+        public int CurrentTotalMoney;
+    }
+
+    public class DeliverySuccessfulEvent : GameEventMessageBase
+    {
+        public int MoneyGained;
+        public int CurrentTotalMoney;
+        public int CurrentDeliveryCount; // 假设送货成功时也提供计数
+    }
+
+    public class GameQuestCompletedEvent : GameEventMessageBase
+    {
+        public int QuestID;
+    }
+
+    public class AchievementUnlockedEvent : GameEventMessageBase
+    {
+        public int AchievementID;
+    }
 
     // ======================
     // Scene Event Streams

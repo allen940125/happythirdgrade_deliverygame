@@ -14,11 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testQuests:
   - questID: 101
-    title: "\u5931\u843D\u7684\u5178\u7C4D"
+    title: "\u9084\u6B3E\u9435\u724C"
+    description: 
     status: 0
+    type: 0
+    targetValue: 1000
+    currentValue: 0
+    rewardMoney: 1
   - questID: 102
-    title: "\u836F\u5242\u5E08\u7684\u8BF7\u6C42"
+    title: "\u9084\u6B3E\u9285\u724C"
+    description: 
     status: 0
+    type: 0
+    targetValue: 2000
+    currentValue: 0
+    rewardMoney: 2
   - questID: 201
-    title: "\u7981\u5FCC\u7684\u77E5\u8BC6"
+    title: "\u9084\u6B3E\u91D1\u724C"
+    description: 
     status: 0
+    type: 0
+    targetValue: 3000
+    currentValue: 0
+    rewardMoney: 3
