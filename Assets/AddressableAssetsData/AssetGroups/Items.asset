@@ -14,22 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Items
   m_GUID: 45f77f2d2627ba541b6b915aaf1cb058
-  m_SerializeEntries:
-  - m_GUID: 5a02e3cf22020994983a71109225f8bb
-    m_Address: Items/HealthPotion
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7078da32127ee9842bf02e7625220973
-    m_Address: Items/ManaPotion
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab8d136d204c1d9438962fe08ee23cac
-    m_Address: Items/Money
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b5cdafeb7534d5a429d7ab1a8ddc61f8, type: 2}
   m_SchemaSet:
