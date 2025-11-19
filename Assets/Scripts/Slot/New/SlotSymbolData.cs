@@ -8,9 +8,10 @@ public class SlotSymbolData : ScriptableObject //ScriptableObject 可存放資�
     
     [System.Serializable] //標記此類可序列化(SymbolInfo)，以便在Unity編輯器中顯示
     public class SymbolInfo
-    { 
+    {
+        public string symbolName;
         public Sprite symbolSprite; // 要顯示的圖形
         public int weight; // 機率權重 
     }
-    public List<SymbolInfo> symbols;
+    public List<SymbolInfo> symbols = new List<SymbolInfo>();
 }
