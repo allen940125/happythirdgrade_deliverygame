@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SlotSymbolData : ScriptableObject //ScriptableObject 可存放資料資源的類別/容器
 // 用於定義老虎機符號的資料(獎項符號圖形 權重)
 {
-    
+
     [System.Serializable] //標記此類可序列化(SymbolInfo)，以便在Unity編輯器中顯示
     public class SymbolInfo
     {
