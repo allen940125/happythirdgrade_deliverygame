@@ -102,6 +102,11 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     // 初始化
     //──────────────────────────────────────────────
+    private void Awake()
+    {
+        GameManager.Instance.SetPlayer(gameObject);
+    }
+
     private void OnEnable()
     {
         // 事件訂閱（使用更清楚的命名）

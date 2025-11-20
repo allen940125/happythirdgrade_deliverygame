@@ -1,8 +1,11 @@
 // DeliveryManager.cs (Game/Delivery/DeliveryManager.cs)
+
+using System;
 using UnityEngine;
 using Gamemanager;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class DeliveryManager : SessionSingleton<DeliveryManager>
 {
@@ -17,12 +20,14 @@ public class DeliveryManager : SessionSingleton<DeliveryManager>
     protected override void Awake()
     {
         base.Awake();
-        // 确保 DeliveryAnchor 已经收集了位置，通常在 Awake/Start 流程中
-        
+    }
+
+    private void Start()
+    {
         // 游戏开始后自动开启第一张订单
         StartNewOrder(); 
     }
-    
+
     // =================================================================
     // 核心流程
     // =================================================================
@@ -59,6 +64,13 @@ public class DeliveryManager : SessionSingleton<DeliveryManager>
         );
         
         Debug.Log($"[DeliveryManager] 新订单生成，目标点：{randomPos}，奖励：{reward}G");
+        
+        // 4. 【關鍵修改】：通知 WaypointManager 追蹤新的目標
+        if (WaypointManager.Instance != null)
+        {
+            // 將實例化的目標物件的 Transform 傳遞給 WaypointManager
+            WaypointManager.Instance.SetTarget(_currentTargetInstance.transform); 
+        }
         
         // 4. 通知 Waypoint/UI 系统显示新的目标指示
         // WaypointRenderer.Instance.TrackTarget(_currentTargetInstance.transform); 
@@ -98,9 +110,16 @@ public class DeliveryManager : SessionSingleton<DeliveryManager>
             // currentTotalMoney 需要从 PlayerWallet 处获取
         });
 
-        // 3. 清理并启动下一个订单
+        // 3. 清理並啟動下一個訂單
         _currentOrder = null;
-        _currentTargetInstance = null; // 实例已经被 DeliveryTarget 销毁，这里只是清除引用
+        // ⚠️ _currentTargetInstance 應該在 DeliveryTarget 腳本中自行銷毀
+        // 但在銷毀前，我們先通知 WaypointManager 移除指標。
+        if (WaypointManager.Instance != null)
+        {
+            // 傳遞 null，代表移除當前目標
+            WaypointManager.Instance.SetTarget(null); 
+        }
+        _currentTargetInstance = null; 
         
         StartNewOrder();
     }

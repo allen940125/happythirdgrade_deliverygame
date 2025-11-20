@@ -1,5 +1,7 @@
-// Assets/Core/QuestSystem/QuestTestData.cs
+// 测试用任务数据生成器 (TestQuestData.cs)
+#if UNITY_EDITOR
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestTestData", menuName = "Test/QuestTestData")]
@@ -27,3 +29,21 @@ public class QuestTestData : ScriptableObject
         }
     };
 }
+
+// 在Editor文件夹下创建
+[CustomEditor(typeof(QuestTestData))]
+public class QuestTestDataEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        
+        if (GUILayout.Button("注入测试数据"))
+        {
+            var data = (QuestTestData)target;
+            QuestManager.Instance.InitializeQuests(data.testQuests);
+            Debug.Log("已注入测试任务数据");
+        }
+    }
+}
+#endif
