@@ -10,6 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 817f69bf165c379449bb429a6f9da3cc, type: 3}
-  m_Name: Test
+  m_Name: SlotSymbolData
   m_EditorClassIdentifier: Assembly-CSharp::SlotSymbolData
-  symbols: []
+  symbols:
+  - symbolName: 
+    symbolSprite: {fileID: 0}
+    weight: 0
