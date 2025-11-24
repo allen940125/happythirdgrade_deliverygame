@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: Assembly-CSharp::SlotSymbolData
   symbols:
-  - symbolName: 
-    symbolSprite: {fileID: 0}
-    weight: 0
-  - symbolName: 
-    symbolSprite: {fileID: 0}
-    weight: 3
-  - symbolName: 
-    symbolSprite: {fileID: 0}
-    weight: 1
-  - symbolName: 
-    symbolSprite: {fileID: 0}
-    weight: 1
-  - symbolName: 
-    symbolSprite: {fileID: 0}
-    weight: 1
+  - symbolName: 1
+    symbolSprite: {fileID: 21300000, guid: 01f1c474edd7b994a8cfbda8f1813357, type: 3}
+    weight: 50
+  - symbolName: 2
+    symbolSprite: {fileID: 21300000, guid: 5fa70a5bdadeae0478cd4ee4c61ca4ba, type: 3}
+    weight: 20
+  - symbolName: 3
+    symbolSprite: {fileID: 21300000, guid: 8c00772b57e60dc43942976fc89633e3, type: 3}
+    weight: 15
+  - symbolName: 4
+    symbolSprite: {fileID: 21300000, guid: 12421df6f706893469d400c9298e87b3, type: 3}
+    weight: 10
+  - symbolName: 5
+    symbolSprite: {fileID: 21300000, guid: 92d9a72d0b18a9e4abbb4ed4b2cc4c5f, type: 3}
+    weight: 5

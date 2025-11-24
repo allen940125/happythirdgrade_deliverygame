@@ -29,7 +29,7 @@ public class SlotSetting :MonoBehaviour
 
     private List<ReelColumn> reels = new List<ReelColumn>(); // 儲存所有轉盤
 
-    private class ReelColumn
+    public class ReelColumn
     {
         public Transform reelTransform; // 這個轉盤的Transform
         public List<GameObject> cells = new List<GameObject>(); // 這個轉盤上的所有格子物件
@@ -109,6 +109,10 @@ public class SlotSetting :MonoBehaviour
         reelObj.transform.localPosition = new Vector3(reelIndex * reelSpacing, 0, 0);
 
         reels.Add(newReel);
+    }
+    public List<ReelColumn> GetReels() //公開取得所有轉盤資料
+    {
+        return reels;
     }
 }
 
