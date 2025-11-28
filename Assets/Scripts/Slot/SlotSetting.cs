@@ -21,6 +21,13 @@ public class SlotSetting :MonoBehaviour
     [Tooltip("美術圖大小")]
     public float cellHeight = 100f;
 
+    [Header("旋轉設定")]
+    [Tooltip("Mask顯示幾格(建議奇數)")]
+    public int visibleRows = 3;
+    
+    [Tooltip("上下緩衝格數")]
+    public int bufferRows = 2;
+
     [Header("美術資源")]
     public Sprite cellBackgroundSprite; // 格子的背景圖片(美術提供的單格圖片)
 
@@ -72,6 +79,12 @@ public class SlotSetting :MonoBehaviour
         reelObj.transform.localScale = Vector3.one;
         newReel.reelTransform = reelObj.transform;
 
+        // 加入 SlotReelController 組件
+        SlotReelController controller = reelObj.AddComponent<SlotReelController>();
+        controller.visibleRows = visibleRows;
+        controller.bufferRows = bufferRows;
+        controller.cellTotalHeight = cellHeight + cellSpacing;
+
         // 建立每一格
         for (int row = 0; row < rowsPerReel; row++)
         {
@@ -103,6 +116,10 @@ public class SlotSetting :MonoBehaviour
             // 儲存到轉盤資料中
             newReel.cells.Add(cellObj);
             newReel.symbolRenderers.Add(symbolRenderer);
+
+            // 同時加到 Controller 的格子池
+            controller.cellPool.Add(cellObj);
+            controller.symbolRenderers.Add(symbolRenderer);
         }
 
         // 設定轉盤之間的水平間距
