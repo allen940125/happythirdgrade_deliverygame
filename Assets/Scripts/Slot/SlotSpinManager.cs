@@ -1,39 +1,39 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class SlotSpinManager : MonoBehaviour
 {
-    [Header("°Ñ¦Ò")]
-    public SlotSetting slotSetting; // SlotSetting¸}¥»
-    public List<SlotReelController> reelControllers = new List<SlotReelController>(); // ©Ò¦³Âà½L±±¨î¾¹
+    [Header("åƒè€ƒ")]
+    public SlotSetting slotSetting; // SlotSettingè…³æœ¬
+    public List<SlotReelController> reelControllers = new List<SlotReelController>(); // æ‰€æœ‰è½‰ç›¤æ§åˆ¶å™¨
 
-    [Header("±ÛÂà³]©w")]
-    [Tooltip("±ÛÂà«ùÄò®É¶¡(¬í)")]
+    [Header("æ—‹è½‰è¨­å®š")]
+    [Tooltip("æ—‹è½‰æŒçºŒæ™‚é–“(ç§’)")]
     public float spinDuration = 2f;
 
-    [Tooltip("¨C­ÓÂà½L°±¤îªº¶¡¹j®É¶¡(¬í)")]
+    [Tooltip("æ¯å€‹è½‰ç›¤åœæ­¢çš„é–“éš”æ™‚é–“(ç§’)")]
     public float stopDelay = 0.3f;
 
-    [Header("³t«×¦±½u")]
-    [Tooltip("±±¨î¥[³t©M´î³t®ÄªG")]
+    [Header("é€Ÿåº¦æ›²ç·š")]
+    [Tooltip("æ§åˆ¶åŠ é€Ÿå’Œæ¸›é€Ÿæ•ˆæœ")]
     public AnimationCurve speedCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    [Header("ª¬ºA")]
+    [Header("ç‹€æ…‹")]
     private bool isSpinning = false;
 
     void Start()
     {
-        // ¦Û°Ê´M§ä©Ò¦³ ReelController
+        // è‡ªå‹•å°‹æ‰¾æ‰€æœ‰ ReelController
         FindAllReelControllers();
     }
 
-    // === ´M§ä©Ò¦³Âà½L±±¨î¾¹ ===
+    // === å°‹æ‰¾æ‰€æœ‰è½‰ç›¤æ§åˆ¶å™¨ ===
     void FindAllReelControllers()
     {
         reelControllers.Clear();
 
-        // ±q SlotSetting ªº ReelContainer ¤U´M§ä
+        // å¾ SlotSetting çš„ ReelContainer ä¸‹å°‹æ‰¾
         if (slotSetting != null && slotSetting.reelContainer != null)
         {
             foreach (Transform reelTransform in slotSetting.reelContainer)
@@ -45,70 +45,70 @@ public class SlotSpinManager : MonoBehaviour
                 }
             }
 
-            Debug.Log($"§ä¨ì {reelControllers.Count} ­ÓÂà½L±±¨î¾¹");
+            Debug.Log($"æ‰¾åˆ° {reelControllers.Count} å€‹è½‰ç›¤æ§åˆ¶å™¨");
         }
     }
 
-    // === ¶}©l±ÛÂà(´ú¸Õ¥Î) ===
-    [ContextMenu("¶}©l±ÛÂà")]
+    // === é–‹å§‹æ—‹è½‰(æ¸¬è©¦ç”¨) ===
+    [ContextMenu("é–‹å§‹æ—‹è½‰")]
     public void StartSpin()
     {
         if (isSpinning)
         {
-            Debug.LogWarning("¤w¸g¦b±ÛÂà¤¤!");
+            Debug.LogWarning("å·²ç¶“åœ¨æ—‹è½‰ä¸­!");
             return;
         }
 
         if (reelControllers.Count == 0)
         {
-            Debug.LogError("¨S¦³§ä¨ì¥ô¦óÂà½L±±¨î¾¹!");
+            Debug.LogError("æ²’æœ‰æ‰¾åˆ°ä»»ä½•è½‰ç›¤æ§åˆ¶å™¨!");
             return;
         }
 
         StartCoroutine(SpinCoroutine());
     }
 
-    // === ±ÛÂà¨óµ{ ===
+    // === æ—‹è½‰å”ç¨‹ ===
     IEnumerator SpinCoroutine()
     {
         isSpinning = true;
-        Debug.Log("¶}©l±ÛÂà!");
+        Debug.Log("é–‹å§‹æ—‹è½‰!");
 
-        // 1. ©Ò¦³Âà½L¶}©l±ÛÂà
+        // 1. æ‰€æœ‰è½‰ç›¤é–‹å§‹æ—‹è½‰
         foreach (var controller in reelControllers)
         {
             controller.StartSpin(speedCurve, spinDuration);
         }
 
-        // 2. µ¥«İ±ÛÂà®É¶¡
+        // 2. ç­‰å¾…æ—‹è½‰æ™‚é–“
         yield return new WaitForSeconds(spinDuration);
 
-        // 3. ¨Ì§Ç°±¤î¨C­ÓÂà½L (¥ª¡÷¤¤¡÷¥k)
+        // 3. ä¾åºåœæ­¢æ¯å€‹è½‰ç›¤ (å·¦â†’ä¸­â†’å³)
         for (int i = 0; i < reelControllers.Count; i++)
         {
-            // TODO: ³o¸Ì¤§«á­n±µ¤J SymbolSelector ¨M©w°±¦b­ş­Ó²Å¸¹
-            int targetCell = Random.Range(0, 3); // ¼È®ÉÀH¾÷°±¤î¦ì¸m
+            // TODO: é€™è£¡ä¹‹å¾Œè¦æ¥å…¥ SymbolSelector æ±ºå®šåœåœ¨å“ªå€‹ç¬¦è™Ÿ
+            int targetCell = Random.Range(0, 3); // æš«æ™‚éš¨æ©Ÿåœæ­¢ä½ç½®
 
             reelControllers[i].StopSpin(targetCell);
-            Debug.Log($"Âà½L {i} °±¤î");
+            Debug.Log($"è½‰ç›¤ {i} åœæ­¢");
 
-            // µ¥«İ¶¡¹j¦A°±¤U¤@­Ó
+            // ç­‰å¾…é–“éš”å†åœä¸‹ä¸€å€‹
             if (i < reelControllers.Count - 1)
             {
                 yield return new WaitForSeconds(stopDelay);
             }
         }
 
-        // 4. µ¥«İ©Ò¦³Âà½L§¹¥ş°±¤î
+        // 4. ç­‰å¾…æ‰€æœ‰è½‰ç›¤å®Œå…¨åœæ­¢
         yield return new WaitForSeconds(0.5f);
 
         isSpinning = false;
-        Debug.Log("±ÛÂàµ²§ô!");
+        Debug.Log("æ—‹è½‰çµæŸ!");
 
-        // TODO: ¤§«á¦b³o¸ÌÄ²µo§I¼úÀË¬d
+        // TODO: ä¹‹å¾Œåœ¨é€™è£¡è§¸ç™¼å…Œçæª¢æŸ¥
     }
 
-    // === ÀË¬d¬O§_¥¿¦b±ÛÂà ===
+    // === æª¢æŸ¥æ˜¯å¦æ­£åœ¨æ—‹è½‰ ===
     public bool IsSpinning()
     {
         return isSpinning;

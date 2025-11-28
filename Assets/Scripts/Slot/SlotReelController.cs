@@ -1,26 +1,26 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class SlotReelController : MonoBehaviour
 {
-    [Header("®æ¤l¦À")]
-    public List<GameObject> cellPool = new List<GameObject>(); // ©Ò¦³®æ¤l
-    public List<SpriteRenderer> symbolRenderers = new List<SpriteRenderer>(); // ®æ¤l¤ºªº²Å¸¹´è¬V¾¹
+    [Header("æ ¼å­æ± ")]
+    public List<GameObject> cellPool = new List<GameObject>(); // æ‰€æœ‰æ ¼å­
+    public List<SpriteRenderer> symbolRenderers = new List<SpriteRenderer>(); // æ ¼å­å…§çš„ç¬¦è™Ÿæ¸²æŸ“å™¨
 
-    [Header("³]©w")]
-    public int visibleRows = 3; // MaskÅã¥Ü´X®æ
-    public int bufferRows = 2; // ¤W¤U½w½Ä
-    public float cellTotalHeight = 110f; // ®æ¤lÁ`°ª«×(cellHeight + cellSpacing)
+    [Header("è¨­å®š")]
+    public int visibleRows = 3; // Maské¡¯ç¤ºå¹¾æ ¼
+    public int bufferRows = 2; // ä¸Šä¸‹ç·©è¡
+    public float cellTotalHeight = 110f; // æ ¼å­ç¸½é«˜åº¦(cellHeight + cellSpacing)
 
-    [Header("±ÛÂàª¬ºA")]
+    [Header("æ—‹è½‰ç‹€æ…‹")]
     private bool isSpinning = false;
     private float currentSpeed = 0f;
     private float targetStopPosition = 0f;
 
-    // ¤º³¡ÅÜ¼Æ
-    private int totalCells; // Á`®æ¤l¼Æ
-    private float spinProgress = 0f; // ±ÛÂà¶i«× (0~1)
-    private AnimationCurve speedCurve; // ³t«×¦±½u(±qSpinManager¶Ç¤J)
+    // å…§éƒ¨è®Šæ•¸
+    private int totalCells; // ç¸½æ ¼å­æ•¸
+    private float spinProgress = 0f; // æ—‹è½‰é€²åº¦ (0~1)
+    private AnimationCurve speedCurve; // é€Ÿåº¦æ›²ç·š(å¾SpinManagerå‚³å…¥)
 
     void Start()
     {
@@ -28,15 +28,15 @@ public class SlotReelController : MonoBehaviour
         InitializeCellPositions();
     }
 
-    // === ªì©l¤Æ®æ¤l¦ì¸m ===
+    // === åˆå§‹åŒ–æ ¼å­ä½ç½® ===
     void InitializeCellPositions()
     {
-        int centerIndex = visibleRows / 2; // ¤¤¤ß®æ¯Á¤Ş
+        int centerIndex = visibleRows / 2; // ä¸­å¿ƒæ ¼ç´¢å¼•
 
-        // ³]©w¨C­Ó®æ¤lªºªì©l¦ì¸m
+        // è¨­å®šæ¯å€‹æ ¼å­çš„åˆå§‹ä½ç½®
         for (int i = 0; i < cellPool.Count; i++)
         {
-            // ­pºâ¬Û¹ï©ó¤¤¤ßªº°¾²¾
+            // è¨ˆç®—ç›¸å°æ–¼ä¸­å¿ƒçš„åç§»
             int offsetFromCenter = i - centerIndex;
             float yPos = -offsetFromCenter * cellTotalHeight;
 
@@ -44,7 +44,7 @@ public class SlotReelController : MonoBehaviour
         }
     }
 
-    // === ¶}©l±ÛÂà ===
+    // === é–‹å§‹æ—‹è½‰ ===
     public void StartSpin(AnimationCurve curve, float duration)
     {
         isSpinning = true;
@@ -53,17 +53,17 @@ public class SlotReelController : MonoBehaviour
         currentSpeed = 0f;
     }
 
-    // === °±¤î±ÛÂà(¹ï»ô¨ì¥Ø¼Ğ¦ì¸m) ===
+    // === åœæ­¢æ—‹è½‰(å°é½Šåˆ°ç›®æ¨™ä½ç½®) ===
     public void StopSpin(int targetCellIndex)
     {
         isSpinning = false;
 
-        // ­pºâ¥Ø¼Ğ®æ¤lÀ³¸Ó¹ï»ôªº¦ì¸m
+        // è¨ˆç®—ç›®æ¨™æ ¼å­æ‡‰è©²å°é½Šçš„ä½ç½®
         int centerIndex = visibleRows / 2;
         int offsetFromCenter = targetCellIndex - centerIndex;
         targetStopPosition = -offsetFromCenter * cellTotalHeight;
 
-        // TODO: ³o¸Ì¤§«á¥[¤J¥­·Æ°±¤î°Êµe
+        // TODO: é€™è£¡ä¹‹å¾ŒåŠ å…¥å¹³æ»‘åœæ­¢å‹•ç•«
     }
 
     void Update()
@@ -74,36 +74,36 @@ public class SlotReelController : MonoBehaviour
         }
     }
 
-    // === ±ÛÂà§ó·s ===
+    // === æ—‹è½‰æ›´æ–° ===
     void SpinUpdate()
     {
-        // ®Ú¾Ú¦±½u­pºâ·í«e³t«×
+        // æ ¹æ“šæ›²ç·šè¨ˆç®—ç•¶å‰é€Ÿåº¦
         float curveSpeed = speedCurve.Evaluate(spinProgress);
-        currentSpeed = curveSpeed * cellTotalHeight * 5f; // °òÂ¦³t«×­¿²v
+        currentSpeed = curveSpeed * cellTotalHeight * 5f; // åŸºç¤é€Ÿåº¦å€ç‡
 
-        // ²¾°Ê©Ò¦³®æ¤l
+        // ç§»å‹•æ‰€æœ‰æ ¼å­
         foreach (var cell in cellPool)
         {
             Vector3 pos = cell.transform.localPosition;
             pos.y -= currentSpeed * Time.deltaTime;
 
-            // ´`Àô­«¸m:¦pªG®æ¤l²¾¥X¤U¤è,­«¸m¨ì¤W¤è
+            // å¾ªç’°é‡ç½®:å¦‚æœæ ¼å­ç§»å‡ºä¸‹æ–¹,é‡ç½®åˆ°ä¸Šæ–¹
             float bottomBound = -(visibleRows / 2 + bufferRows + 1) * cellTotalHeight;
             if (pos.y < bottomBound)
             {
                 pos.y += totalCells * cellTotalHeight;
 
-                // TODO: ­«¸m®ÉÀH¾÷§ó´«²Å¸¹(¤§«á±µ¤JSymbolSelector)
+                // TODO: é‡ç½®æ™‚éš¨æ©Ÿæ›´æ›ç¬¦è™Ÿ(ä¹‹å¾Œæ¥å…¥SymbolSelector)
             }
 
             cell.transform.localPosition = pos;
         }
 
-        spinProgress += Time.deltaTime * 0.5f; // ¶i«×¼W¥[³t«×
+        spinProgress += Time.deltaTime * 0.5f; // é€²åº¦å¢åŠ é€Ÿåº¦
         if (spinProgress > 1f) spinProgress = 1f;
     }
 
-    // === ¨ú±o·í«eÅã¥Üªº®æ¤l¯Á¤Ş ===
+    // === å–å¾—ç•¶å‰é¡¯ç¤ºçš„æ ¼å­ç´¢å¼• ===
     public List<int> GetVisibleCellIndices()
     {
         List<int> indices = new List<int>();
@@ -117,7 +117,7 @@ public class SlotReelController : MonoBehaviour
         return indices;
     }
 
-    // === ÀË¬d¬O§_¥¿¦b±ÛÂà ===
+    // === æª¢æŸ¥æ˜¯å¦æ­£åœ¨æ—‹è½‰ ===
     public bool IsSpinning()
     {
         return isSpinning;
