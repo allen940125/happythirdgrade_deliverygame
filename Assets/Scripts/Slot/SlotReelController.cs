@@ -12,35 +12,37 @@ public class SlotReelController : MonoBehaviour
     public int bufferRows = 2; // 上下緩衝
     public float cellTotalHeight = 110f; // 格子總高度(cellHeight + cellSpacing)
 
+    [Header("對齊設定")]
+    private float centerAlignY = 0f; // 中心對齊點的Y座標
+    private List<float> initialPositions = new List<float>(); // 記錄每個格子的初始Y位置
+
     [Header("旋轉狀態")]
     private bool isSpinning = false;
     private float currentSpeed = 0f;
-    private float targetStopPosition = 0f;
 
     // 內部變數
     private int totalCells; // 總格子數
     private float spinProgress = 0f; // 旋轉進度 (0~1)
-    private AnimationCurve speedCurve; // 速度曲線(從SpinManager傳入)
+    private AnimationCurve speedCurve; // 速度曲線
 
-    void Start()
+    // === 初始化(由SlotSetting建立完成後呼叫) ===
+    public void Initialize()
     {
-        totalCells = visibleRows + (bufferRows * 2);
-        InitializeCellPositions();
-    }
+        totalCells = cellPool.Count;
 
-    // === 初始化格子位置 ===
-    void InitializeCellPositions()
-    {
-        int centerIndex = visibleRows / 2; // 中心格索引
-
-        // 設定每個格子的初始位置
-        for (int i = 0; i < cellPool.Count; i++)
+        // 記錄每個格子的初始位置
+        initialPositions.Clear();
+        foreach (var cell in cellPool)
         {
-            // 計算相對於中心的偏移
-            int offsetFromCenter = i - centerIndex;
-            float yPos = -offsetFromCenter * cellTotalHeight;
+            initialPositions.Add(cell.transform.localPosition.y);
+        }
 
-            cellPool[i].transform.localPosition = new Vector3(0, yPos, 0);
+        // 抓取中間格子的位置當作對齊中心點
+        int centerIndex = visibleRows / 2;
+        if (totalCells > centerIndex)
+        {
+            centerAlignY = cellPool[centerIndex].transform.localPosition.y;
+            Debug.Log($"{gameObject.name} 中心對齊點: Y={centerAlignY}, 總格數:{totalCells}");
         }
     }
 
@@ -53,17 +55,14 @@ public class SlotReelController : MonoBehaviour
         currentSpeed = 0f;
     }
 
-    // === 停止旋轉(對齊到目標位置) ===
+    // === 停止旋轉 ===
     public void StopSpin(int targetCellIndex)
     {
         isSpinning = false;
 
-        // 計算目標格子應該對齊的位置
-        int centerIndex = visibleRows / 2;
-        int offsetFromCenter = targetCellIndex - centerIndex;
-        targetStopPosition = -offsetFromCenter * cellTotalHeight;
-
-        // TODO: 這裡之後加入平滑停止動畫
+        // TODO: 之後加入平滑停止動畫
+        // 暫時直接停止
+        Debug.Log($"{gameObject.name} 停止在格子 {targetCellIndex}");
     }
 
     void Update()
@@ -79,42 +78,37 @@ public class SlotReelController : MonoBehaviour
     {
         // 根據曲線計算當前速度
         float curveSpeed = speedCurve.Evaluate(spinProgress);
-        currentSpeed = curveSpeed * cellTotalHeight * 5f; // 基礎速度倍率
+        currentSpeed = curveSpeed * cellTotalHeight * 3f; // 速度倍率
 
-        // 移動所有格子
-        foreach (var cell in cellPool)
+        // 移動每個格子
+        for (int i = 0; i < cellPool.Count; i++)
         {
+            GameObject cell = cellPool[i];
             Vector3 pos = cell.transform.localPosition;
+
+            // 向下移動
             pos.y -= currentSpeed * Time.deltaTime;
 
-            // 循環重置:如果格子移出下方,重置到上方
-            float bottomBound = -(visibleRows / 2 + bufferRows + 1) * cellTotalHeight;
-            if (pos.y < bottomBound)
+            // === 循環重置邏輯 ===
+            // 計算這個格子相對於初始位置移動了多遠
+            float distanceMoved = initialPositions[i] - pos.y;
+
+            // 如果移動距離超過一整輪(totalCells * cellTotalHeight)
+            // 就重置到上方
+            if (distanceMoved >= totalCells * cellTotalHeight)
             {
                 pos.y += totalCells * cellTotalHeight;
 
-                // TODO: 重置時隨機更換符號(之後接入SymbolSelector)
+                // TODO: 重置時隨機更換符號
+                Debug.Log($"{gameObject.name} 格子 {i} 循環重置");
             }
 
             cell.transform.localPosition = pos;
         }
 
-        spinProgress += Time.deltaTime * 0.5f; // 進度增加速度
+        // 更新進度
+        spinProgress += Time.deltaTime * 0.3f;
         if (spinProgress > 1f) spinProgress = 1f;
-    }
-
-    // === 取得當前顯示的格子索引 ===
-    public List<int> GetVisibleCellIndices()
-    {
-        List<int> indices = new List<int>();
-        int centerIndex = visibleRows / 2;
-
-        for (int i = 0; i < visibleRows; i++)
-        {
-            indices.Add(centerIndex - (visibleRows / 2) + i);
-        }
-
-        return indices;
     }
 
     // === 檢查是否正在旋轉 ===

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class SlotSetting :MonoBehaviour
+public class SlotSetting : MonoBehaviour
 {
     [Header("轉盤設定")]
     [Tooltip("每個轉盤有幾格")]
@@ -24,7 +24,7 @@ public class SlotSetting :MonoBehaviour
     [Header("旋轉設定")]
     [Tooltip("Mask顯示幾格(建議奇數)")]
     public int visibleRows = 3;
-    
+
     [Tooltip("上下緩衝格數")]
     public int bufferRows = 2;
 
@@ -33,10 +33,12 @@ public class SlotSetting :MonoBehaviour
 
     [Header("UI參考")]
     public Transform reelContainer; // 放置所有轉盤的父物件
+    public SlotSpinManager spinManager; // 旋轉管理器參考
 
     private List<ReelColumn> reels = new List<ReelColumn>(); // 儲存所有轉盤
 
-    public class ReelColumn
+    // === 單個轉盤的類別 ===
+    public class ReelColumn // 改成public讓外部可以存取
     {
         public Transform reelTransform; // 這個轉盤的Transform
         public List<GameObject> cells = new List<GameObject>(); // 這個轉盤上的所有格子物件
@@ -45,6 +47,9 @@ public class SlotSetting :MonoBehaviour
 
     void Start()
     {
+        // 根據設定計算實際需要的格子數
+        rowsPerReel = visibleRows + (bufferRows * 2);
+
         CreateSlotMachine(); // 建立老虎機
     }
 
@@ -52,11 +57,11 @@ public class SlotSetting :MonoBehaviour
     void CreateSlotMachine()
     {
         // 清空舊的(如果有的話)
-        foreach (Transform child in reelContainer)//尋找所有子物件
+        foreach (Transform child in reelContainer) // 尋找所有子物件
         {
             Destroy(child.gameObject);
         }
-        reels.Clear();//清空轉盤列表List
+        reels.Clear(); // 清空轉盤列表List
 
         // 建立每一個轉盤
         for (int i = 0; i < reelCount; i++)
@@ -65,6 +70,12 @@ public class SlotSetting :MonoBehaviour
         }
 
         Debug.Log($"老虎機建立完成! {reelCount}個轉盤,每個{rowsPerReel}格");
+
+        // 建立完成後初始化旋轉管理器
+        if (spinManager != null)
+        {
+            spinManager.InitializeReels();
+        }
     }
 
     // === 建立單個轉盤 ===
@@ -94,7 +105,7 @@ public class SlotSetting :MonoBehaviour
             cellObj.transform.localScale = Vector3.one;
 
             // 設定格子的位置(垂直排列,考慮間距)
-            float yPos = -row * (cellSpacing + cellHeight); //cellHeight是美術圖的高度  0*3
+            float yPos = -row * (cellSpacing + cellHeight); // cellHeight是美術圖的高度
             cellObj.transform.localPosition = new Vector3(0, yPos, 0);
 
             // 加入格子背景的SpriteRenderer
@@ -127,9 +138,41 @@ public class SlotSetting :MonoBehaviour
 
         reels.Add(newReel);
     }
-    public List<ReelColumn> GetReels() //公開取得所有轉盤資料
+
+    // === 提供給外部存取轉盤資料的方法 ===
+    public List<ReelColumn> GetReels()
     {
         return reels;
     }
+
+[ContextMenu("遮擋顯示外格子")]
+    private void SetAllChildrenMask()
+    {
+        // 取得此物件底下所有 SpriteRenderer（包含子孫物件）
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>(true);
+
+        int count = 0;
+        foreach (var sr in sprites)
+        {
+            sr.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            count++;
+        }
+
+        Debug.Log($"已設定 {count} 個 SpriteRenderer 為 VisibleInsideMask");
+    }
+    [ContextMenu("顯示顯示外格子")]
+    private void SetAllChildrenToNone()
+    {
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (var sr in sprites)
+        {
+            sr.maskInteraction = SpriteMaskInteraction.None;
+        }
+
+        Debug.Log("所有子物件已設定為 None");
+    }
+
+
 }
 
