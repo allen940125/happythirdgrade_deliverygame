@@ -111,7 +111,7 @@ public class SlotSetting : MonoBehaviour
             // 加入格子背景的SpriteRenderer
             SpriteRenderer cellBg = cellObj.AddComponent<SpriteRenderer>();
             cellBg.sprite = cellBackgroundSprite;
-            cellBg.sortingOrder = 0; // 背景層
+            cellBg.sortingOrder = 1; // 背景層
 
             // === 建立空的符號物件(給之後放圖片用) ===
             GameObject symbolObj = new GameObject($"Symbol_{reelIndex}_{row}");
@@ -122,7 +122,7 @@ public class SlotSetting : MonoBehaviour
             // 加入空的SpriteRenderer
             SpriteRenderer symbolRenderer = symbolObj.AddComponent<SpriteRenderer>();
             symbolRenderer.sprite = null; // 初始為空
-            symbolRenderer.sortingOrder = 1; // 在背景之上
+            symbolRenderer.sortingOrder = 2; // 在背景之上
 
             // 儲存到轉盤資料中
             newReel.cells.Add(cellObj);
