@@ -14,6 +14,9 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     // 車輛設定
     //──────────────────────────────────────────────
+    [Header("車輛狀態")]
+    public bool isDrivable = true; // << 新增這個開關
+    
     [Header("玩家輸入")]
     public Vector2 MovementInput;
     
@@ -82,6 +85,28 @@ public class SimpleCarController : MonoBehaviour
     [Header("動力衰減控制")]
     public bool useSpeedTorqueFalloff = true;
     public float maxEffectiveSpeed = 160;
+    
+    // 定義撞擊等級
+    public enum CrashLevel
+    {
+        None,   // 沒事
+        Light,  // 輕微擦傷 (刮漆聲)
+        Medium, // 中度撞擊 (板金凹陷聲、鏡頭小晃)
+        Heavy   // 嚴重車禍 (玻璃碎裂聲、車子失控、鏡頭劇烈震動)
+    }
+
+    [Header("💥 撞擊感測設定")]
+    // 讓你可以用曲線控制「撞擊力道」對應「傷害/震動強度」的比例
+    // 建議設定：X軸(0~100)代表撞擊力，Y軸(0~1)代表輸出強度
+    public AnimationCurve damageCurve = AnimationCurve.Linear(0, 0, 100, 1);
+
+    // 設定分級門檻 (可以在 Inspector 調整)
+    public float lightCrashThreshold = 10f;
+    public float mediumCrashThreshold = 30f;
+    public float heavyCrashThreshold = 60f;
+
+    // 定義一個事件，讓外部系統 (音效管理器、UI) 可以訂閱
+    public event Action<CrashLevel, float> OnCollisionHit;
 
     [Header("除錯資訊")]
     public float currentSpeed_H;   // km/h
@@ -151,6 +176,16 @@ public class SimpleCarController : MonoBehaviour
         // if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
         // if (Input.GetKeyDown(KeyCode.Alpha4))
         //     steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
+        
+        // 檢查：如果不可駕駛，強制歸零輸入，並直接跳出
+        if (!isDrivable)
+        {
+            MovementInput = Vector2.zero;
+            motorInput = 0f;
+            steerInput = 0f;
+            brakeInput = 1f; // (可選) 死掉時是否要自動踩死煞車？
+            return; 
+        }
         
         steerInput = MovementInput.x;
 
@@ -224,10 +259,59 @@ public class SimpleCarController : MonoBehaviour
         UpdateWheelPose(rearRightWheel, rearRightMesh);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 1. 計算有效撞擊力道 (垂直於牆面的速度分量)
+        Vector3 hitNormal = collision.contacts[0].normal;
+        Vector3 relativeVelocity = collision.relativeVelocity;
+        float impactForce = Vector3.Dot(hitNormal, relativeVelocity);
+
+        // 如果是負值或太小，直接忽略
+        if (impactForce < lightCrashThreshold) return;
+
+        // 2. 判斷撞擊級別 (由重到輕判斷)
+        CrashLevel severity = CrashLevel.None;
+
+        if (impactForce >= heavyCrashThreshold)
+        {
+            severity = CrashLevel.Heavy;
+        }
+        else if (impactForce >= mediumCrashThreshold)
+        {
+            severity = CrashLevel.Medium;
+        }
+        else
+        {
+            severity = CrashLevel.Light;
+        }
+
+        // 3. 利用曲線計算一個 0~1 的強度值 (可以用來扣血或震動鏡頭)
+        // 假設 impactForce 是 50，Curve 會幫你算出對應的 0.x 值
+        float damageFactor = damageCurve.Evaluate(impactForce);
+
+        Debug.Log($"<color=orange>撞擊發生!</color> 力道: {impactForce:F1} | 級別: {severity} | 傷害係數: {damageFactor:F2}");
+
+        // 4. 發送事件給其他系統 (UI、音效、相機震動)
+        // 這樣寫可以保持 CarController 很乾淨，不用把播放音效的程式碼寫在這裡
+        OnCollisionHit?.Invoke(severity, damageFactor);
+        
+        // (可選) 簡單的反作用力，讓車子彈開更有感
+        if (severity >= CrashLevel.Medium)
+        {
+            rb.AddForce(hitNormal * impactForce * 50f, ForceMode.Impulse);
+        }
+    }
+    
     //──────────────────────────────────────────────
     // 各功能區域
     //──────────────────────────────────────────────
 
+    // 新增一個公開方法讓外部呼叫
+    public void SetDrivable(bool state)
+    {
+        isDrivable = state;
+    }
+    
     #region Steering & Handling
     void HandleSteering()
     {

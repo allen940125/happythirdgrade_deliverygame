@@ -6,17 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetGroupSortSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetGroupSortSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Items.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Items.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/QuestSysyem/QuestTestData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/QuestSysyem/QuestTestData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/QuestSysyem/QuestTestData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/QuestSysyem/QuestTestData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DeliveryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DeliveryManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameScoreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameScoreManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +24,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@38fa2290d5f2/Runtime/AddressablesImpl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Tests/Editor/PostProcessDataTests/1.shader" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://E:/Unity/UnityBaseProject/Assets/Core/GameEvent/GameEventCommands.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -129,6 +120,7 @@
       <workItem from="1763564889609" duration="1857000" />
       <workItem from="1763568476997" duration="855000" />
       <workItem from="1763613568079" duration="7130000" />
+      <workItem from="1765118560491" duration="2575000" />
     </task>
     <servers />
   </component>
