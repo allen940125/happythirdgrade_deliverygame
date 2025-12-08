@@ -2485,6 +2485,7 @@ MonoBehaviour:
   rightButton: {fileID: 4729794210694053098}
   scoreText: {fileID: 5793303905798700040}
   targetScoreText: {fileID: 689162670747038322}
+  characterHurtCG: {fileID: 7917389048071050296}
 --- !u!1 &9037280958731683205
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ namespace Game.UI
         [Header("UI 顯示元件")]
         [SerializeField] private TextMeshProUGUI scoreText; // 新增分數顯示元件
         [SerializeField] private TextMeshProUGUI targetScoreText; // 新增分數顯示元件
+        [SerializeField] private GameObject characterHurtCG;
         
         // 用來避免重複發送一樣的訊號，節省效能
         private Vector2 _lastSentInput = new Vector2(-999, -999); 
@@ -22,6 +23,7 @@ namespace Game.UI
             base.Awake();
             
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnMoneyChangedEvent, OnMoneyChangedEvent);
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, CharacterHurtCG);
         }
 
         void Start()
@@ -45,6 +47,11 @@ namespace Game.UI
             UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
         }
 
+        private void CharacterHurtCG(PlayerHurtPressedEvent cmd)
+        {
+            characterHurtCG.SetActive(true);
+        }
+        
         private void HandleMovementLogic()
         {
             bool isLeft = leftButton.IsPressed;
@@ -134,6 +141,7 @@ namespace Game.UI
         {
             // 移除訂閱，避免物件銷毀後，事件發出導致的錯誤
             GameManager.Instance.MainGameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
+            GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(CharacterHurtCG);
             
              // 這裡視你的需求而定。
              // 如果關閉 UI 車子要停，就傳 Vector2.zero。

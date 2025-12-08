@@ -49,19 +49,20 @@ public class CarHealth : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnOpenBackpackKeyPressedEvent, OnOpenBackpackKeyPressedEvent);
-        if (carController != null)
-        {
-            carController.OnCollisionHit += TakeCrashDamage;
-        }
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, OnPlayerHurtPressedEvent);
+        // if (carController != null)
+        // {
+        //     carController.OnCollisionHit += TakeCrashDamage;
+        // }
     }
 
     private void OnDisable()
     {
-        if (carController != null)
-        {
-            carController.OnCollisionHit -= TakeCrashDamage;
-        }
+        GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(OnPlayerHurtPressedEvent);
+        // if (carController != null)
+        // {
+        //     carController.OnCollisionHit -= TakeCrashDamage;
+        // }
     }
 
     private void OnPlayerHurtPressedEvent(PlayerHurtPressedEvent cmd)
