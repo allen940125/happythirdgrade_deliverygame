@@ -12,6 +12,7 @@ namespace Game.UI
 
         [Header("UI 顯示元件")]
         [SerializeField] private TextMeshProUGUI scoreText; // 新增分數顯示元件
+        [SerializeField] private TextMeshProUGUI targetScoreText; // 新增分數顯示元件
         
         // 用來避免重複發送一樣的訊號，節省效能
         private Vector2 _lastSentInput = new Vector2(-999, -999); 
@@ -33,6 +34,7 @@ namespace Game.UI
             if (GameScoreManager.Instance != null)
             {
                 UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney); // 假設您在 GameScoreManager 中暴露了 CurrentMoney
+                UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
             }
         }
 
@@ -40,6 +42,7 @@ namespace Game.UI
         {
             HandleMovementLogic();
             UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney);
+            UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
         }
 
         private void HandleMovementLogic()
@@ -112,6 +115,19 @@ namespace Game.UI
                 // 💡 可以添加動畫效果，例如放大或變色來強調分數變動。
             }
         }
+        
+        private void UpdateTargetScoreDisplay(int newMoney)
+        {
+            if (targetScoreText != null)
+            {
+                // 使用格式化字串顯示金錢，例如加上 "G" 或 "$", 並可加千分位符號
+                // 這裡使用標準格式 {0:N0} 表示帶有千分位分隔符號的數字
+                targetScoreText.text = $" {newMoney:N0} G"; 
+                
+                // 💡 可以添加動畫效果，例如放大或變色來強調分數變動。
+            }
+        }
+
         
         // 當 UI 被關閉時，為了安全起見，發送歸零訊號 (或是你可以選擇繼續跑)
         private void OnDisable()

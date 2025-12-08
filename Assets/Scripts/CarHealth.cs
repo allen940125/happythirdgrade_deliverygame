@@ -131,6 +131,6 @@ public class CarHealth : MonoBehaviour
         }
 
         // 3. (進階) 如果想要車子爆炸後飛起來，可以在這裡加一個推力
-        GetComponent<Rigidbody>().AddExplosionForce(5000f, transform.position + Vector3.down, 5f);
+        GetComponent<Rigidbody>().AddExplosionForce(50000f, transform.position + Vector3.down, 5f);
     }
 }

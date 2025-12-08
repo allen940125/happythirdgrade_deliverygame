@@ -150,4 +150,13 @@ namespace Gamemanager
     {
         
     }
+    
+    // ======================
+    // Player Event Streams
+    // ======================
+
+    public class PlayerHurtPressedEvent : GameEventMessageBase
+    {
+        
+    }
 }

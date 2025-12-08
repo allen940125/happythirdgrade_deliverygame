@@ -115,7 +115,7 @@ public class SlotReelController : MonoBehaviour
         float elapsed = 0;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / duration;
 
             for (int i = 0; i < cellPool.Count; i++)

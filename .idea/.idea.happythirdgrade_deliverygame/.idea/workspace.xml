@@ -6,9 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/角色/IMG_2022.PNG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/角色/IMG_2022.PNG.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/角色/IMG_2026.PNG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/角色/IMG_2026.PNG.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/SlotMachine.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/SlotMachine.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Test/萝莉体第二版 SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameSpeedManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameSpeedManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Data/Quest/QuestTestData 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/Quest/QuestTestData 1.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test/Road.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DeliveryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DeliveryManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DeliveryTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DeliveryTarget.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameQuestManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameQuestManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotReelController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotReelController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotSetting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotSetting.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotSpinManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slot/SlotSpinManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +42,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@38fa2290d5f2/Runtime/AddressablesImpl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Tests/Editor/PostProcessDataTests/1.shader" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/Unity/SoloProjectGame/Allen_Project_Solo/Assets/_Game/SmartPrefabReplacer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -121,6 +140,7 @@
       <workItem from="1763568476997" duration="855000" />
       <workItem from="1763613568079" duration="7130000" />
       <workItem from="1765118560491" duration="2575000" />
+      <workItem from="1765162048525" duration="10832000" />
     </task>
     <servers />
   </component>

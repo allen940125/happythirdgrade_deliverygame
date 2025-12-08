@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameSpeedManager : MonoBehaviour
+public class GameSpeedManager : SessionSingleton<GameSpeedManager>
 {
     [SerializeField] private float _defaultTimeScale = 1f;
     [SerializeField] private float _step = 0.1f; // 每次調整的增量

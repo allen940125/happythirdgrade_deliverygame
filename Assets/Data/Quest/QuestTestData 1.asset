@@ -18,7 +18,7 @@ MonoBehaviour:
     description: 
     status: 0
     type: 0
-    targetValue: 1000
+    targetValue: 500
     currentValue: 0
     rewardMoney: 0
   - questID: 102
@@ -26,7 +26,7 @@ MonoBehaviour:
     description: 
     status: 0
     type: 0
-    targetValue: 2000
+    targetValue: 1000
     currentValue: 0
     rewardMoney: 0
   - questID: 201
@@ -34,6 +34,6 @@ MonoBehaviour:
     description: 
     status: 0
     type: 0
-    targetValue: 3000
+    targetValue: 2000
     currentValue: 0
     rewardMoney: 0
