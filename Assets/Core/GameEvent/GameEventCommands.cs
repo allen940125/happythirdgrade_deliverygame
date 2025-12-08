@@ -157,6 +157,6 @@ namespace Gamemanager
 
     public class PlayerHurtPressedEvent : GameEventMessageBase
     {
-        
+        public float HurtValue;
     }
 }

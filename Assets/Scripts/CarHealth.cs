@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic; // 需要引用這個來使用 List
+using System.Collections.Generic;
+using Gamemanager; // 需要引用這個來使用 List
 
 public class CarHealth : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class CarHealth : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnOpenBackpackKeyPressedEvent, OnOpenBackpackKeyPressedEvent);
         if (carController != null)
         {
             carController.OnCollisionHit += TakeCrashDamage;
@@ -62,7 +64,12 @@ public class CarHealth : MonoBehaviour
         }
     }
 
-    private void TakeCrashDamage(SimpleCarController.CrashLevel level, float damageFactor)
+    private void OnPlayerHurtPressedEvent(PlayerHurtPressedEvent cmd)
+    {
+        TakeCrashDamage(cmd.HurtValue);
+    }
+    
+    private void TakeCrashDamage(float damageFactor)
     {
         // 計算傷害
         float damageToTake = 50f * damageFactor; // 這裡可以依需求調整傷害係數
