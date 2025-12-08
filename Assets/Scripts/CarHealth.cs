@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic; // 需要引用這個來使用 List
+using System.Collections.Generic;
+using Gamemanager; // 需要引用這個來使用 List
 
 public class CarHealth : MonoBehaviour
 {
@@ -48,21 +49,28 @@ public class CarHealth : MonoBehaviour
 
     private void OnEnable()
     {
-        if (carController != null)
-        {
-            carController.OnCollisionHit += TakeCrashDamage;
-        }
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, OnPlayerHurtPressedEvent);
+        // if (carController != null)
+        // {
+        //     carController.OnCollisionHit += TakeCrashDamage;
+        // }
     }
 
     private void OnDisable()
     {
-        if (carController != null)
-        {
-            carController.OnCollisionHit -= TakeCrashDamage;
-        }
+        GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(OnPlayerHurtPressedEvent);
+        // if (carController != null)
+        // {
+        //     carController.OnCollisionHit -= TakeCrashDamage;
+        // }
     }
 
-    private void TakeCrashDamage(SimpleCarController.CrashLevel level, float damageFactor)
+    private void OnPlayerHurtPressedEvent(PlayerHurtPressedEvent cmd)
+    {
+        TakeCrashDamage(cmd.HurtValue);
+    }
+    
+    private void TakeCrashDamage(float damageFactor)
     {
         // 計算傷害
         float damageToTake = 50f * damageFactor; // 這裡可以依需求調整傷害係數
@@ -131,6 +139,6 @@ public class CarHealth : MonoBehaviour
         }
 
         // 3. (進階) 如果想要車子爆炸後飛起來，可以在這裡加一個推力
-        GetComponent<Rigidbody>().AddExplosionForce(5000f, transform.position + Vector3.down, 5f);
+        GetComponent<Rigidbody>().AddExplosionForce(50000f, transform.position + Vector3.down, 5f);
     }
 }

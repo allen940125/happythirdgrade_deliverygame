@@ -23,6 +23,8 @@ public class DeliveryTarget : MonoBehaviour
                 Debug.LogError("[DeliveryTarget] DeliveryManager 实例未找到，无法完成订单。");
             }
             
+            SlotSpinManager.Instance.PlaySlotMachine();
+            
             // 3. 销毁自身实例 (假设 DeliveryManager 已经处理了数据清理)
             // 立即销毁，避免玩家停留导致多次触发
             Destroy(gameObject); 

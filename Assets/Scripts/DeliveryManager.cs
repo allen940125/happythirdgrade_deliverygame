@@ -100,7 +100,7 @@ public class DeliveryManager : SessionSingleton<DeliveryManager>
         // ⚠️ 假设 PlayerWallet 是单例
         // PlayerWallet.Instance.AddMoney(reward); 
 
-        GameScoreManager.Instance.AddMoney(800);
+        //GameScoreManager.Instance.AddMoney(800);
         
         // 2. 【发送事件】(通知任务管理器和成就管理器)
         // ⚠️ 假设 MoneyChangedEvent 已经在 AddMoney 中触发

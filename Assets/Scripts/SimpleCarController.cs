@@ -1,4 +1,5 @@
 using System;
+using Gamemanager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -106,7 +107,7 @@ public class SimpleCarController : MonoBehaviour
     public float heavyCrashThreshold = 60f;
 
     // 定義一個事件，讓外部系統 (音效管理器、UI) 可以訂閱
-    public event Action<CrashLevel, float> OnCollisionHit;
+    //public event Action<CrashLevel, float> OnCollisionHit;
 
     [Header("除錯資訊")]
     public float currentSpeed_H;   // km/h
@@ -293,7 +294,9 @@ public class SimpleCarController : MonoBehaviour
 
         // 4. 發送事件給其他系統 (UI、音效、相機震動)
         // 這樣寫可以保持 CarController 很乾淨，不用把播放音效的程式碼寫在這裡
-        OnCollisionHit?.Invoke(severity, damageFactor);
+        
+        GameManager.Instance.MainGameEvent.Send(new PlayerHurtPressedEvent() { SCrashLevel = severity, HurtValue = damageFactor });
+        //OnCollisionHit?.Invoke(severity, damageFactor);
         
         // (可選) 簡單的反作用力，讓車子彈開更有感
         if (severity >= CrashLevel.Medium)

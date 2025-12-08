@@ -122,4 +122,31 @@ public class GameQuestManager : SessionSingleton<GameQuestManager>
             QuestID = questID
         });
     }
+    
+    // =====================================================================
+    // 獲取當前任務 (外部調用)
+    // =====================================================================
+    
+    /// <summary>
+    /// 取得陣列中第一個「未完成」的任務 (包含 InProgress, NotStarted, Failed)
+    /// 如果全部都解完了，會回傳 null
+    /// </summary>
+    public QuestData GetCurrentActiveQuest()
+    {
+        // 方法 1：使用 LINQ (最簡潔，你的 code 已經有 using System.Linq 了)
+        // 邏輯：在列表中尋找第一個 "狀態不是 Completed" 的任務
+        return _currentRunQuests.FirstOrDefault(q => q.status != QuestStatus.Completed);
+
+        // 方法 2：如果你不喜歡 LINQ，這是傳統迴圈寫法 (邏輯一樣)
+        /*
+        foreach (var quest in _currentRunQuests)
+        {
+            if (quest.status != QuestStatus.Completed)
+            {
+                return quest;
+            }
+        }
+        return null; // 全部都完成了
+        */
+    }
 }
