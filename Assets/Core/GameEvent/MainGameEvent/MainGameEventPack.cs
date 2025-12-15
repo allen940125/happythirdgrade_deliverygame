@@ -62,5 +62,11 @@ namespace Gamemanager
         
         public IObservable<EscapeKeyPressedEvent> OnEscapeKeyPressedEvent => getSubject<EscapeKeyPressedEvent>();
         public IObservable<OpenBackpackKeyPressedEvent> OnOpenBackpackKeyPressedEvent => getSubject<OpenBackpackKeyPressedEvent>();
+        
+        // ======================
+        // Player Event Streams
+        // ======================
+        
+        public IObservable<PlayerHurtPressedEvent> OnPlayerHurtPressedEvent => getSubject<PlayerHurtPressedEvent>();
     }
 }

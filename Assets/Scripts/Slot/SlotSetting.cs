@@ -47,15 +47,17 @@ public class SlotSetting : MonoBehaviour
 
     void Start()
     {
-        // 根據設定計算實際需要的格子數
-        rowsPerReel = visibleRows + (bufferRows * 2);
+
 
         CreateSlotMachine(); // 建立老虎機
     }
 
     // === 建立老虎機的所有轉盤 ===
-    void CreateSlotMachine()
+    public void CreateSlotMachine()
     {
+        // 根據設定計算實際需要的格子數
+        rowsPerReel = visibleRows + (bufferRows * 2);
+        
         // 清空舊的(如果有的話)
         foreach (Transform child in reelContainer) // 尋找所有子物件
         {
@@ -76,6 +78,8 @@ public class SlotSetting : MonoBehaviour
         {
             spinManager.InitializeReels();
         }
+
+        SetAllChildrenMask();
     }
 
     // === 建立單個轉盤 ===
@@ -87,6 +91,7 @@ public class SlotSetting : MonoBehaviour
         GameObject reelObj = new GameObject($"Reel_{reelIndex}");
         reelObj.transform.SetParent(reelContainer);
         reelObj.transform.localPosition = Vector3.zero;
+        reelObj.transform.localRotation = Quaternion.identity;
         reelObj.transform.localScale = Vector3.one;
         newReel.reelTransform = reelObj.transform;
 
@@ -102,6 +107,7 @@ public class SlotSetting : MonoBehaviour
             // === 建立格子背景 ===
             GameObject cellObj = new GameObject($"Cell_{reelIndex}_{row}");
             cellObj.transform.SetParent(reelObj.transform);
+            cellObj.transform.localRotation = Quaternion.identity;
             cellObj.transform.localScale = Vector3.one;
 
             // 設定格子的位置(垂直排列,考慮間距)
@@ -113,10 +119,16 @@ public class SlotSetting : MonoBehaviour
             cellBg.sprite = cellBackgroundSprite;
             cellBg.sortingOrder = 1; // 背景層
 
+            // if (row != 0)
+            // {
+            //     cellBg.renderingLayerMask = 0;
+            // }
+            
             // === 建立空的符號物件(給之後放圖片用) ===
             GameObject symbolObj = new GameObject($"Symbol_{reelIndex}_{row}");
             symbolObj.transform.SetParent(cellObj.transform);
             symbolObj.transform.localPosition = Vector3.zero; // 置中在格子裡
+            symbolObj.transform.localRotation = Quaternion.identity;
             symbolObj.transform.localScale = Vector3.one;
 
             // 加入空的SpriteRenderer
@@ -146,7 +158,7 @@ public class SlotSetting : MonoBehaviour
     }
 
 [ContextMenu("遮擋顯示外格子")]
-    private void SetAllChildrenMask()
+    public void SetAllChildrenMask()
     {
         // 取得此物件底下所有 SpriteRenderer（包含子孫物件）
         SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>(true);
