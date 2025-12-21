@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,6 +123,7 @@
       <workItem from="1763613568079" duration="7130000" />
       <workItem from="1765118560491" duration="2575000" />
       <workItem from="1765162048525" duration="10832000" />
+      <workItem from="1766309094693" duration="942000" />
     </task>
     <servers />
   </component>

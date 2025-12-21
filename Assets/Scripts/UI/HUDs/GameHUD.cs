@@ -1,3 +1,5 @@
+using System.Collections;
+using Game.Audio;
 using Gamemanager;
 using TMPro;
 using UnityEngine;
@@ -11,31 +13,47 @@ namespace Game.UI
         [SerializeField] private SimplePressButton rightButton;
 
         [Header("UI 顯示元件")]
-        [SerializeField] private TextMeshProUGUI scoreText; // 新增分數顯示元件
-        [SerializeField] private TextMeshProUGUI targetScoreText; // 新增分數顯示元件
-        [SerializeField] private GameObject characterHurtCG;
+        [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private TextMeshProUGUI targetScoreText;
         
-        // 用來避免重複發送一樣的訊號，節省效能
+        [SerializeField] private CanvasGroup characterHurtCG; 
+        [SerializeField] private AudioData characterHurt; 
+        
+        [Header("效果設定")]
+        [SerializeField] private float fadeDuration = 0.5f;
+
         private Vector2 _lastSentInput = new Vector2(-999, -999); 
+        private Coroutine _hurtCoroutine;
 
         protected override void Awake()
         {
             base.Awake();
             
+            // --- [Debug 1] 確認 Awake 有被執行 ---
+            Debug.Log($"[GameHUD] Awake 被執行 (GameObject: {gameObject.name})");
+
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnMoneyChangedEvent, OnMoneyChangedEvent);
-            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, CharacterHurtCG);
+            
+            // --- [Debug 2] 確認註冊程式碼有跑到 ---
+            Debug.Log("[GameHUD] 正在嘗試訂閱 OnPlayerHurtPressedEvent...");
+            
+            // 請確認這裡的語法是否正確，有些框架是 Subscribe<T> 而不是 SetSubscribe
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, HandleHurtEvent);
         }
 
         void Start()
         {
-            // 隱藏游標
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = false });
             
-            // 【關鍵步驟】: 解決先後註冊問題，立即查詢初始分數
-            // 假設 GameScoreManager 已經初始化完成 (SessionSingleton 通常在場景載入時就緒)
+            if(characterHurtCG != null) 
+            {
+                characterHurtCG.alpha = 0;
+                characterHurtCG.gameObject.SetActive(false);
+            }
+
             if (GameScoreManager.Instance != null)
             {
-                UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney); // 假設您在 GameScoreManager 中暴露了 CurrentMoney
+                UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney);
                 UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
             }
         }
@@ -47,57 +65,92 @@ namespace Game.UI
             UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
         }
 
-        private void CharacterHurtCG(PlayerHurtPressedEvent cmd)
+        // 事件觸發的方法
+        private void HandleHurtEvent(PlayerHurtPressedEvent cmd)
         {
-            characterHurtCG.SetActive(true);
+            // --- [Debug 3] 確認收到訊號 ---
+            Debug.Log($"[GameHUD] <color=red>收到受傷訊號!</color> 時間: {Time.time}");
+            
+            PlayHurtSound();
+
+            if (_hurtCoroutine != null) StopCoroutine(_hurtCoroutine);
+            _hurtCoroutine = StartCoroutine(FadeHurtEffect());
         }
+
+        private IEnumerator FadeHurtEffect()
+        {
+            // --- [Debug 4] 確認協程開始跑 ---
+            Debug.Log("[GameHUD] 開始執行淡入淡出協程");
+            
+            characterHurtCG.gameObject.SetActive(true);
+            float halfDuration = fadeDuration / 2;
+            float timer = 0f;
+
+            // 淡入
+            while (timer < halfDuration)
+            {
+                timer += Time.deltaTime;
+                characterHurtCG.alpha = Mathf.Lerp(0f, 1f, timer / halfDuration);
+                yield return null; 
+            }
+            characterHurtCG.alpha = 1f;
+
+            // 淡出
+            timer = 0f;
+            while (timer < halfDuration)
+            {
+                timer += Time.deltaTime;
+                characterHurtCG.alpha = Mathf.Lerp(1f, 0f, timer / halfDuration);
+                yield return null;
+            }
+
+            characterHurtCG.alpha = 0f;
+            characterHurtCG.gameObject.SetActive(false);
+            
+             // --- [Debug 5] 確認協程結束 ---
+             Debug.Log("[GameHUD] 淡入淡出結束");
+        }
+
+        private void PlayHurtSound()
+        {
+            if (AudioManager.Instance != null)
+            {
+                Debug.Log("[GameHUD] 呼叫播放音效");
+                AudioManager.Instance.PlaySFX(characterHurt); 
+            }
+            else
+            {
+                Debug.LogError("[GameHUD] 找不到 AudioManager!");
+            }
+        }
+
+        // ... (中間省略 HandleMovementLogic, SendMovementEvent, OnMoneyChangedEvent 等不變的代碼) ...
         
         private void HandleMovementLogic()
         {
             bool isLeft = leftButton.IsPressed;
             bool isRight = rightButton.IsPressed;
-
             Vector2 targetInput;
 
-            // 1. 決定 X 軸 (Steer)
             float inputX = 0f;
-            if (isLeft && !isRight)
-            {
-                inputX = -1f; // 左轉
-            }
-            else if (isRight && !isLeft)
-            {
-                inputX = 1f; // 右轉
-            }
-            // 雙按或都沒按，X 軸都是 0
+            if (isLeft && !isRight) inputX = -1f;
+            else if (isRight && !isLeft) inputX = 1f;
 
-            // 2. 決定 Y 軸 (Throttle/Brake)
             float inputY = 0f;
-            if (isLeft && isRight)
-            {
-                // 【雙按】：後退 (Y=-1)
-                inputY = -1f;
-            }
-            else
-            {
-                // 【單按或都沒按】：前進 (Y=1)
-                inputY = 1f;
-            }
+            if (isLeft && isRight) inputY = -1f;
+            else inputY = 1f;
 
-            // 組合最終訊號
             targetInput = new Vector2(inputX, inputY);
 
-            // ... (後續的發送和檢查邏輯不變)
             if (targetInput != _lastSentInput)
             {
                 SendMovementEvent(targetInput);
                 _lastSentInput = targetInput;
             }
         }
-
+        
         private void SendMovementEvent(Vector2 input)
         {
-            // 這裡使用你 InputManager 裡定義的事件名稱：MovementKeyPressedEvent
             GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() 
             { 
                 MoveInput = input 
@@ -106,47 +159,26 @@ namespace Game.UI
         
         private void OnMoneyChangedEvent(MoneyChangedEvent cmd)
         {
-            // 事件觸發時，更新 UI 顯示
-            //Debug.Log("錢幣更新資訊");
-            //UpdateScoreDisplay(cmd.CurrentTotalMoney);
+             //UpdateScoreDisplay(cmd.CurrentTotalMoney);
         }
-
+        
         private void UpdateScoreDisplay(int newMoney)
         {
-            if (scoreText != null)
-            {
-                // 使用格式化字串顯示金錢，例如加上 "G" 或 "$", 並可加千分位符號
-                // 這裡使用標準格式 {0:N0} 表示帶有千分位分隔符號的數字
-                scoreText.text = $" {newMoney:N0} G"; 
-                
-                // 💡 可以添加動畫效果，例如放大或變色來強調分數變動。
-            }
+            if (scoreText != null) scoreText.text = $" {newMoney:N0} G"; 
         }
         
         private void UpdateTargetScoreDisplay(int newMoney)
         {
-            if (targetScoreText != null)
-            {
-                // 使用格式化字串顯示金錢，例如加上 "G" 或 "$", 並可加千分位符號
-                // 這裡使用標準格式 {0:N0} 表示帶有千分位分隔符號的數字
-                targetScoreText.text = $" {newMoney:N0} G"; 
-                
-                // 💡 可以添加動畫效果，例如放大或變色來強調分數變動。
-            }
+            if (targetScoreText != null) targetScoreText.text = $" {newMoney:N0} G"; 
         }
 
-        
-        // 當 UI 被關閉時，為了安全起見，發送歸零訊號 (或是你可以選擇繼續跑)
         private void OnDisable()
         {
-            // 移除訂閱，避免物件銷毀後，事件發出導致的錯誤
-            GameManager.Instance.MainGameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
-            GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(CharacterHurtCG);
-            
-             // 這裡視你的需求而定。
-             // 如果關閉 UI 車子要停，就傳 Vector2.zero。
-             // 如果關閉 UI 車子要繼續往前跑，就不用傳。
-             // SendMovementEvent(Vector2.zero); 
+            // --- [Debug 6] 確認是否提早被取消註冊 ---
+            Debug.Log($"[GameHUD] OnDisable 被呼叫，取消訂閱事件。 (GameObject: {gameObject.name})");
+
+            // GameManager.Instance.MainGameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
+            // GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(HandleHurtEvent);
         }
     }
 }
