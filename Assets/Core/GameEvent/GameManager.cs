@@ -60,6 +60,8 @@ public class GameManager : Singleton<GameManager>
         TransitionUIManager.Initialize();
         UIManager.Initialize();
         InputManagers.Initialize();
+        
+        Application.targetFrameRate = 60;
     }
     
     private void OnDestroy()

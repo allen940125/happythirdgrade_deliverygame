@@ -2291,13 +2291,14 @@ GameObject:
   - component: {fileID: 8482414085323186267}
   - component: {fileID: 6179548945439806354}
   - component: {fileID: 4386384357115971885}
+  - component: {fileID: 6806314763416930791}
   m_Layer: 5
   m_Name: Hurt CG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8482414085323186267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2355,6 +2356,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6806314763416930791
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7917389048071050296}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8219167494754172598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,7 +2456,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2485,7 +2498,10 @@ MonoBehaviour:
   rightButton: {fileID: 4729794210694053098}
   scoreText: {fileID: 5793303905798700040}
   targetScoreText: {fileID: 689162670747038322}
-  characterHurtCG: {fileID: 7917389048071050296}
+  characterHurtCG: {fileID: 6806314763416930791}
+  characterHurt:
+    audioClip: {fileID: 8300000, guid: 0596cbd8bd1cda54b8d6cc5835bc7712, type: 3}
+  fadeDuration: 0.5
 --- !u!1 &9037280958731683205
 GameObject:
   m_ObjectHideFlags: 0

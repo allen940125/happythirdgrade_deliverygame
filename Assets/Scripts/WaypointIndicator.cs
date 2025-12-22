@@ -68,7 +68,7 @@ public class WaypointIndicator : MonoBehaviour
         float currentCarSpeed = 0f;
         if (_carController != null)
         {
-            currentCarSpeed = _carController.currentSpeed_S; 
+            currentCarSpeed = _carController.CurrentSpeedMS; 
         }
         
         // 指標最大追趕速度 = Max(玩家速度 * 乘數, 最低速度)
