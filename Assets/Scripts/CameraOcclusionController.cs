@@ -1,108 +1,92 @@
 using UnityEngine;
 using System.Collections.Generic;
-// System.Linq 已不再需要
 
 public class CameraOcclusionController : MonoBehaviour
 {
     [Header("目標設定")]
-    [Tooltip("玩家角色的 Transform")]
     public Transform target; 
-    [Tooltip("目標的 LayerMask (例如: Environment, Building)")]
     public LayerMask obstacleLayer;
 
-    // *** 核心優化：使用 HashSet 提高查找效率 ***
-    // (HashSet 的 Add/Remove/Contains 效能遠高於 List)
-    private HashSet<FadeObject> currentObstacles = new HashSet<FadeObject>();
-    private HashSet<FadeObject> previousObstacles = new HashSet<FadeObject>();
-
-    // *** 核心優化：只管理 "正在" Fading 的物件 ***
     private HashSet<FadeObject> activeFaders = new HashSet<FadeObject>();
-    
-    // 緩存列表，避免在 Update 中 new List 造成 GC (垃圾回收)
     private List<FadeObject> fadersToRemove = new List<FadeObject>();
+    
+    // 用來記錄上一幀擋住的物件，用 Set 方便比對
+    private HashSet<FadeObject> previousObstacles = new HashSet<FadeObject>();
+    
+    // 預先配置 RaycastHit 陣列，避免每幀 new
+    private RaycastHit[] hitBuffer = new RaycastHit[10]; 
 
-    // 在 LateUpdate 中 "偵測"
     void LateUpdate()
     {
         if (target == null) return;
 
         Vector3 start = transform.position;
-        Vector3 end = target.position;
-        Vector3 direction = end - start;
+        Vector3 direction = target.position - start;
         float distance = direction.magnitude;
 
-        // 清空當前幀的列表
-        currentObstacles.Clear();
-        
-        // 1. 發射射線 (Raycast)
-        RaycastHit[] hits = Physics.SphereCastAll(start, 0.3f, direction.normalized, distance, obstacleLayer);
+        // 1. 使用 NonAlloc 版本，結果會填入 hitBuffer，回傳打到的數量
+        int hitCount = Physics.SphereCastNonAlloc(start, 0.2f, direction.normalized, hitBuffer, distance, obstacleLayer);
 
-        // 2. 處理當前偵測到的障礙物
-        foreach (var hit in hits)
+        // 這次偵測到的物件集合
+        HashSet<FadeObject> currentObstacles = new HashSet<FadeObject>();
+
+        // 2. 整理當前遮擋物
+        for (int i = 0; i < hitCount; i++)
         {
-            FadeObject fadeObject = hit.collider.GetComponentInParent<FadeObject>();
-            if (fadeObject != null)
+            // 這裡建議在 FadeObject 上掛一個簡單的 Component tag 或者直接 GetComponent
+            // 如果層級很深，GetComponentInParent 還是有點小貴，最好是碰撞體就在 FadeObject 上
+            FadeObject fo = hitBuffer[i].collider.GetComponent<FadeObject>();
+            if (fo == null) fo = hitBuffer[i].collider.GetComponentInParent<FadeObject>();
+            
+            if (fo != null)
             {
-                currentObstacles.Add(fadeObject);
+                currentObstacles.Add(fo);
             }
         }
 
-        // 3. 找出 "新增" 的遮擋物
-        foreach (var obstacle in currentObstacles)
+        // 3. 邏輯比對：誰是新來的？ (Current 有，Previous 沒有)
+        foreach (var obj in currentObstacles)
         {
-            // 如果 "當前" 列表有，但 "上一幀" 列表沒有 -> 這是新遮擋物
-            if (!previousObstacles.Contains(obstacle))
+            if (!previousObstacles.Contains(obj))
             {
-                obstacle.StartFade();
-                activeFaders.Add(obstacle); // 加入到 "待處理" 列表
+                obj.StartFade();
+                activeFaders.Add(obj);
             }
         }
 
-        // 4. 找出 "消失" 的遮擋物
-        foreach (var obstacle in previousObstacles)
+        // 4. 邏輯比對：誰離開了？ (Previous 有，Current 沒有)
+        foreach (var obj in previousObstacles)
         {
-            // 如果 "上一幀" 列表有，但 "當前" 列表沒有 -> 遮擋物移開了
-            if (obstacle != null && !currentObstacles.Contains(obstacle))
+            if (!currentObstacles.Contains(obj))
             {
-                obstacle.StopFade();
-                activeFaders.Add(obstacle); // 加入到 "待處理" 列表
+                obj.StopFade();
+                activeFaders.Add(obj); // 也要加回來讓它跑完 "淡出" 動畫
             }
         }
-        
-        // 5. 交換列表，準備下一幀
-        // (我們交換 Set，而不是複製，這樣可以避免記憶體分配)
-        var temp = previousObstacles;
+
+        // 5. 更新 Previous
         previousObstacles = currentObstacles;
-        currentObstacles = temp;
     }
 
-    // 在 Update 中 "執行 Fading"
     void Update()
     {
-        // 如果沒有任何物件在 Fading，就直接返回
         if (activeFaders.Count == 0) return;
 
         fadersToRemove.Clear();
         float dt = Time.deltaTime;
 
-        // *** 核心優化 ***
-        // 只遍歷 "正在 Fading" 的物件
-        // 從 651 次 Update 降到 K 次 (K = 正在變化的物件數)
         foreach (var fader in activeFaders)
         {
-            // 呼叫 FadeObject 的更新函式
-            // 如果 DoFadeUpdate 返回 false，表示它已完成 Fading
+            // 如果 DoFadeUpdate 回傳 false，代表動畫跑完了
             if (!fader.DoFadeUpdate(dt))
             {
-                // 標記為待移除 (不能在 foreach 中直接移除)
                 fadersToRemove.Add(fader);
             }
         }
 
-        // 移除所有已完成 Fading 的物件
-        foreach (var fader in fadersToRemove)
+        foreach (var item in fadersToRemove)
         {
-            activeFaders.Remove(fader);
+            activeFaders.Remove(item);
         }
     }
 }

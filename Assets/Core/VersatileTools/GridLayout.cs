@@ -54,7 +54,7 @@ public class CustomGridLayout : MonoBehaviour
                 Vector3 newPosition = category.startPosition + new Vector3(column * cellWidth, -row * cellHeight, 0);
                 child.localPosition = newPosition;
 
-                // ³]¸m Z ¶b±ÛÂà¨¤«×
+                // è¨­ç½® Z è»¸æ—‹è½‰è§’åº¦
                 //float rotationZ = GetRotationZ(itemIndex);
                 //child.localRotation = Quaternion.Euler(0, 0, rotationZ);
 
@@ -65,7 +65,7 @@ public class CustomGridLayout : MonoBehaviour
 
     float GetRotationZ(int index)
     {
-        // ®Ú¾Ú¯Á¤Þ³]¸m±ÛÂà¨¤«×
+        // æ ¹æ“šç´¢å¼•è¨­ç½®æ—‹è½‰è§’åº¦
         switch (index % 5)
         {
             case 0: return 30f;
