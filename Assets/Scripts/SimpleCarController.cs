@@ -7,7 +7,7 @@ public enum SteeringType { FrontOnly, FourWheel }
 public enum CrashLevel { None, Light, Medium, Heavy }
 
 [RequireComponent(typeof(Rigidbody))]
-public class SimpleCarController : MonoBehaviour
+public class BaseCarController : MonoBehaviour
 {
     //──────────────────────────────────────────────
     // 1. 車輛共用參數 (Inspector 設定)
@@ -136,6 +136,28 @@ public class SimpleCarController : MonoBehaviour
     //──────────────────────────────────────────────
     // 4. 對外接口 (API)
     //──────────────────────────────────────────────
+    
+    /// <summary>
+    /// 這是一個公開方法，讓外部系統(升級系統)來呼叫
+    /// </summary>
+    /// <param name="torque"></param>
+    /// <param name="steerAngle"></param>
+    /// <param name="drive"></param>
+    /// <param name="steerMode"></param>
+    /// <param name="drag"></param>
+    /// <param name="downForceVal"></param>
+    public void InitializeStats(float torque, float steerAngle, DriveType drive, SteeringType steerMode, float drag, float downForceVal)
+    {
+        this.engineMaxTorque = torque;
+        this.maxSteerAngle = steerAngle;
+        this.driveType = drive;
+        this.steeringType = steerMode;
+        this.airDragCoefficient = drag;
+        this.downforceCoefficient = downForceVal;
+    
+        // 如果有其他需要重置的狀態可以在這裡做
+        // 比如換了引擎要重置轉速曲線之類的
+    }
     
     /// <summary>
     /// 子類別 (Player/Enemy) 呼叫此方法來開車
@@ -330,10 +352,23 @@ public class SimpleCarController : MonoBehaviour
     /// <summary>
     /// 子類別可以 Override 這個方法來處理具體的遊戲邏輯 (如扣血、UI通知)
     /// </summary>
+
     protected virtual void OnCarCrash(CrashLevel level, float damageFactor, float impactForce, Vector3 hitNormal)
     {
-        Debug.Log($"[BaseCar] 發生撞擊! Level: {level}, Factor: {damageFactor:F2}");
-        // 預設這裡什麼都不做，交給 PlayerCarController 或 EnemyCarController 去實作
+        // 嘗試抓取身上的 BaseCarHealth (不管是 Player 還是 Enemy 都有這個)
+        BaseCarHealth health = GetComponent<BaseCarHealth>();
+    
+        if (health != null)
+        {
+            // 假設基礎撞擊傷害是 20，乘上係數
+            float damage = 20f * damageFactor;
+        
+            // 如果是嚴重撞擊，傷害加倍
+            if (level == CrashLevel.Heavy) damage *= 2f;
+
+            // 呼叫扣血
+            health.TakeDamage(damage);
+        }
     }
 
     //──────────────────────────────────────────────

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8568113414378952605}
   - component: {fileID: 9050520080410495215}
   - component: {fileID: 1141904424614420383}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4845,7 +4845,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4719393839001553686}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WheelColliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 3195382953197178862}
   - component: {fileID: 4952688189279549856}
   - component: {fileID: 274558477172393362}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9717,7 +9717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4626474039940558597}
   - component: {fileID: 5349391797630498929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_RR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9788,7 +9788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5927798212229801524}
   - component: {fileID: 8032524401962662969}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9859,7 +9859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5212818509303586327}
   - component: {fileID: 4439420936435852201}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9930,7 +9930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4494997517307437475}
   - component: {fileID: 7604776775671544529}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_RL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10002,7 +10002,7 @@ GameObject:
   - component: {fileID: 4760769331561773566}
   - component: {fileID: 1667710223440768269}
   - component: {fileID: 1122567318493953730}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14837,9 +14837,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1559773397720506971}
   - component: {fileID: 1924739937066364740}
-  - component: {fileID: 4161193360960007212}
   - component: {fileID: 2931330885883709288}
-  m_Layer: 0
+  - component: {fileID: 1320689678065933}
+  - component: {fileID: 6364144322832853773}
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -14893,31 +14894,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4161193360960007212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8793480194573434088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e312aa94b537b748b5519e396f2e5f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CarHealth
-  maxHealth: 100
-  currentHealth: 0
-  deathExplosion: {fileID: 1667710223440768269}
-  damageStages:
-  - name: "\u767D\u7159"
-    healthPercentageThreshold: 0.7
-    particleEffect: {fileID: 9050520080410495215}
-  - name: "\u9ED1\u7159"
-    healthPercentageThreshold: 0.4
-    particleEffect: {fileID: 4952688189279549856}
-  - name: "\u706B"
-    healthPercentageThreshold: 0.2
-    particleEffect: {fileID: 1667710223440768269}
 --- !u!114 &2931330885883709288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15073,6 +15049,46 @@ MonoBehaviour:
   heavyCrashThreshold: 60
   target: {fileID: 0}
   sensorLength: 10
+--- !u!114 &1320689678065933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8793480194573434088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8d01b14e3d0bc4384c503afb7a14ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCarHealth
+  maxHealth: 100
+  currentHealth: 0
+  deathExplosion: {fileID: 1667710223440768269}
+  damageStages:
+  - name: "\u767D\u7159"
+    healthPercentageThreshold: 0.7
+    particleEffect: {fileID: 9050520080410495215}
+  - name: "\u9ED1\u7159"
+    healthPercentageThreshold: 0.4
+    particleEffect: {fileID: 4952688189279549856}
+  - name: "\u706B"
+    healthPercentageThreshold: 0.2
+    particleEffect: {fileID: 1667710223440768269}
+  scoreValue: 100
+--- !u!114 &6364144322832853773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8793480194573434088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60fd9fe944daf38428f68a0193c670a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarStatsManager
+  carData: {fileID: 11400000, guid: 4209fbafcb50252449c67e823c1cab9a, type: 2}
+  currentLevel: 1
 --- !u!1001 &9219847771189244228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15096,6 +15112,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_Name
       value: Vehicle_Police Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalScale.x

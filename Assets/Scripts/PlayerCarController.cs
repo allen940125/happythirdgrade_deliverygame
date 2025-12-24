@@ -1,7 +1,7 @@
 using UnityEngine;
 using Gamemanager;
 
-public class PlayerCarController : SimpleCarController
+public class PlayerCarController : BaseCarController
 {
     private Vector2 movementInput;
 
@@ -41,5 +41,26 @@ public class PlayerCarController : SimpleCarController
 
         // 重要！把算好的結果傳給父類別
         SetInputs(steer, motor, brake);
+    }
+    
+    protected override void OnCarCrash(CrashLevel level, float damageFactor, float impactForce, Vector3 hitNormal)
+    {
+        // 注意：這裡我們【不】呼叫 base.OnCarCrash(...) 
+        // 因為我們要用事件來觸發扣血，如果呼叫 base 就會扣兩次
+
+        // 1. 計算傷害 (或是把計算邏輯寫在 Health 裡也可以，這裡先算好傳過去)
+        float calculatedDamageFactor = damageFactor; 
+        if (level == CrashLevel.Heavy) calculatedDamageFactor *= 2f; // 假設嚴重撞擊係數加倍
+
+        // 2. 發送事件！
+        // 這樣 PlayerCarHealth 會收到 -> 扣血
+        // 你的 UI Manager 也會收到 -> 更新血條 / 震動相機
+        GameManager.Instance.MainGameEvent.Send(new PlayerHurtPressedEvent() 
+        { 
+            HurtValue = calculatedDamageFactor, 
+            SCrashLevel = level // 把撞擊等級也傳出去，UI可能需要
+        });
+
+        Debug.Log($"[Player] 發生撞擊，已發送事件。等級: {level}");
     }
 }

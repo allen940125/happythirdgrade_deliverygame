@@ -8,9 +8,10 @@ public class GameSaveData
     public InventoryRuntimeData InventoryData = new();
 
     // 商店數據
-    
     public AllStoresRuntimeData AllStoresData = new();
 
+    //車子數據
+    public CarRuntimeData CarData = new();
     // 其他系統的數據...
 }
 

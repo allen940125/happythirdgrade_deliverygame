@@ -160,4 +160,24 @@ namespace Gamemanager
         public float HurtValue;
         public CrashLevel SCrashLevel;
     }
+    
+    // ======================
+    // Game State Event Streams
+    // ======================
+
+    public class GameOverEvent : GameEventMessageBase
+    {
+        public GameOverReason Reason; // 失敗原因
+        public int FinalScore;        // (選填) 最終分數，方便 UI 直接讀取顯示
+        
+        // 建構子方便快速發送
+        public GameOverEvent(GameOverReason reason, int score = 0)
+        {
+            this.Reason = reason;
+            this.FinalScore = score;
+        }
+        
+        // 為了相容你的寫法，保留預設建構子
+        public GameOverEvent() { }
+    }
 }
