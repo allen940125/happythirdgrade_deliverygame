@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8568113414378952605}
   - component: {fileID: 9050520080410495215}
   - component: {fileID: 1141904424614420383}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4845,7 +4845,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4719393839001553686}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WheelColliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 3195382953197178862}
   - component: {fileID: 4952688189279549856}
   - component: {fileID: 274558477172393362}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9717,7 +9717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4626474039940558597}
   - component: {fileID: 5349391797630498929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_RR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9788,7 +9788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5927798212229801524}
   - component: {fileID: 8032524401962662969}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9859,7 +9859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5212818509303586327}
   - component: {fileID: 4439420936435852201}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9930,7 +9930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4494997517307437475}
   - component: {fileID: 7604776775671544529}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WC_RL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10002,7 +10002,7 @@ GameObject:
   - component: {fileID: 4760769331561773566}
   - component: {fileID: 1667710223440768269}
   - component: {fileID: 1122567318493953730}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14837,9 +14837,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1559773397720506971}
   - component: {fileID: 1924739937066364740}
-  - component: {fileID: 4161193360960007212}
   - component: {fileID: 2931330885883709288}
-  m_Layer: 0
+  - component: {fileID: 1320689678065933}
+  - component: {fileID: 6364144322832853773}
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -14893,31 +14894,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4161193360960007212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8793480194573434088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e312aa94b537b748b5519e396f2e5f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CarHealth
-  maxHealth: 100
-  currentHealth: 0
-  deathExplosion: {fileID: 1667710223440768269}
-  damageStages:
-  - name: "\u767D\u7159"
-    healthPercentageThreshold: 0.7
-    particleEffect: {fileID: 9050520080410495215}
-  - name: "\u9ED1\u7159"
-    healthPercentageThreshold: 0.4
-    particleEffect: {fileID: 4952688189279549856}
-  - name: "\u706B"
-    healthPercentageThreshold: 0.2
-    particleEffect: {fileID: 1667710223440768269}
 --- !u!114 &2931330885883709288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14930,12 +14906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e0f4f57eb6e03488e098ee8b76f28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCarAI
-  target: {fileID: 0}
-  sensorLength: 10
-  sideSensorPos: 1.5
-  avoidSpeed: 10
-  stuckCheckTime: 2
-  reverseTime: 1.5
   isDrivable: 1
   driveType: 1
   steeringType: 0
@@ -14997,17 +14967,128 @@ MonoBehaviour:
   autoBrakeForce: 1500
   downforceCoefficient: 1
   airDragCoefficient: 0.5
-  frontLeftWheel: {fileID: 0}
-  frontRightWheel: {fileID: 0}
-  rearLeftWheel: {fileID: 0}
-  rearRightWheel: {fileID: 0}
+  frontLeftWheel: {fileID: 8032524401962662969}
+  frontRightWheel: {fileID: 4439420936435852201}
+  rearLeftWheel: {fileID: 7604776775671544529}
+  rearRightWheel: {fileID: 5349391797630498929}
   frontLeftMesh: {fileID: 0}
   frontRightMesh: {fileID: 0}
   rearLeftMesh: {fileID: 0}
   rearRightMesh: {fileID: 0}
-  currentSpeed_H: 0
-  currentSpeed_S: 0
-  currentRPM: 0
+  lowSpeedSteerFactor: -0.5
+  highSpeedSteerFactor: 0.3
+  fourWS_SpeedThreshold: 15
+  steerBySpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 50
+      value: 0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 100
+      value: 0.6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 250
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0.01
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 100
+      value: 1
+      inSlope: 0.01
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lightCrashThreshold: 10
+  mediumCrashThreshold: 30
+  heavyCrashThreshold: 60
+  target: {fileID: 0}
+  sensorLength: 10
+--- !u!114 &1320689678065933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8793480194573434088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8d01b14e3d0bc4384c503afb7a14ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCarHealth
+  maxHealth: 100
+  currentHealth: 0
+  deathExplosion: {fileID: 1667710223440768269}
+  damageStages:
+  - name: "\u767D\u7159"
+    healthPercentageThreshold: 0.7
+    particleEffect: {fileID: 9050520080410495215}
+  - name: "\u9ED1\u7159"
+    healthPercentageThreshold: 0.4
+    particleEffect: {fileID: 4952688189279549856}
+  - name: "\u706B"
+    healthPercentageThreshold: 0.2
+    particleEffect: {fileID: 1667710223440768269}
+  scoreValue: 100
+--- !u!114 &6364144322832853773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8793480194573434088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60fd9fe944daf38428f68a0193c670a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarStatsManager
+  carData: {fileID: 11400000, guid: 4209fbafcb50252449c67e823c1cab9a, type: 2}
+  currentLevel: 1
 --- !u!1001 &9219847771189244228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15024,21 +15105,41 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.87881005
       objectReference: {fileID: 0}
+    - target: {fileID: -2060155750901747648, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1fc60de09ca31ea49baf1e6f6afed813, type: 2}
     - target: {fileID: 100000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_Name
       value: Vehicle_Police Car
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.74
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.3488235
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.21201001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0570984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15046,7 +15147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000021855694
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalRotation.y
@@ -15054,7 +15155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15067,6 +15168,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 425393732668297870, guid: 1af0a2c8773f85c40bdb120f32cd8a8a, type: 3}

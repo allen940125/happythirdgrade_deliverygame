@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyCarController : SimpleCarController
+public class EnemyCarController : BaseCarController
 {
     [Header("AI 設定")]
     public Transform target;

@@ -6,7 +6,7 @@ public class WaypointIndicator : MonoBehaviour
 {
     private Transform _target;
     private Transform _player; 
-    private SimpleCarController _carController; 
+    private BaseCarController _carController; 
     
     // --- 配置參數 ---
     [Header("位置設定")]
@@ -43,7 +43,7 @@ public class WaypointIndicator : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.Player != null)
         {
             _player = GameManager.Instance.Player.transform;
-            _carController = GameManager.Instance.Player.GetComponent<SimpleCarController>();
+            _carController = GameManager.Instance.Player.GetComponent<BaseCarController>();
             if (_carController == null)
             {
                 Debug.LogError("[WaypointIndicator] 無法找到 SimpleCarController！追蹤速度將為 MinCatchupSpeed。");
