@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/Enemy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/Enemy.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/DataSystem/SaveData/SaveData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/DataSystem/SaveData/SaveData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/UISystem/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/UISystem/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene/GameScene Baking Set.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene/GameScene Baking Set.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CarHealth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SimpleCarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/GameOverMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/GameOverMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WaypointIndicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WaypointIndicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +25,11 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerCarController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TrafficNode/TrafficManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TrafficNode/TrafficNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@38fa2290d5f2/Runtime/AddressablesImpl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@317e801bb3aa/Runtime/Lighting/ProbeVolume/ProbeReferenceVolume.Streaming.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/SimpleLit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -152,6 +142,7 @@
       <workItem from="1766398655733" duration="4188000" />
       <workItem from="1766414798750" duration="1288000" />
       <workItem from="1766540422208" duration="18036000" />
+      <workItem from="1766985078926" duration="4092000" />
     </task>
     <servers />
   </component>
