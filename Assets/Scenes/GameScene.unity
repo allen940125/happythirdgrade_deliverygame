@@ -5495,6 +5495,25 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6768051612084562058, guid: 22c4a2fcca98ca34282c5e51c09d4f32, type: 3}
   m_PrefabInstance: {fileID: 1209717002514390418}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &787228514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7092674690325285590, guid: e804ef42eccbde84a9fadc1174784ff0, type: 3}
+  m_PrefabInstance: {fileID: 8483449377987262528}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &787228520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787228514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8842b4dd3872534482dc99149265c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeObject
+  targetValue: -0.1
+  fadeSpeed: 5
 --- !u!1001 &845858792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7538,34 +7557,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Size.x
-      value: 3.1007779
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Size.y
-      value: 1.0704697
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Size.z
-      value: 5.9657416
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Center.x
-      value: -0.0009114402
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Center.y
-      value: 0.9915931
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243695714504003154, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: m_Center.z
-      value: 0.13397217
-      objectReference: {fileID: 0}
-    - target: {fileID: 6010783316582491404, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
-      propertyPath: speedLimit
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 6010783316582491404, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
       propertyPath: currentNode
       value: 
@@ -7574,8 +7565,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrafficCarAI
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2540371728597734529, guid: e065bd41598e22e45babc39fb307acf0, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -8584,7 +8574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8793480194573434088, guid: d6a5748038c87604498f946504797f09, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8793480194573434088, guid: d6a5748038c87604498f946504797f09, type: 3}
       propertyPath: m_TagString
@@ -40744,7 +40734,10 @@ PrefabInstance:
     - {fileID: 2426657502834728619, guid: e804ef42eccbde84a9fadc1174784ff0, type: 3}
     - {fileID: 1050792923016915074, guid: e804ef42eccbde84a9fadc1174784ff0, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7092674690325285590, guid: e804ef42eccbde84a9fadc1174784ff0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 787228520}
   m_SourcePrefab: {fileID: 100100000, guid: e804ef42eccbde84a9fadc1174784ff0, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

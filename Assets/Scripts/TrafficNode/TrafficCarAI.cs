@@ -6,75 +6,108 @@ public class TrafficCarAI : BaseCarController
     public TrafficNode currentNode;
     public float waypointThreshold = 5f;
 
-    [Header("👀 感測器設定 (雙射線)")]
-    public float sensorLength = 10f;       // 看多遠 (煞車距離)
-    public float sensorWidth = 0.8f;       // 左右兩根射線的寬度 (車寬的一半)
-    public float reverseDistance = 2.5f;   // 離障礙物剩 2.5米 就倒車
+    [Header("👀 散射感測器 (五向偵測)")]
+    public float sensorLength = 10f;       // 看多遠
+    public float sensorHeight = 0.6f;      // 射線高度 (0.6 比較接近保險桿)
+    public float sensorAngle = 30f;        // 散射角度 (像鬍鬚一樣張開)
+    public float sensorWidth = 0.8f;       // 左右平移寬度
+    public float reverseDistance = 2.5f;   // 倒車觸發距離
 
-    [Header("⚙️ 簡單速限")]
-    public float speedLimit = 50f;         // 最高時速
-    public float motorPower = 0.5f;        // 平常踩油門的力道 (0~1)
+    [Header("⚙️ 速度行為")]
+    public float cruisingSpeed = 50f;
+    public float panicSpeed = 120f;
+    public float motorPower = 0.5f;
 
-    private float reverseTimer = 0f;       // 倒車稍微持續一下，不要抽搐
+    [Header("😡 不耐煩設定")]
+    public float maxPatience = 5f;
+    private float patienceTimer = 0f;
+    private bool isImpatient = false;
+
+    // ─── 內部狀態 ───
+    private float currentSpeedLimit;
+    private bool isPanic = false;
+    private float panicTimer = 0f;
+    private float panicDuration = 5f;
+    private float reverseTimer = 0f;
+
+    protected override void Start()
+    {
+        base.Start();
+        currentSpeedLimit = cruisingSpeed;
+    }
 
     private void Update()
     {
+        UpdatePanicState();
         if (currentNode == null) return;
 
-        // 1. 導航：判斷是否到達路點
+        // 1. 導航
         if (Vector3.Distance(transform.position, currentNode.transform.position) < waypointThreshold)
         {
             PickNextNode();
         }
 
-        // 2. 轉向計算 (永遠追著點跑)
+        // 2. 轉向
         Vector3 relativeVector = transform.InverseTransformPoint(currentNode.transform.position);
         float steer = (relativeVector.x / relativeVector.magnitude);
         
         float motor = 0f;
         float brake = 0f;
 
-        // 3. 感測器邏輯
-        // 取得最近障礙物的距離，如果沒看到東西會回傳 -1
-        float obstacleDist = GetObstacleDistance();
+        // 3. >> 改良版散射感測器 <<
+        float obstacleDist = GetScatteredObstacleDistance();
 
-        // 如果正在倒車計時中 (避免車子前後一直抖動)
+        // ─── 倒車狀態 ───
         if (reverseTimer > 0)
         {
             reverseTimer -= Time.deltaTime;
-            motor = -1f; // 繼續倒車
+            motor = -1f;
             brake = 0f;
-            steer = -steer; // 倒車時反向打輪，容易脫困
+            steer = -steer;
+            patienceTimer = 0f; 
+            isImpatient = false; 
         }
-        else if (obstacleDist != -1f) // 有看到東西！
+        // ─── 前方有障礙物 ───
+        else if (obstacleDist != -1f)
         {
             if (obstacleDist < reverseDistance)
             {
-                // A. 距離太近了 -> 觸發倒車
-                reverseTimer = 1.5f; // 倒車持續 1.5 秒
-                motor = -1f;
+                reverseTimer = 1.5f; 
             }
             else
             {
-                // B. 在偵測範圍內 -> 停車
-                motor = 0f;
-                brake = 1f; // 踩死煞車
+                if (isImpatient)
+                {
+                    motor = 0.5f; 
+                    brake = 0f;
+                }
+                else
+                {
+                    motor = 0f;
+                    brake = 1f;
+                    patienceTimer += Time.deltaTime;
+                    if (patienceTimer > maxPatience)
+                    {
+                        isImpatient = true;
+                    }
+                }
             }
         }
-        else // 前方沒東西
+        // ─── 前方沒東西 ───
+        else
         {
-            // C. 正常行駛
-            // 如果沒超速，就踩油門；超速就放油門
-            if (CurrentSpeedKmH < speedLimit)
+            patienceTimer = 0f;
+            isImpatient = false;
+
+            if (CurrentSpeedKmH < currentSpeedLimit)
             {
-                motor = motorPower;
+                motor = isPanic ? 1f : motorPower;
                 brake = 0f;
             }
             else
             {
-                motor = 0f; // 放油門滑行
-                // 如果超速太多 (下坡)，稍微點一點煞車
-                if (CurrentSpeedKmH > speedLimit + 5f) brake = 0.2f;
+                motor = 0f;
+                if (CurrentSpeedKmH > currentSpeedLimit + 5f) brake = 0.2f;
             }
         }
 
@@ -82,73 +115,81 @@ public class TrafficCarAI : BaseCarController
     }
 
     // ──────────────────────────────────────────────
-    // 雙射線感測器
+    // 💥 驚嚇模式 (被撞觸發)
     // ──────────────────────────────────────────────
-    float GetObstacleDistance()
+    protected override void OnCarCrash(CrashLevel level, float damageFactor, float impactForce, Vector3 hitNormal)
     {
-        Vector3 origin = transform.position + Vector3.up * 1.0f; // 抬高 1 米
+        base.OnCarCrash(level, damageFactor, impactForce, hitNormal);
+        if (level >= CrashLevel.Light) TriggerPanic();
+    }
+    void TriggerPanic() { isPanic = true; panicTimer = panicDuration; currentSpeedLimit = panicSpeed; isImpatient = true; }
+    void UpdatePanicState() { if (isPanic) { panicTimer -= Time.deltaTime; if (panicTimer <= 0) { isPanic = false; currentSpeedLimit = cruisingSpeed; } } }
+    void PickNextNode() { if (currentNode.nextNodes.Count > 0) currentNode = currentNode.nextNodes[Random.Range(0, currentNode.nextNodes.Count)]; }
+
+    // ──────────────────────────────────────────────
+    // 🌟 核心修改：散射感測器 (Scattered Raycasts)
+    // ──────────────────────────────────────────────
+    float GetScatteredObstacleDistance()
+    {
+        // 1. 設定原點 (高度降低)
+        Vector3 origin = transform.position + Vector3.up * sensorHeight;
         Vector3 fwd = transform.forward;
         Vector3 right = transform.right;
 
-        // 定義兩根射線的起點：左邊一根、右邊一根
-        Vector3 leftPos = origin - right * sensorWidth;
-        Vector3 rightPos = origin + right * sensorWidth;
+        float minDistance = -1f;
 
-        float dist = -1f;
+        // 2. 定義 5 根射線的方向與起點
+        // A. 正中央
+        CheckRay(origin, fwd, ref minDistance);
+        
+        // B. 右邊平行 (平移)
+        CheckRay(origin + right * sensorWidth, fwd, ref minDistance);
+        
+        // C. 左邊平行 (平移)
+        CheckRay(origin - right * sensorWidth, fwd, ref minDistance);
 
-        // 發射左射線
-        if (CastRay(leftPos, fwd, out float leftDist))
-        {
-            dist = leftDist;
-        }
+        // D. 右斜射 (旋轉)
+        Vector3 rightAngledDir = Quaternion.Euler(0, sensorAngle, 0) * fwd;
+        CheckRay(origin, rightAngledDir, ref minDistance);
 
-        // 發射右射線
-        if (CastRay(rightPos, fwd, out float rightDist))
-        {
-            // 如果左邊沒打到，或者右邊打到的距離更近，就以右邊為準
-            if (dist == -1f || rightDist < dist)
-            {
-                dist = rightDist;
-            }
-        }
+        // E. 左斜射 (旋轉)
+        Vector3 leftAngledDir = Quaternion.Euler(0, -sensorAngle, 0) * fwd;
+        CheckRay(origin, leftAngledDir, ref minDistance);
 
-        return dist;
+        return minDistance;
     }
 
-    // 輔助函式：發射單根射線
-    bool CastRay(Vector3 pos, Vector3 dir, out float hitDist)
+    // 輔助函式：發射並更新最近距離
+    void CheckRay(Vector3 pos, Vector3 dir, ref float currentMinDist)
     {
-        hitDist = -1f;
-        
-        // 畫線除錯：綠色=安全
+        // 射線長度 (斜向的稍微短一點，因為不需要看那麼遠)
+        // 這裡是簡單邏輯，統一長度
+        float len = sensorLength;
+
         Color debugColor = Color.green;
 
-        if (Physics.Raycast(pos, dir, out RaycastHit hit, sensorLength))
+        if (Physics.Raycast(pos, dir, out RaycastHit hit, len))
         {
-            // 過濾掉自己
-            if (hit.transform.root == this.transform) 
+            // 忽略自己和路點
+            if (hit.transform.root == this.transform || hit.collider.isTrigger) 
             {
-                Debug.DrawRay(pos, dir * sensorLength, debugColor);
-                return false;
+                Debug.DrawRay(pos, dir * len, debugColor);
+                return;
             }
 
-            // 打到東西了！變紅色
+            // 撞到了！
             debugColor = Color.red;
             Debug.DrawLine(pos, hit.point, debugColor);
-            
-            hitDist = hit.distance;
-            return true;
+
+            // 如果這是目前偵測到最近的障礙物，就更新距離
+            if (currentMinDist == -1f || hit.distance < currentMinDist)
+            {
+                currentMinDist = hit.distance;
+            }
         }
-
-        Debug.DrawRay(pos, dir * sensorLength, debugColor);
-        return false;
-    }
-
-    void PickNextNode()
-    {
-        if (currentNode.nextNodes.Count > 0)
+        else
         {
-            currentNode = currentNode.nextNodes[Random.Range(0, currentNode.nextNodes.Count)];
+            Debug.DrawRay(pos, dir * len, debugColor);
         }
     }
 }

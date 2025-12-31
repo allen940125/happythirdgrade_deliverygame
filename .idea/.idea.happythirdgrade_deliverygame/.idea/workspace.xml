@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/TrafficCarAI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/TrafficCarAI.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TrafficNode/TrafficCarAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TrafficNode/TrafficCarAI.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +143,8 @@
       <workItem from="1766398655733" duration="4188000" />
       <workItem from="1766414798750" duration="1288000" />
       <workItem from="1766540422208" duration="18036000" />
-      <workItem from="1766985078926" duration="4092000" />
+      <workItem from="1766985078926" duration="5732000" />
+      <workItem from="1767095656661" duration="594000" />
     </task>
     <servers />
   </component>
