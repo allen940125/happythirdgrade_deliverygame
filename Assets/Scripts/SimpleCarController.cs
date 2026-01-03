@@ -1,26 +1,20 @@
-using System;
-using Gamemanager;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
+
+// 為了讓其他腳本不用打 BaseCarController.DriveType，我們把 Enum 放在外面
+public enum DriveType { FWD, RWD, AWD }
+public enum SteeringType { FrontOnly, FourWheel }
+public enum CrashLevel { None, Light, Medium, Heavy }
 
 [RequireComponent(typeof(Rigidbody))]
-public class SimpleCarController : MonoBehaviour
+public class BaseCarController : MonoBehaviour
 {
     //──────────────────────────────────────────────
-    // ENUMS
-    //──────────────────────────────────────────────
-    public enum DriveType { FWD, RWD, AWD }
-    public enum SteeringType { FrontOnly, FourWheel }
-    
-    //──────────────────────────────────────────────
-    // 車輛設定
+    // 1. 車輛共用參數 (Inspector 設定)
     //──────────────────────────────────────────────
     [Header("車輛狀態")]
-    public bool isDrivable = true; // << 新增這個開關
-    
-    [Header("玩家輸入")]
-    public Vector2 MovementInput;
-    
+    public bool isDrivable = true;
+
     [Header("驅動與轉向設定")]
     public DriveType driveType = DriveType.FWD;
     public SteeringType steeringType = SteeringType.FrontOnly;
@@ -28,31 +22,26 @@ public class SimpleCarController : MonoBehaviour
     [Header("引擎參數")]
     public float engineMaxTorque = 600f;
     public AnimationCurve engineTorqueCurve = new AnimationCurve(
-        new Keyframe(800, 0.6f),
-        new Keyframe(3500, 1.0f),
-        new Keyframe(6000, 0.9f),
-        new Keyframe(8000, 0.7f)
+        new Keyframe(800, 0.6f), new Keyframe(3500, 1.0f),
+        new Keyframe(6000, 0.9f), new Keyframe(8000, 0.7f)
     );
 
-    [Header("檔位與傳動設定")]
+    [Header("檔位與傳動")]
     public float idleRPM = 800f;
     public float maxRPM = 6000f;
     public float rpmSmoothSpeed = 5f;
     public float[] gearRatios = { 3.2f, 2.1f, 1.4f, 1.0f, 0.8f };
     public float finalDriveRatio = 3.7f;
 
-    [Header("車輛操控設定")]
+    [Header("操控與物理")]
     public float maxSteerAngle = 30f;
     public float brakeForce = 8000f;
-
     [Tooltip("放開油門時的阻力 (牛頓)")]
-    public float autoBrakeForce = 1500f; // << 數值改為 1500 (代表 1500N 的力)
-
+    public float autoBrakeForce = 1500f;
     [Tooltip("下壓力係數 (F = C * v^2)")]
-    public float downforceCoefficient = 1.0f; // << 數值改為 1.0
-
+    public float downforceCoefficient = 1.0f;
     [Tooltip("空氣阻力係數 (F = C * v^2)")]
-    public float airDragCoefficient = 0.5f; // << 新增這個變數
+    public float airDragCoefficient = 0.5f;
 
     [Header("輪胎 Collider")]
     public WheelCollider frontLeftWheel;
@@ -60,95 +49,51 @@ public class SimpleCarController : MonoBehaviour
     public WheelCollider rearLeftWheel;
     public WheelCollider rearRightWheel;
 
-    [Header("輪胎模型 (可選)")]
+    [Header("輪胎模型 (Visual)")]
     public Transform frontLeftMesh;
     public Transform frontRightMesh;
     public Transform rearLeftMesh;
     public Transform rearRightMesh;
 
     [Header("四輪轉向設定")]
-    [Tooltip("低速時後輪與前輪反向的最大角度比例")]
     public float lowSpeedSteerFactor = -0.5f;
-    [Tooltip("高速時後輪與前輪同向的最大角度比例")]
     public float highSpeedSteerFactor = 0.3f;
-    [Tooltip("速度超過多少視為高速（m/s）")]
     public float fourWS_SpeedThreshold = 15f;
-
-    [Header("轉向靈敏度隨速度變化")]
     public AnimationCurve steerBySpeed = new AnimationCurve(
-        new Keyframe(0, 1.0f),
-        new Keyframe(50, 0.8f),
-        new Keyframe(100, 0.6f),
-        new Keyframe(200, 0.4f),
-        new Keyframe(250, 0.3f)
-    );
-
-    [Header("動力衰減控制")]
-    public bool useSpeedTorqueFalloff = true;
-    public float maxEffectiveSpeed = 160;
-    
-    // 定義撞擊等級
-    public enum CrashLevel
-    {
-        None,   // 沒事
-        Light,  // 輕微擦傷 (刮漆聲)
-        Medium, // 中度撞擊 (板金凹陷聲、鏡頭小晃)
-        Heavy   // 嚴重車禍 (玻璃碎裂聲、車子失控、鏡頭劇烈震動)
-    }
+        new Keyframe(0, 1.0f), new Keyframe(50, 0.8f), 
+        new Keyframe(100, 0.6f), new Keyframe(250, 0.3f));
 
     [Header("💥 撞擊感測設定")]
-    // 讓你可以用曲線控制「撞擊力道」對應「傷害/震動強度」的比例
-    // 建議設定：X軸(0~100)代表撞擊力，Y軸(0~1)代表輸出強度
     public AnimationCurve damageCurve = AnimationCurve.Linear(0, 0, 100, 1);
-
-    // 設定分級門檻 (可以在 Inspector 調整)
     public float lightCrashThreshold = 10f;
     public float mediumCrashThreshold = 30f;
     public float heavyCrashThreshold = 60f;
 
-    // 定義一個事件，讓外部系統 (音效管理器、UI) 可以訂閱
-    //public event Action<CrashLevel, float> OnCollisionHit;
+    //──────────────────────────────────────────────
+    // 2. 內部狀態 (供子類別讀取)
+    //──────────────────────────────────────────────
+    protected Rigidbody rb;
+    
+    // 這些是真正的控制訊號，由子類別透過 SetInputs() 來修改
+    protected float steerInput; // -1 ~ 1
+    protected float motorInput; // -1 ~ 1
+    protected float brakeInput; // 0 ~ 1
 
-    [Header("除錯資訊")]
-    public float currentSpeed_H;   // km/h
-    public float currentSpeed_S;   // m/s
-    public float torque;           // 當前扭力
-    public float currentRPM;
-    public float targetRPM;
-    public int currentGear;
+    // 公開數據供 UI 顯示
+    public float CurrentSpeedKmH { get; private set; }
+    public float CurrentSpeedMS { get; private set; }
+    public float CurrentRPM { get; private set; }
+    public int CurrentGear { get; private set; }
+
+    private float targetRPM;
 
     //──────────────────────────────────────────────
-    // 私有成員
+    // 3. 初始化與核心循環
     //──────────────────────────────────────────────
-    private Rigidbody rb;
-    [SerializeField] private float motorInput;
-    [SerializeField] private float steerInput;
-    private float brakeInput;
-
-    //──────────────────────────────────────────────
-    // 初始化
-    //──────────────────────────────────────────────
-    private void Awake()
-    {
-        GameManager.Instance.SetPlayer(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        // 事件訂閱（使用更清楚的命名）
-        GameManager.Instance.MainGameEvent.SetSubscribe(
-            GameManager.Instance.MainGameEvent.OnMovementKeyPressedEvent,
-            cmd => {
-                Debug.Log("Movement Event Triggered: " + cmd.MoveInput);
-                MovementInput = cmd.MoveInput;
-            }
-        );
-    }
-
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0f, -0.45f, 0f);
+        rb.centerOfMass = new Vector3(0f, -0.45f, 0f); // 重心降低防止翻車
         rb.linearDamping = 0.05f;
         rb.angularDamping = 0.15f;
 
@@ -158,178 +103,96 @@ public class SimpleCarController : MonoBehaviour
         SetupWheelFriction(rearRightWheel);
     }
 
-    //──────────────────────────────────────────────
-    // 更新輸入
-    //──────────────────────────────────────────────
-    void Update()
+    protected virtual void FixedUpdate()
     {
-        //motorInput = MovementInput.y;
-        //steerInput = MovementInput.x;
-        //brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-
-        // motorInput = Input.GetAxis("Vertical");
-        // steerInput = Input.GetAxis("Horizontal");
-        // brakeInput = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-
-        // // 驅動/轉向模式切換
-        // if (Input.GetKeyDown(KeyCode.Alpha1)) driveType = DriveType.FWD;
-        // if (Input.GetKeyDown(KeyCode.Alpha2)) driveType = DriveType.RWD;
-        // if (Input.GetKeyDown(KeyCode.Alpha3)) driveType = DriveType.AWD;
-        // if (Input.GetKeyDown(KeyCode.Alpha4))
-        //     steeringType = (steeringType == SteeringType.FrontOnly) ? SteeringType.FourWheel : SteeringType.FrontOnly;
-        
-        // 檢查：如果不可駕駛，強制歸零輸入，並直接跳出
+        // 1. 如果不可駕駛，強制歸零輸入 (但物理慣性還要跑)
         if (!isDrivable)
         {
-            MovementInput = Vector2.zero;
-            motorInput = 0f;
-            steerInput = 0f;
-            brakeInput = 1f; // (可選) 死掉時是否要自動踩死煞車？
-            return; 
+            steerInput = 0;
+            motorInput = 0;
+            brakeInput = 1; // 死亡鎖死煞車
         }
-        
-        steerInput = MovementInput.x;
 
-        // 檢查是否有明確的後退/煞車/停止訊號
-        if (MovementInput.y < 0f) // 訊號為負 (後退/雙按 UI 鍵)
-        {
-            motorInput = -1f;       // 全力倒車
-            brakeInput = 0f;
-        }
-        // 這是最關鍵的一步：如果沒有後退訊號，就保持前進狀態 (Auto-Drive)
-        else 
-        {
-            // 只要沒有明確的倒車訊號，一律保持油門
-            motorInput = 1f;       // 全力油門 (Auto-Drive 核心)
-            brakeInput = 0f;
-        }
-    }
-
-    //──────────────────────────────────────────────
-    // 物理更新
-    //──────────────────────────────────────────────
-    void FixedUpdate()
-    {
+        // 2. 執行物理邏輯
         HandleSteering();
-        HandleBraking();
         ApplyDriveTorque();
+        ApplyBraking();
+        ApplyAerodynamics(); // 空氣阻力與下壓力
 
-        // 更新速度
-        currentSpeed_S = rb.linearVelocity.magnitude;
-        currentSpeed_H = currentSpeed_S * 3.6f;
-
-        // =================================================================
-        // >> 物理力修正 (重要) <<
-        // =================================================================
-
-        // 1. 空氣阻力 (Air Drag) - 必須移到 if 之外，並且使用 ForceMode.Force
-        //    公式 F = C * v^2，C 是阻力係數
-        //    你需要一個新的 public 變數來控制它
-        float airDrag = airDragCoefficient * currentSpeed_S * currentSpeed_S;
-        rb.AddForce(-rb.linearVelocity.normalized * airDrag, ForceMode.Force);
-
-        // 2. 下壓力 (Downforce) - 改為 ForceMode.Force，並移除 0.01f
-        float downforce = downforceCoefficient * currentSpeed_S * currentSpeed_S;
-        rb.AddForce(-transform.up * downforce, ForceMode.Force);
-
-        // 3. 自動煞車 / 引擎阻力 - 改為 ForceMode.Force
-        if (motorInput == 0f && brakeInput == 0f && rb.linearVelocity.sqrMagnitude > 0.1f)
-        {
-            rb.AddForce(-rb.linearVelocity.normalized * autoBrakeForce, ForceMode.Force);
-        }
-        // =================================================================
-
-        if (motorInput == 0f && brakeInput == 0f && currentSpeed_S < 0.5f)
+        // 3. 更新數據
+        CurrentSpeedMS = rb.linearVelocity.magnitude;
+        CurrentSpeedKmH = CurrentSpeedMS * 3.6f;
+        
+        // 4. 低速自動停止修正
+        if (motorInput == 0f && brakeInput == 0f && CurrentSpeedMS < 0.5f)
         {
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.fixedDeltaTime * 5f);
-
-            if (rb.linearVelocity.magnitude < 0.05f)
-            {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
         }
-        
-        // 檔位與轉速
-        UpdateGearAndRPM();
 
-        // 更新輪胎外觀
-        UpdateWheelPose(frontLeftWheel, frontLeftMesh);
-        UpdateWheelPose(frontRightWheel, frontRightMesh);
-        UpdateWheelPose(rearLeftWheel, rearLeftMesh);
-        UpdateWheelPose(rearRightWheel, rearRightMesh);
+        UpdateGearAndRPM();
+        UpdateAllWheelPoses();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //──────────────────────────────────────────────
+    // 4. 對外接口 (API)
+    //──────────────────────────────────────────────
+    
+    /// <summary>
+    /// 這是一個公開方法，讓外部系統(升級系統)來呼叫
+    /// </summary>
+    /// <param name="torque"></param>
+    /// <param name="steerAngle"></param>
+    /// <param name="drive"></param>
+    /// <param name="steerMode"></param>
+    /// <param name="drag"></param>
+    /// <param name="downForceVal"></param>
+    public void InitializeStats(float torque, float steerAngle, DriveType drive, SteeringType steerMode, float drag, float downForceVal)
     {
-        // 1. 計算有效撞擊力道 (垂直於牆面的速度分量)
-        Vector3 hitNormal = collision.contacts[0].normal;
-        Vector3 relativeVelocity = collision.relativeVelocity;
-        float impactForce = Vector3.Dot(hitNormal, relativeVelocity);
-
-        // 如果是負值或太小，直接忽略
-        if (impactForce < lightCrashThreshold) return;
-
-        // 2. 判斷撞擊級別 (由重到輕判斷)
-        CrashLevel severity = CrashLevel.None;
-
-        if (impactForce >= heavyCrashThreshold)
-        {
-            severity = CrashLevel.Heavy;
-        }
-        else if (impactForce >= mediumCrashThreshold)
-        {
-            severity = CrashLevel.Medium;
-        }
-        else
-        {
-            severity = CrashLevel.Light;
-        }
-
-        // 3. 利用曲線計算一個 0~1 的強度值 (可以用來扣血或震動鏡頭)
-        // 假設 impactForce 是 50，Curve 會幫你算出對應的 0.x 值
-        float damageFactor = damageCurve.Evaluate(impactForce);
-
-        Debug.Log($"<color=orange>撞擊發生!</color> 力道: {impactForce:F1} | 級別: {severity} | 傷害係數: {damageFactor:F2}");
-
-        // 4. 發送事件給其他系統 (UI、音效、相機震動)
-        // 這樣寫可以保持 CarController 很乾淨，不用把播放音效的程式碼寫在這裡
-        
-        GameManager.Instance.MainGameEvent.Send(new PlayerHurtPressedEvent() { SCrashLevel = severity, HurtValue = damageFactor });
-        //OnCollisionHit?.Invoke(severity, damageFactor);
-        
-        // (可選) 簡單的反作用力，讓車子彈開更有感
-        if (severity >= CrashLevel.Medium)
-        {
-            rb.AddForce(hitNormal * impactForce * 50f, ForceMode.Impulse);
-        }
+        this.engineMaxTorque = torque;
+        this.maxSteerAngle = steerAngle;
+        this.driveType = drive;
+        this.steeringType = steerMode;
+        this.airDragCoefficient = drag;
+        this.downforceCoefficient = downForceVal;
+    
+        // 如果有其他需要重置的狀態可以在這裡做
+        // 比如換了引擎要重置轉速曲線之類的
     }
     
-    //──────────────────────────────────────────────
-    // 各功能區域
-    //──────────────────────────────────────────────
+    /// <summary>
+    /// 子類別 (Player/Enemy) 呼叫此方法來開車
+    /// </summary>
+    public void SetInputs(float steer, float motor, float brake)
+    {
+        steerInput = Mathf.Clamp(steer, -1f, 1f);
+        motorInput = Mathf.Clamp(motor, -1f, 1f);
+        brakeInput = Mathf.Clamp01(brake);
+    }
 
-    // 新增一個公開方法讓外部呼叫
+    /// <summary>
+    /// 設定車輛是否可操控
+    /// </summary>
     public void SetDrivable(bool state)
     {
         isDrivable = state;
     }
-    
-    #region Steering & Handling
+
+    //──────────────────────────────────────────────
+    // 5. 物理實作細節
+    //──────────────────────────────────────────────
+
     void HandleSteering()
     {
-        float steerFactorBySpeed = steerBySpeed.Evaluate(currentSpeed_H);
+        float steerFactorBySpeed = steerBySpeed.Evaluate(CurrentSpeedKmH);
         float steerAngle = maxSteerAngle * steerInput * steerFactorBySpeed;
 
-        // 前輪轉向
         frontLeftWheel.steerAngle = steerAngle;
         frontRightWheel.steerAngle = steerAngle;
 
-        // 四輪轉向
+        // 四輪轉向邏輯
         if (steeringType == SteeringType.FourWheel)
         {
-            float speed = rb.linearVelocity.magnitude;
-            float factor = (speed < fourWS_SpeedThreshold) ? lowSpeedSteerFactor : highSpeedSteerFactor;
+            float factor = (CurrentSpeedMS < fourWS_SpeedThreshold) ? lowSpeedSteerFactor : highSpeedSteerFactor;
             float rearSteerAngle = steerAngle * factor;
             rearLeftWheel.steerAngle = rearSteerAngle;
             rearRightWheel.steerAngle = rearSteerAngle;
@@ -340,58 +203,31 @@ public class SimpleCarController : MonoBehaviour
             rearRightWheel.steerAngle = 0f;
         }
     }
-    #endregion
 
-    #region Braking
-    void HandleBraking()
-    {
-        float movingDirection = Vector3.Dot(transform.forward, rb.linearVelocity);
-        float brakeTorque = brakeForce * brakeInput;
-
-        // 若輸入與行進方向相反 → 自動煞車
-        if ((movingDirection > 0.5f && motorInput < 0) ||
-            (movingDirection < -0.5f && motorInput > 0))
-        {
-            ApplyBrake(brakeForce);
-            torque = 0f;
-        }
-        else
-        {
-            ApplyBrake(brakeTorque);
-        }
-    }
-
-    void ApplyBrake(float brakeTorque)
-    {
-        frontLeftWheel.brakeTorque = brakeTorque;
-        frontRightWheel.brakeTorque = brakeTorque;
-        rearLeftWheel.brakeTorque = brakeTorque;
-        rearRightWheel.brakeTorque = brakeTorque;
-    }
-    #endregion
-
-    #region Engine & Torque
     void ApplyDriveTorque()
     {
-        float torqueCurveFactor = engineTorqueCurve.Evaluate(currentRPM);
+        float torqueCurveFactor = engineTorqueCurve.Evaluate(CurrentRPM);
         float currentEngineTorque = engineMaxTorque * torqueCurveFactor * motorInput;
+        
+        // TCS 牽引力控制 (簡化版)
+        float reduceFactor = 1f;
+        if (IsSlipping(frontLeftWheel) || IsSlipping(frontRightWheel) || 
+            IsSlipping(rearLeftWheel) || IsSlipping(rearRightWheel))
+        {
+            reduceFactor = 0.5f;
+        }
 
-        ApplyTorqueWithTraction(currentEngineTorque);
+        float totalTorque = currentEngineTorque * gearRatios[CurrentGear] * finalDriveRatio * reduceFactor;
+
+        // 分配扭力
+        ApplyTorqueToWheels(totalTorque);
     }
 
-    void ApplyTorqueWithTraction(float engineTorque)
+    void ApplyTorqueToWheels(float totalTorque)
     {
-        float slipThreshold = 1.2f;
-        float reduceFactor = 1f;
-        WheelHit hit;
-
-        // 簡單牽引力控制（TCS）
-        if (frontLeftWheel.GetGroundHit(out hit) && Mathf.Abs(hit.forwardSlip) > slipThreshold) reduceFactor = 0.5f;
-        if (frontRightWheel.GetGroundHit(out hit) && Mathf.Abs(hit.forwardSlip) > slipThreshold) reduceFactor = 0.5f;
-        if (rearLeftWheel.GetGroundHit(out hit) && Mathf.Abs(hit.forwardSlip) > slipThreshold) reduceFactor = 0.5f;
-        if (rearRightWheel.GetGroundHit(out hit) && Mathf.Abs(hit.forwardSlip) > slipThreshold) reduceFactor = 0.5f;
-
-        float totalTorque = engineTorque * gearRatios[currentGear] * finalDriveRatio * reduceFactor;
+        // 先歸零
+        frontLeftWheel.motorTorque = 0; frontRightWheel.motorTorque = 0;
+        rearLeftWheel.motorTorque = 0; rearRightWheel.motorTorque = 0;
 
         switch (driveType)
         {
@@ -411,75 +247,160 @@ public class SimpleCarController : MonoBehaviour
                 break;
         }
     }
-    #endregion
 
-    #region Gear & RPM
+    void ApplyBraking()
+    {
+        // 判斷是否需要「自動煞車/引擎煞車」
+        // 條件：玩家沒有踩油門 也沒有踩煞車 且 車子還在動
+        bool isEngineBraking = (motorInput == 0f && brakeInput == 0f && CurrentSpeedMS > 0.1f);
+        
+        // 判斷是否「反向煞車」（車子向前滑但玩家按後退）
+        float movingDir = Vector3.Dot(transform.forward, rb.linearVelocity);
+        bool isReverseBraking = (movingDir > 0.5f && motorInput < 0) || (movingDir < -0.5f && motorInput > 0);
+
+        float finalBrakeTorque = 0f;
+
+        if (isReverseBraking)
+        {
+            finalBrakeTorque = brakeForce; // 全力煞車準備換向
+            // 切斷動力以防衝突
+            frontLeftWheel.motorTorque = 0; frontRightWheel.motorTorque = 0;
+            rearLeftWheel.motorTorque = 0; rearRightWheel.motorTorque = 0;
+        }
+        else if (isEngineBraking)
+        {
+            // 這裡改用 AddForce 模擬引擎阻力，而不是用 WheelCollider.brakeTorque，手感較好
+            rb.AddForce(-rb.linearVelocity.normalized * autoBrakeForce, ForceMode.Force);
+            finalBrakeTorque = 0f; // 輪胎本身不鎖死
+        }
+        else
+        {
+            finalBrakeTorque = brakeForce * brakeInput;
+        }
+
+        // 套用煞車值
+        frontLeftWheel.brakeTorque = finalBrakeTorque;
+        frontRightWheel.brakeTorque = finalBrakeTorque;
+        rearLeftWheel.brakeTorque = finalBrakeTorque;
+        rearRightWheel.brakeTorque = finalBrakeTorque;
+    }
+
+    void ApplyAerodynamics()
+    {
+        // 空氣阻力
+        float airDrag = airDragCoefficient * CurrentSpeedMS * CurrentSpeedMS;
+        rb.AddForce(-rb.linearVelocity.normalized * airDrag, ForceMode.Force);
+
+        // 下壓力
+        float downforce = downforceCoefficient * CurrentSpeedMS * CurrentSpeedMS;
+        rb.AddForce(-transform.up * downforce, ForceMode.Force);
+    }
+
     void UpdateGearAndRPM()
     {
-        // 1. 根據驅動模式，計算驅動輪的平均 RPM
-        float avgWheelRPM = 0;
-        int driveWheels = 0;
+        // 計算輪子平均轉速
+        float avgWheelRPM = (rearLeftWheel.rpm + rearRightWheel.rpm) / 2f; // 以後輪為基準
+        if(driveType == DriveType.FWD) avgWheelRPM = (frontLeftWheel.rpm + frontRightWheel.rpm) / 2f;
 
-        if (driveType == DriveType.FWD || driveType == DriveType.AWD)
-        {
-            avgWheelRPM += frontLeftWheel.rpm + frontRightWheel.rpm;
-            driveWheels += 2;
-        }
-        if (driveType == DriveType.RWD || driveType == DriveType.AWD)
-        {
-            avgWheelRPM += rearLeftWheel.rpm + rearRightWheel.rpm;
-            driveWheels += 2;
-        }
-
-        if (driveWheels > 0)
-        {
-            avgWheelRPM /= driveWheels;
-        }
-
-        // 2. 由輪速反推轉速
-        targetRPM = idleRPM + Mathf.Abs(avgWheelRPM) * gearRatios[currentGear] * finalDriveRatio;
-    
-        // 3. 限制 RPM 範圍
+        targetRPM = idleRPM + Mathf.Abs(avgWheelRPM) * gearRatios[CurrentGear] * finalDriveRatio;
         targetRPM = Mathf.Clamp(targetRPM, idleRPM, maxRPM);
-        currentRPM = Mathf.Lerp(currentRPM, targetRPM, Time.deltaTime * rpmSmoothSpeed);
+        CurrentRPM = Mathf.Lerp(CurrentRPM, targetRPM, Time.deltaTime * rpmSmoothSpeed);
 
-        // 4. 自排邏輯
-        // (您的邏輯是 5500 升檔，最大 6000，這是正常的)
-        if (motorInput > 0.5f && currentRPM > (maxRPM * 0.9f) && currentGear < gearRatios.Length - 1) // 90% 轉速升檔
+        // 自動換檔邏輯
+        if (motorInput > 0.5f && CurrentRPM > (maxRPM * 0.9f) && CurrentGear < gearRatios.Length - 1)
         {
-            currentGear++;
+            CurrentGear++;
         }
-        else if (currentRPM < (maxRPM * 0.4f) && currentGear > 0) // 40% 轉速降檔
+        else if (CurrentGear > 0)
         {
-            // 稍微簡化降檔邏輯
-            if (motorInput < 0.1f || currentRPM < (maxRPM * 0.3f))
+            if (motorInput < 0.1f || CurrentRPM < (maxRPM * 0.4f))
             {
-                currentGear--;
+                CurrentGear--;
             }
         }
     }
-    #endregion
 
-    #region Wheel Setup & Visuals
+    //──────────────────────────────────────────────
+    // 6. 撞擊處理 (Virtual)
+    //──────────────────────────────────────────────
+    protected virtual void OnCollisionEnter(Collision collision)
+    {
+        // 1. 計算撞擊力
+        Vector3 hitNormal = collision.contacts[0].normal;
+        float impactForce = Vector3.Dot(hitNormal, collision.relativeVelocity);
+        
+        if (impactForce < lightCrashThreshold) return;
+
+        // 2. 判斷等級
+        CrashLevel severity = CrashLevel.Light;
+        if (impactForce >= heavyCrashThreshold) severity = CrashLevel.Heavy;
+        else if (impactForce >= mediumCrashThreshold) severity = CrashLevel.Medium;
+
+        // 3. 計算傷害係數 (0~1)
+        float damageFactor = damageCurve.Evaluate(impactForce);
+
+        // 4. 呼叫虛擬方法 (讓子類別決定要不要扣血、播放音效或送事件)
+        OnCarCrash(severity, damageFactor, impactForce, hitNormal);
+
+        // 5. 物理反彈 (共用)
+        if (severity >= CrashLevel.Medium)
+        {
+            rb.AddForce(hitNormal * impactForce * 20f, ForceMode.Impulse); // 稍微彈開
+        }
+    }
+
+    /// <summary>
+    /// 子類別可以 Override 這個方法來處理具體的遊戲邏輯 (如扣血、UI通知)
+    /// </summary>
+
+    protected virtual void OnCarCrash(CrashLevel level, float damageFactor, float impactForce, Vector3 hitNormal)
+    {
+        // 嘗試抓取身上的 BaseCarHealth (不管是 Player 還是 Enemy 都有這個)
+        BaseCarHealth health = GetComponent<BaseCarHealth>();
+    
+        if (health != null)
+        {
+            // 假設基礎撞擊傷害是 20，乘上係數
+            float damage = 20f * damageFactor;
+        
+            // 如果是嚴重撞擊，傷害加倍
+            if (level == CrashLevel.Heavy) damage *= 2f;
+
+            // 呼叫扣血
+            health.TakeDamage(damage);
+        }
+    }
+
+    //──────────────────────────────────────────────
+    // 7. 輔助函式
+    //──────────────────────────────────────────────
+    bool IsSlipping(WheelCollider wheel)
+    {
+        WheelHit hit;
+        if(wheel.GetGroundHit(out hit))
+        {
+            return Mathf.Abs(hit.forwardSlip) > 1.0f; // 簡單判定
+        }
+        return false;
+    }
+
     void SetupWheelFriction(WheelCollider wheel)
     {
-        bool isFrontWheel = (wheel == frontLeftWheel || wheel == frontRightWheel);
-
         WheelFrictionCurve f = wheel.forwardFriction;
-        f.extremumSlip = 0.3f;
-        f.extremumValue = 1f;
-        f.asymptoteSlip = 0.8f;
-        f.asymptoteValue = 0.75f;
-        f.stiffness = isFrontWheel ? 2.5f : 3.0f;
+        f.stiffness = 2.0f;
         wheel.forwardFriction = f;
 
         WheelFrictionCurve s = wheel.sidewaysFriction;
-        s.extremumSlip = 0.25f;
-        s.extremumValue = 1f;
-        s.asymptoteSlip = 0.6f;
-        s.asymptoteValue = 0.8f;
-        s.stiffness = isFrontWheel ? 3.0f : 3.5f;
+        s.stiffness = 2.5f;
         wheel.sidewaysFriction = s;
+    }
+
+    void UpdateAllWheelPoses()
+    {
+        UpdateWheelPose(frontLeftWheel, frontLeftMesh);
+        UpdateWheelPose(frontRightWheel, frontRightMesh);
+        UpdateWheelPose(rearLeftWheel, rearLeftMesh);
+        UpdateWheelPose(rearRightWheel, rearRightMesh);
     }
 
     void UpdateWheelPose(WheelCollider collider, Transform mesh)
@@ -488,6 +409,4 @@ public class SimpleCarController : MonoBehaviour
         collider.GetWorldPose(out Vector3 pos, out Quaternion rot);
         mesh.SetPositionAndRotation(pos, rot);
     }
-    #endregion
 }
-

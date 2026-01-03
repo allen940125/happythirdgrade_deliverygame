@@ -62,6 +62,7 @@ namespace Game.UI
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSceneLoadedEvent, OnSceneLoadedEvent);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEscapeKeyPressedEvent, OnEscapeKeyPressedEvent);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnOpenBackpackKeyPressedEvent, OnOpenBackpackKeyPressedEvent);
+            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameOverEvent, OnGameOverEvent);
         }
 
         // 新增方法：處理依賴 DataManager 的資產載入
@@ -289,6 +290,13 @@ namespace Game.UI
             // 這個呼叫現在會受到 OpenPanel 中的「單一焦點」檢查
             OpenPanel<BagMenu>(UIType.BagMenu).Forget();
         }
+        
+        private void OnGameOverEvent(GameOverEvent cmd)
+        {
+            // 這個呼叫現在會受到 OpenPanel 中的「單一焦點」檢查
+            OpenPanel<GameOverMenu>(UIType.GameOverMenu).Forget();
+        }
+
 
         #endregion
 

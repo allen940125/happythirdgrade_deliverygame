@@ -68,5 +68,11 @@ namespace Gamemanager
         // ======================
         
         public IObservable<PlayerHurtPressedEvent> OnPlayerHurtPressedEvent => getSubject<PlayerHurtPressedEvent>();
+        
+        // ======================
+        // Game State Event Streams
+        // ======================
+
+        public IObservable<GameOverEvent> OnGameOverEvent => getSubject<GameOverEvent>();
     }
 }

@@ -60,6 +60,8 @@ public class GameManager : Singleton<GameManager>
         TransitionUIManager.Initialize();
         UIManager.Initialize();
         InputManagers.Initialize();
+        
+        Application.targetFrameRate = 60;
     }
     
     private void OnDestroy()
@@ -171,4 +173,13 @@ public class GameManager : Singleton<GameManager>
     {
         return Instantiate(prefab, parent, instantiateInWorldSpace);
     }
+}
+
+// 定義遊戲結束的原因
+public enum GameOverReason
+{
+    CarDestroyed,   // 車輛全毀 (Wasted)
+    Arrested,       // 被逮捕 (Busted)
+    MissionFailed,  // 任務失敗 (例如超時)
+    Victory         // 勝利 (如果你有贏的條件)
 }
