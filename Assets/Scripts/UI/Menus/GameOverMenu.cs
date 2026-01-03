@@ -1,4 +1,5 @@
 using Game.SceneManagement;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ namespace Game.UI
         [Header("設定通用按鈕")]
         [SerializeField] Button Btn_PlayAgain;
         [SerializeField] Button Btn_GoMainMenu;
+        [SerializeField] TMP_Text Text_Score;
 
         Animator animator;
 
@@ -16,6 +18,8 @@ namespace Game.UI
         {
             base.Awake();
 
+            Text_Score.text = "Score : " + GameScoreManager.Instance.CurrentMoney.ToString();
+            
             //設定通用按鈕
             InitializeCommonButtons();
         }

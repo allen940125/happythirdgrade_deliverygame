@@ -39,6 +39,12 @@ public class GameManager : Singleton<GameManager>
 
     public CarStatsManager CarStatsManager;
     
+    [Header("--- 角色狀態 (作業用) ---")]
+    public bool OwnsChar1 = true;   // 角色1 (預設擁有)
+    public bool OwnsChar2 = false;  // 角色2 (預設沒買)
+    public bool OwnsChar3 = false;  // 角色2 (預設沒買)
+    public int CurrentCharID = 1;   // 當前使用誰 (1 或 2)
+    
     public GameSo GameSo 
     { 
         get => gameSo; 

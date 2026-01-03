@@ -7,284 +7,402 @@ namespace Game.UI
 {
     public class StoreMenu : BasePanel
     {
-        [Header("設定通用按鈕")]
-        [SerializeField] private Button useButton;
+        #region === 1. 面板與分頁導航 ===
+        [Header("=== 1. 面板與分頁導航 ===")]
         [SerializeField] private Button closeButton;
+        [SerializeField] private Button leftArrowButton;
+        [SerializeField] private Button rightArrowButton;
         
-        [Header("物品分類標籤頁")]
-        [SerializeField] private Button equipmentTabButton; 
-        [SerializeField] private Button consumableTabButton; 
-        [SerializeField] private Button materialTabButton;
-        [SerializeField] private Button keyItemTabButton;
+        [Tooltip("請依照順序放入面板")]
+        [SerializeField] private GameObject[] subPanels;
+        private int _currentPanelIndex = 0; 
+        #endregion
 
-        [Header("商店資訊")]
-        [SerializeField] GameObject prefabSlotStoreItem;
-        [SerializeField] GameObject scrollViewContentStoreItemList;
-        [SerializeField] TMP_Text textMoneyVolue;
+        #region === 2. 車輛升級控制 ===
+        [Header("=== 2. 車輛升級控制 ===")]
+        [SerializeField] private Button btn_UpgradeCar_Gold;     
+        [SerializeField] private Button btn_UpgradeCar_Voucher;  
+        [SerializeField] private int upgradeCost_GoldBase = 500; 
+        [SerializeField] private int upgradeCost_VoucherFixed = 1;
+        [SerializeField] private int voucherItemId = 999;
+        [SerializeField] private TMP_Text levelText; 
+        [SerializeField] private TMP_Text upgradeInfoText; 
+        [SerializeField] private TMP_Text upgradeIEXnfoText; 
+        #endregion
 
-        [Header("當前選中物品資訊")]
+        #region === 3. 商店列表與雜項 ===
+        [Header("=== 3. 商店列表與雜項 ===")]
+        [SerializeField] TMP_Text textMoneyValue;
+        [SerializeField] TMP_Text textVoucherValue;
         [SerializeField] private Image selectedItemIcon;
         [SerializeField] private TMP_Text selectedItemName;
         [SerializeField] private TMP_Text selectedItemDescription;
-        
-        [Header("升級設定")]
-        [SerializeField] private Button 升等車;
-        [Tooltip("升級一次需要多少錢 (基礎費)")]
-        [SerializeField] private int upgradeCost = 500; 
-        
-        // ★★★ 新增：顯示等級與費用的文字框 ★★★
-        [Tooltip("請將顯示等級費用的 TextMeshPro 拉進來")]
-        [SerializeField] private TMP_Text upgradeInfoText; 
-        
-        [Tooltip("請將顯示等級費用的 TextMeshPro 拉進來")]
-        [SerializeField] private TMP_Text levle; 
+        [SerializeField] GameObject prefabSlotStoreItem;
+        [SerializeField] GameObject scrollViewContentStoreItemList;
+        [SerializeField] private Button equipmentTabButton; 
+        [SerializeField] private Button consumableTabButton; 
+        [SerializeField] private Button materialTabButton; 
+        [SerializeField] private Button keyItemTabButton;
+        #endregion
 
+        #region === 4. 點卷購買 (模擬儲值) ===
+        [Header("=== 4. 點卷購買 (作業用) ===")]
+        [SerializeField] private Button[] buyVoucherButtons; 
+        [SerializeField] private int[] buyVoucherAmounts;
+        #endregion
+
+        #region === 5. 角色購買與切換 (新功能) ===
+        [Header("=== 5. 角色系統 ===")]
+        [Header("角色 1 設定 (預設擁有)")]
+        [SerializeField] private Button btn_Char1;         // 角色1 按鈕
+        [SerializeField] private TMP_Text txt_Char1_Info;  // 角色1 按鈕文字
+
+        [Header("角色 2 設定 (需購買)")]
+        [SerializeField] private Button btn_Char2;         // 角色2 按鈕
+        [SerializeField] private TMP_Text txt_Char2_Info;  // 角色2 按鈕文字
+        [SerializeField] private int char2_Price = 10000;  // 角色2 價格 (金幣)
         
+        [Header("角色 3 設定 (需購買)")]
+        [SerializeField] private Button btn_Char3;         // 角色2 按鈕
+        [SerializeField] private TMP_Text txt_Char3_Info;  // 角色2 按鈕文字
+        [SerializeField] private int char3_EXPrice = 5;  // 角色2 價格 (金幣)
+        
+        #endregion
+
         protected override void Awake()
         {
             base.Awake();
-
-            // 設定通用按鈕
-            InitializeCommonButtons();
+            InitializeButtons();
             
             GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true});  
             
-            // 訂閱事件
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStoreItemClickedEvent, OnStoreItemClickedEvent);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPurchaseItemClickedEvent, OnPurchaseItemClickedEvent);
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            UpdateCurrencyUI();
+            UpdateUpgradeInfoText();
+            UpdateSubPanelState();   
+            Update_StoreItemDataInGrid();
+            
+            // ★ 啟動時刷新角色按鈕狀態
+            UpdateCharacterUI(); 
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
-            GameManager.Instance.UIManager.OpenPanel<GameHUD>(UIType.GameHUD);
-            
-            // 取消訂閱事件
             GameManager.Instance.MainGameEvent.Unsubscribe<StoreItemClickedEvent>(OnStoreItemClickedEvent);
             GameManager.Instance.MainGameEvent.Unsubscribe<PurchaseItemClickedEvent>(OnPurchaseItemClickedEvent);
         }
-        
-        protected override void Start()
+
+        #region === 初始化按鈕 ===
+
+        void InitializeButtons()
         {
-            base.Start();
-            Update_StoreItemDataInGrid();
-            UpdateMoneyVolueText();
+            if(closeButton) closeButton.onClick.AddListener(OnCloseButtonClicked);
+            if(btn_UpgradeCar_Gold)    btn_UpgradeCar_Gold.onClick.AddListener(On_UpgradeCar_Gold_Clicked);
+            if(btn_UpgradeCar_Voucher) btn_UpgradeCar_Voucher.onClick.AddListener(On_UpgradeCar_Voucher_Clicked);
+
+            if(leftArrowButton)  leftArrowButton.onClick.AddListener(() => ChangePanel(-1));
+            if(rightArrowButton) rightArrowButton.onClick.AddListener(() => ChangePanel(1));
             
-            // ★★★ 初始化時更新升級資訊文字 ★★★
-            UpdateUpgradeInfoText();
+            if(equipmentTabButton) equipmentTabButton.onClick.AddListener(() => SwitchCategory(ItemControllerType.Equipment));
+            if(consumableTabButton) consumableTabButton.onClick.AddListener(() => SwitchCategory(ItemControllerType.Consumable));
+            if(materialTabButton)   materialTabButton.onClick.AddListener(() => SwitchCategory(ItemControllerType.Material));
+            if(keyItemTabButton)    keyItemTabButton.onClick.AddListener(() => SwitchCategory(ItemControllerType.KeyItem));
+
+            // 點卷按鈕
+            if (buyVoucherButtons != null)
+            {
+                for (int i = 0; i < buyVoucherButtons.Length; i++)
+                {
+                    int index = i;
+                    if (buyVoucherButtons[i] != null) buyVoucherButtons[i].onClick.AddListener(() => OnBuyVoucherClicked(index));
+                }
+            }
+
+            // ★ 角色按鈕綁定
+            if (btn_Char1) btn_Char1.onClick.AddListener(OnChar1Clicked);
+            if (btn_Char2) btn_Char2.onClick.AddListener(OnChar2Clicked);
+            if (btn_Char3) btn_Char3.onClick.AddListener(OnChar3Clicked);
+        }
+
+        #endregion
+
+        #region === ★★★ 角色系統邏輯 (新增) ★★★ ===
+
+        void OnChar1Clicked()
+        {
+            // 角色1 預設擁有，直接切換
+            GameManager.Instance.CurrentCharID = 1;
+            Debug.Log("已切換為：角色 1");
+            UpdateCharacterUI();
+        }
+
+        void OnChar2Clicked()
+        {
+            // 判斷是否擁有
+            if (GameManager.Instance.OwnsChar2)
+            {
+                // 已擁有 -> 執行切換
+                GameManager.Instance.CurrentCharID = 2;
+                Debug.Log("已切換為：角色 2");
+            }
+            else
+            {
+                // 未擁有 -> 執行購買 (扣金幣 100 ID)
+                var moneyData = InventoryManager.Instance.GetInventoryData(100);
+                if (moneyData.quantity >= char2_Price)
+                {
+                    // 扣錢
+                    InventoryManager.Instance.RemoveItem(100, char2_Price);
+                    // 標記為已購買
+                    GameManager.Instance.OwnsChar2 = true;
+                    // 自動裝備
+                    GameManager.Instance.CurrentCharID = 2;
+
+                    Debug.Log($"購買成功！花費 {char2_Price} 金幣");
+                    UpdateCurrencyUI(); // 刷新錢包顯示
+                }
+                else
+                {
+                    Debug.Log("金幣不足，無法購買角色 2");
+                }
+            }
+            UpdateCharacterUI();
+        }
+
+        void OnChar3Clicked()
+        {
+            // 判斷是否擁有
+            if (GameManager.Instance.OwnsChar3)
+            {
+                // 已擁有 -> 執行切換
+                GameManager.Instance.CurrentCharID = 3;
+                Debug.Log("已切換為：角色 3");
+            }
+            else
+            {
+                // 未擁有 -> 執行購買 (扣金幣 100 ID)
+                var moneyData = InventoryManager.Instance.GetInventoryData(999);
+                if (moneyData.quantity >= char3_EXPrice)
+                {
+                    // 扣錢
+                    InventoryManager.Instance.RemoveItem(999, char3_EXPrice);
+                    // 標記為已購買
+                    GameManager.Instance.OwnsChar3 = true;
+                    // 自動裝備
+                    GameManager.Instance.CurrentCharID = 3;
+
+                    Debug.Log($"購買成功！花費 {char3_EXPrice} 金幣");
+                    UpdateCurrencyUI(); // 刷新錢包顯示
+                }
+                else
+                {
+                    Debug.Log("金幣不足，無法購買角色 3");
+                }
+            }
+            UpdateCharacterUI();
         }
         
-        #region 事件訂閱
+        // ★★★ 核心 UI 狀態更新 ★★★
+        void UpdateCharacterUI()
+        {
+            int currentID = GameManager.Instance.CurrentCharID;
+            bool hasChar2 = GameManager.Instance.OwnsChar2;
+            // ★ 1. 記得獲取角色 3 的擁有權 (前提是 GameManager 裡要有 OwnsChar3 這個變數)
+            bool hasChar3 = GameManager.Instance.OwnsChar3; 
+
+            // --- 設定 角色 1 UI ---
+            if (currentID == 1)
+            {
+                if (txt_Char1_Info) txt_Char1_Info.text = "使用中";
+                if (btn_Char1) btn_Char1.interactable = false; 
+            }
+            else
+            {
+                if (txt_Char1_Info) txt_Char1_Info.text = "切換";
+                if (btn_Char1) btn_Char1.interactable = true;
+            }
+
+            // --- 設定 角色 2 UI ---
+            if (currentID == 2)
+            {
+                if (txt_Char2_Info) txt_Char2_Info.text = "使用中";
+                if (btn_Char2) btn_Char2.interactable = false;
+            }
+            else
+            {
+                if (hasChar2)
+                {
+                    if (txt_Char2_Info) txt_Char2_Info.text = "切換";
+                }
+                else
+                {
+                    if (txt_Char2_Info) txt_Char2_Info.text = $"${char2_Price}";
+                }
+                if (btn_Char2) btn_Char2.interactable = true;
+            }
+
+            // --- ★★★ 2. 補上 角色 3 UI 設定 ★★★ ---
+            if (currentID == 3)
+            {
+                // 正在使用角色 3
+                if (txt_Char3_Info) txt_Char3_Info.text = "使用中";
+                if (btn_Char3) btn_Char3.interactable = false;
+            }
+            else
+            {
+                if (hasChar3)
+                {
+                    // 買過了，但沒在用 -> 顯示切換
+                    if (txt_Char3_Info) txt_Char3_Info.text = "切換";
+                }
+                else
+                {
+                    // 還沒買 -> 顯示價格 (注意：你的角色3是用點卷買的)
+                    if (txt_Char3_Info) txt_Char3_Info.text = $"{char3_EXPrice} 點卷";
+                }
+                // 只要不是正在用，就可以點
+                if (btn_Char3) btn_Char3.interactable = true;
+            }
+        }
+
+        #endregion
+
+        #region === 點卷/升級/其他邏輯 (保留原樣) ===
+
+        void OnBuyVoucherClicked(int buttonIndex)
+        {
+            if (buyVoucherAmounts == null || buttonIndex >= buyVoucherAmounts.Length) return;
+            int amountToGive = buyVoucherAmounts[buttonIndex];
+            InventoryManager.Instance.AddItem(voucherItemId, amountToGive);
+            Debug.Log($"購買成功，獲得 {amountToGive} 張點卷。");
+            UpdateCurrencyUI();
+            UpdateUpgradeInfoText();
+        }
+
+        void On_UpgradeCar_Gold_Clicked()
+        {
+            if (GameManager.Instance.CarStatsManager == null) return;
+            int curLevel = GameManager.Instance.CarStatsManager.currentLevel;
+            if (curLevel >= 10) return;
+
+            int cost = upgradeCost_GoldBase * curLevel;
+            var moneyData = InventoryManager.Instance.GetInventoryData(100);
+            if (moneyData.quantity >= cost)
+            {
+                InventoryManager.Instance.RemoveItem(100, cost);
+                PerformLevelUp();
+            }
+        }
+
+        void On_UpgradeCar_Voucher_Clicked()
+        {
+            if (GameManager.Instance.CarStatsManager == null) return;
+            if (GameManager.Instance.CarStatsManager.currentLevel >= 10) return;
+
+            var voucherData = InventoryManager.Instance.GetInventoryData(voucherItemId);
+            if (voucherData.quantity >= upgradeCost_VoucherFixed)
+            {
+                InventoryManager.Instance.RemoveItem(voucherItemId, upgradeCost_VoucherFixed);
+                PerformLevelUp();
+            }
+        }
+
+        void PerformLevelUp()
+        {
+            GameManager.Instance.CarStatsManager.LevelUp();
+            UpdateCurrencyUI();
+            UpdateUpgradeInfoText();
+        }
+
+        void UpdateUpgradeInfoText()
+        {
+            if (GameManager.Instance.CarStatsManager == null) return;
+            int curLvl = GameManager.Instance.CarStatsManager.currentLevel;
+            if (levelText) levelText.text = curLvl.ToString();
+
+            if (curLvl >= 10)
+            {
+                if (btn_UpgradeCar_Gold) btn_UpgradeCar_Gold.interactable = false;
+                if (btn_UpgradeCar_Voucher) btn_UpgradeCar_Voucher.interactable = false;
+                if (upgradeInfoText) upgradeInfoText.text = "MAX";
+                if (upgradeIEXnfoText) upgradeIEXnfoText.text = "MAX";
+            }
+            else
+            {
+                if (btn_UpgradeCar_Gold) btn_UpgradeCar_Gold.interactable = true;
+                if (btn_UpgradeCar_Voucher) btn_UpgradeCar_Voucher.interactable = true;
+                if (upgradeInfoText) upgradeInfoText.text = (upgradeCost_GoldBase * curLvl).ToString(); 
+                if (upgradeIEXnfoText) upgradeIEXnfoText.text = upgradeCost_VoucherFixed.ToString(); 
+            }
+        }
+
+        private void ChangePanel(int direction)
+        {
+            if (subPanels == null || subPanels.Length == 0) return;
+            int newIndex = _currentPanelIndex + direction;
+            if (newIndex >= 0 && newIndex < subPanels.Length)
+            {
+                _currentPanelIndex = newIndex;
+                UpdateSubPanelState();
+            }
+        }
+
+        private void UpdateSubPanelState()
+        {
+            if (subPanels == null) return;
+            for (int i = 0; i < subPanels.Length; i++)
+                if(subPanels[i]) subPanels[i].SetActive(i == _currentPanelIndex);
+            
+            if(leftArrowButton) leftArrowButton.interactable = (_currentPanelIndex > 0);
+            if(rightArrowButton) rightArrowButton.interactable = (_currentPanelIndex < subPanels.Length - 1);
+        }
+
+        void OnCloseButtonClicked() { RequestClose(); }
+
+        void SwitchCategory(ItemControllerType type)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = type});  
+        }
 
         void OnStoreItemClickedEvent(StoreItemClickedEvent cmd)
         {
-            UpdateClickItemInfo(cmd.StoreItemData);
+            if (cmd.StoreItemData == null) return;
+            if (selectedItemIcon) selectedItemIcon.sprite = cmd.StoreItemData.ItemBaseTemplete.ItemIconPath;
+            if (selectedItemName) selectedItemName.text = cmd.StoreItemData.ItemBaseTemplete.Name;
+            if (selectedItemDescription) selectedItemDescription.text = cmd.StoreItemData.ItemBaseTemplete.ItemDescription;
         }
 
-        void OnPurchaseItemClickedEvent(PurchaseItemClickedEvent cmd)
-        {
-            UpdateMoneyVolueText();
-        }
+        void OnPurchaseItemClickedEvent(PurchaseItemClickedEvent cmd) { UpdateCurrencyUI(); }
 
-        #endregion
-        
-        #region 註冊按鈕事件
-
-        /// <summary>
-        /// 初始化通用按鈕
-        /// </summary>
-        void InitializeCommonButtons()
+        void UpdateCurrencyUI()
         {
-            if(useButton) useButton.onClick.AddListener(OnUseButtonClicked);
-            if(closeButton) closeButton.onClick.AddListener(OnCloseButtonClicked);
-            if(升等車) 升等車.onClick.AddListener(OnULButtonClicked);
-        }
-
-        /// <summary>
-        /// 初始化設定類別按鈕
-        /// </summary>
-        void InitializeCategoryButtons()
-        {
-            equipmentTabButton.onClick.AddListener(OnEquipmentTabButtonClicked);
-            consumableTabButton.onClick.AddListener(OnConsumableTabButtonClicked);
-            materialTabButton.onClick.AddListener(OnMaterialTabButtonClicked);
-            keyItemTabButton.onClick.AddListener(OnKeyItemTabButtonClicked);
-        }
-
-        // 設定通用按鈕
-        void OnUseButtonClicked()
-        {
-            if (InventoryManager.Instance.curClickInventoryItemRuntimeData != null)
+            if (InventoryManager.Instance != null)
             {
-                StoreManager.Instance.PurchaseItem(StoreManager.Instance.curClickStoreItemData, 1);
+                if (textMoneyValue) textMoneyValue.text = InventoryManager.Instance.GetInventoryData(100).quantity.ToString();
+                if (textVoucherValue) textVoucherValue.text = InventoryManager.Instance.GetInventoryData(voucherItemId).quantity.ToString();
             }
-        }
-
-        void OnCloseButtonClicked()
-        {
-            Debug.Log("Click Btn_Cancel");
-            RequestClose();
         }
         
-        // ──────────────────────────────────────────────
-        //  ★ 車子升級邏輯 (包含更新文字)
-        // ──────────────────────────────────────────────
-        void OnULButtonClicked()
-        {
-            Debug.Log("Click UL (嘗試升級車子)");
-
-            if (GameManager.Instance.CarStatsManager == null)
-            {
-                Debug.LogError("錯誤：找不到 CarStatsManager！");
-                return;
-            }
-
-            // 1. 檢查等級上限 (Max 10)
-            if (GameManager.Instance.CarStatsManager.currentLevel >= 10)
-            {
-                Debug.Log($"<color=yellow>升級失敗：已達到最高等級</color>");
-                return;
-            }
-
-            // 2. 準備數據
-            var moneyData = InventoryManager.Instance.GetInventoryData(100);
-            int currentMoney = moneyData.quantity;
-            
-            // 計算費用：基礎費 * 當前等級
-            int currentLevel = GameManager.Instance.CarStatsManager.currentLevel;
-            int upgradeCosts = upgradeCost * currentLevel;
-            
-            if (currentMoney >= upgradeCosts)
-            {
-                // A. 扣錢
-                InventoryManager.Instance.RemoveItem(100, upgradeCosts);
-
-                // B. 執行升級
-                GameManager.Instance.CarStatsManager.LevelUp();
-
-                Debug.Log($"<color=green>升級成功！</color> Lv.{GameManager.Instance.CarStatsManager.currentLevel} | 花費: {upgradeCosts}");
-
-                // C. 更新介面 (金錢 + 升級資訊文字)
-                UpdateMoneyVolueText();
-                UpdateUpgradeInfoText(); // ★★★ 升級後更新文字 ★★★
-            }
-            else
-            {
-                Debug.Log($"<color=red>金錢不足！</color> 需要: {upgradeCosts}, 擁有: {currentMoney}");
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  ★ 新增功能：更新升級資訊文字
-        // ──────────────────────────────────────────────
-        void UpdateUpgradeInfoText()
-        {
-            if (upgradeInfoText == null) return;
-            if (GameManager.Instance.CarStatsManager == null) return;
-
-            int curLvl = GameManager.Instance.CarStatsManager.currentLevel;
-
-            // 判斷是否滿等
-            if (curLvl >= 10)
-            {
-                //upgradeInfoText.text = $"等級: {curLvl} (已滿等)";
-                if (升等車) 升等車.interactable = false; // 滿等就把按鈕鎖起來
-                levle.text = curLvl.ToString();
-            }
-            else
-            {
-                // 顯示下個等級的費用
-                int cost = upgradeCost * curLvl;
-                //upgradeInfoText.text = $"等級: {curLvl} ▶ {curLvl + 1}\n費用: {cost:N0} G";
-                if (升等車) 升等車.interactable = true;
-                levle.text = curLvl.ToString();
-                upgradeInfoText.text = cost.ToString();
-            }
-        }
-
-
-        // 設定類別按鈕
-        void OnEquipmentTabButtonClicked()
-        {
-            Debug.Log("Click OnEquipmentTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Equipment});  
-        }
-
-        void OnConsumableTabButtonClicked()
-        {
-            Debug.Log("Click OnConsumableTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Consumable});  
-        }
-        
-        void OnMaterialTabButtonClicked()
-        {
-            Debug.Log("Click OnMaterialTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.Material});  
-        }
-
-        void OnKeyItemTabButtonClicked()
-        {
-            Debug.Log("Click OnKeyItemTabButtonClicked");
-            GameManager.Instance.MainGameEvent.Send(new PlayerBagRefreshedEvent() { ItemControllerType = ItemControllerType.KeyItem});  
-        }
-
-        #endregion
-
-        /// <summary>
-        /// 添加商店物品數據至ScrollView_Content
-        /// </summary>
         void Update_StoreItemDataInGrid()
         {
-            // 清空現有物品
-            foreach (Transform child in scrollViewContentStoreItemList.transform)
-            {
-                Destroy(child.gameObject);
-            }
-
+            if(scrollViewContentStoreItemList == null) return;
+            foreach (Transform child in scrollViewContentStoreItemList.transform) Destroy(child.gameObject);
             if (StoreManager.Instance == null) return;
-
-            var targetStore = StoreManager.Instance.AllStoresRuntimeData.stores
-                .Find(s => s.storeId == StoreManager.Instance.CurrentStoreId);
-
-            if (targetStore == null || 
-                targetStore.categoryGroups.Count == 0 || 
-                targetStore.categoryGroups[0].items == null)
-            {
-                return;
-            }
-
+            var targetStore = StoreManager.Instance.AllStoresRuntimeData.stores.Find(s => s.storeId == StoreManager.Instance.CurrentStoreId);
+            if (targetStore == null || targetStore.categoryGroups.Count == 0 || targetStore.categoryGroups[0].items == null) return;
             foreach (StoreItemRuntimeData storeItemData in targetStore.categoryGroups[0].items)
             {
                 GameObject newSlot = Instantiate(prefabSlotStoreItem, scrollViewContentStoreItemList.transform);
                 newSlot.GetComponent<SlotStoreItem>().Initialize(storeItemData, gameObject);
             }
         }
-
-        /// <summary>
-        /// 更新點擊的物品資訊
-        /// </summary>
-        void UpdateClickItemInfo(StoreItemRuntimeData itemData)
-        {
-            if (itemData == null || selectedItemIcon == null || selectedItemName == null || selectedItemDescription == null)
-            {
-                return;
-            }
-
-            selectedItemIcon.sprite = itemData.ItemBaseTemplete.ItemIconPath;
-            selectedItemName.text = itemData.ItemBaseTemplete.Name;
-            selectedItemDescription.text = itemData.ItemBaseTemplete.ItemDescription;
-        }
-        
-        /// <summary>
-        /// 更新金錢文字UI
-        /// </summary>
-        void UpdateMoneyVolueText()
-        {
-            if (InventoryManager.Instance != null && textMoneyVolue != null)
-            {
-                textMoneyVolue.text = InventoryManager.Instance.PlayerMoney.quantity.ToString();
-            }
-        }
+        #endregion
     }
 }

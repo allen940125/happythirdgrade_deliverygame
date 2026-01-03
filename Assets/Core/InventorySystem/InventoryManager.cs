@@ -97,6 +97,7 @@ public class InventoryManager : Singleton<InventoryManager>
             AddItem(100, initializeMoney);
             AddItem(101, 120);  // 測試加入 120 個 ID 為 101 的物品
             AddItem(102, 50);   // 測試加入 50 個 ID 為 102 的物品
+            AddItem(999, 100);
             PrintInventory();
         }
         
