@@ -180,4 +180,11 @@ namespace Gamemanager
         // 為了相容你的寫法，保留預設建構子
         public GameOverEvent() { }
     }
+    
+    // 通知全系統遊戲正式開始
+    public class GameStartedEvent : GameEventMessageBase
+    {
+        
+    }
+    
 }

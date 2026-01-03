@@ -15051,6 +15051,12 @@ MonoBehaviour:
   currentNode: {fileID: 0}
   waypointThreshold: 5
   sensorLength: 8
+  sensorWidth: 0.8
+  reverseDistance: 2.5
+  cruisingSpeed: 50
+  panicSpeed: 120
+  motorPower: 0.5
+  maxPatience: 5
 --- !u!114 &1320689678065933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15159,7 +15165,32 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Size.x
+      value: 3.1007779
+      objectReference: {fileID: 0}
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0704697
+      objectReference: {fileID: 0}
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Size.z
+      value: 5.9657416
+      objectReference: {fileID: 0}
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Center.x
+      value: -0.0009114402
+      objectReference: {fileID: 0}
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Center.y
+      value: 0.9915931
+      objectReference: {fileID: 0}
+    - target: {fileID: 599421835530027649, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
+      propertyPath: m_Center.z
+      value: 0.13397217
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3761509569393711186, guid: 93d0d450ec8b42e46b724bf2bbee330b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
