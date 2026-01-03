@@ -17,6 +17,11 @@ public class CarStatsManager : MonoBehaviour
     {
         controller = GetComponent<BaseCarController>();
         carHealth = GetComponent<BaseCarHealth>();
+
+        if (gameObject.name == "Player")
+        {
+            GameManager.Instance.CarStatsManager = this;
+        }
     }
 
     void Start()

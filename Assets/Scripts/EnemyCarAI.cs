@@ -142,7 +142,7 @@ public class SmartEnemyCarController : BaseCarController
     {
         if (Physics.Raycast(pos, dir, out RaycastHit hit, len))
         {
-            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Terrain")) 
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Environment")) 
             {
                 Debug.DrawLine(pos, hit.point, Color.red);
                 return true;

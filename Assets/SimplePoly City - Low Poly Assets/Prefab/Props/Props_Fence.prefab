@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3305864512404527667}
   m_Layer: 6
   m_Name: Props_Fence
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

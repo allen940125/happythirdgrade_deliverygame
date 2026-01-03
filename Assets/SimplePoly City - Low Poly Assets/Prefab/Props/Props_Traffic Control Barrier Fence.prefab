@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3450070841488192398}
   m_Layer: 6
   m_Name: Props_Traffic Control Barrier Fence
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
