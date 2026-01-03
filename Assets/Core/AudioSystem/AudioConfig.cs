@@ -13,16 +13,16 @@ namespace Game.Audio
         {
             public SceneType sceneType; // ³õ´º¦WºÙ
             public List<AudioData> startBGMData;
-            public List<AudioData> startSFXData; // ¸Ó³õ´ºªºªì©l¿é¤J°Ê§@
+            public List<AudioData> startSFXData; // ¸Ó³õ´ºªºªEl¿é¤J°Ê§@
         }
 
         public List<SceneAudio> sceneAudios; // ©Ò¦³³õ´ºªº¿é¤J°t¸m
 
         /// <summary>
-        /// ®Ú¾Ú·í«e³õ´º¦WºÙÀò¨ú¹ïÀ³ªº¿é¤J°t¸m
+        /// ®Ú¾Ú·úÇe³õ´º¦WºÙÀò¨ú¹E³ªº¿é¤J°t¸m
         /// </summary>
         /// <param name="sceneName">³õ´º¦WºÙ</param>
-        /// <returns>¸Ó³õ´ºªº¿é¤J°Ê§@¦Cªí</returns>
+        /// <returns>¸Ó³õ´ºªº¿é¤J°Ê§@¦CªE/returns>
         public SceneAudio GetAudioDataForScene(string sceneName)
         {
             foreach (var sceneAudio in sceneAudios)
@@ -32,7 +32,7 @@ namespace Game.Audio
                     return sceneAudio;
                 }
             }
-            return null; // ¦pªG¥¼§ä¨ì¹ïÀ³ªº³õ´º°t¸m¡Aªğ¦^ªÅ
+            return null; // ¦pªG¥¼§ä¨EE³ªº³õ´º°t¸m¡Aªğ¦^ªÅ
         }
     }
 

@@ -15,11 +15,11 @@ MonoBehaviour:
   sceneAudios:
   - sceneType: 0
     startBGMData:
-    - audioClip: {fileID: 8300000, guid: f3adabb6a0f574044a69fd8dfea4b946, type: 3}
+    - audioClip: {fileID: 8300000, guid: 03325b58833c42c4f8a631aacdf3320c, type: 3}
     startSFXData: []
   - sceneType: 1
     startBGMData:
-    - audioClip: {fileID: 8300000, guid: 1c0ce28e0bfe5d44184db48c77627e3d, type: 3}
+    - audioClip: {fileID: 8300000, guid: 03325b58833c42c4f8a631aacdf3320c, type: 3}
     startSFXData: []
   - sceneType: 2
     startBGMData: []
@@ -29,6 +29,6 @@ MonoBehaviour:
     startSFXData: []
   - sceneType: 3
     startBGMData:
-    - audioClip: {fileID: 8300000, guid: 04da8d2df01039842b91b2c048abedbd, type: 3}
+    - audioClip: {fileID: 8300000, guid: 5347a57d1a85a384b95dc74ae235321b, type: 3}
     startSFXData:
     - audioClip: {fileID: 8300000, guid: 6ce3321ec80609040968125ab3c6e253, type: 3}
