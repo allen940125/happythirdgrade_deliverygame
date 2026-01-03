@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2678048991230250123}
   m_Layer: 6
   m_Name: Building Sky_small_color02
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

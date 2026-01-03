@@ -20,5 +20,7 @@ public class GameScoreManager : SessionSingleton<GameScoreManager>
         {
             CurrentTotalMoney = _currentMoney // 傳遞更新後的總金額
         });
+        
+        InventoryManager.Instance.AddItem(100, amount);
     }
 }

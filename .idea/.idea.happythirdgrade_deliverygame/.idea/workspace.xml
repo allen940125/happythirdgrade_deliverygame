@@ -5,10 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Prefabs/PlayerCamera 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetGroupSortSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetGroupSortSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/SHOP(排版).png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/SHOP(排版).png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/SHOP.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/SHOP.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/寵物頁面.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/寵物頁面.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/登入畫面.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/登入畫面.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/角色頁面.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/角色頁面.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/車子頁面.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/商店.登入畫面/車子頁面.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/StoreMenu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/StoreMenu.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Panels/GameLoadingPanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Panels/GameLoadingPanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/Bootstrap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Bootstrap.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameEventCommands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/MainGameEvent/MainGameEventPack.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InitScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InitScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LoadingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LoadingScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CarStatsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CarStatsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyCarAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameScoreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameScoreManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/StoreMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/StoreMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SimplePoly City - Low Poly Assets/Prefab/Natures/Natures_Grass Bar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SimplePoly City - Low Poly Assets/Prefab/Natures/Natures_Grass Bar.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +55,8 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@38fa2290d5f2/Runtime/AddressablesImpl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@317e801bb3aa/Runtime/Lighting/ProbeVolume/ProbeReferenceVolume.Streaming.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/SimpleLit.shader" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/Unity/SoloProjectGame/Allen_Project_Solo/Assets/_Game/UI/Scripts/HUDs/GameHUD.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/Unity/SoloProjectGame/Allen_Project_Solo/Assets/_Game/UI/Scripts/Menus/StoreMenu.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -142,7 +169,10 @@
       <workItem from="1766398655733" duration="4188000" />
       <workItem from="1766414798750" duration="1288000" />
       <workItem from="1766540422208" duration="18036000" />
-      <workItem from="1766985078926" duration="4092000" />
+      <workItem from="1766985078926" duration="5732000" />
+      <workItem from="1767095656661" duration="594000" />
+      <workItem from="1767169579905" duration="969000" />
+      <workItem from="1767417202040" duration="13540000" />
     </task>
     <servers />
   </component>

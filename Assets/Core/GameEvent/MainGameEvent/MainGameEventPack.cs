@@ -74,5 +74,7 @@ namespace Gamemanager
         // ======================
 
         public IObservable<GameOverEvent> OnGameOverEvent => getSubject<GameOverEvent>();
+        
+        public IObservable<GameStartedEvent> OnGameStartedEvent => getSubject<GameStartedEvent>();
     }
 }

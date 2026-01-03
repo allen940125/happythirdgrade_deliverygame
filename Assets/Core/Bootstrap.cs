@@ -65,7 +65,7 @@ public class Bootstrap : MonoBehaviour
         
         // 4. 切換場景 (職責回歸 Bootstrap)
         Debug.Log("[Bootstrap] 初始化完成，進入主菜單。");
-        manager.SceneTransitionManager.LoadScene(SceneType.MainMenuScene);
+        manager.SceneTransitionManager.LoadScene(SceneType.GameScene);
     }
 
     // private async UniTask InitializeManagers(GameManager manager)

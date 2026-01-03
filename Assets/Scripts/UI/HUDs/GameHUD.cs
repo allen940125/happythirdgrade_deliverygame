@@ -2,48 +2,72 @@ using System.Collections;
 using Game.Audio;
 using Gamemanager;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
     public class GameHUD : BasePanel 
     {
-        [Header("控制按鈕參照")]
+        [Header("--- 狀態群組 (請將UI拖入對應父物件) ---")]
+        [SerializeField] private GameObject mainMenuGroup;
+        [SerializeField] private GameObject gameplayGroup;
+
+        [Header("--- 主選單按鈕 ---")]
+        [SerializeField] private Button startGameButton;
+        [SerializeField] private Button storeButton;
+        [SerializeField] private Button upgradeButton; // 車子升級按鈕
+        [SerializeField] private Button configButton;
+
+        [Header("--- 遊戲中控制 ---")]
         [SerializeField] private SimplePressButton leftButton;
         [SerializeField] private SimplePressButton rightButton;
 
-        [Header("UI 顯示元件")]
+        [Header("--- 遊戲中顯示 ---")]
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI targetScoreText;
-        
         [SerializeField] private CanvasGroup characterHurtCG; 
         [SerializeField] private AudioData characterHurt; 
-        
+
         [Header("效果設定")]
         [SerializeField] private float fadeDuration = 0.5f;
 
+        [Header("--- 升級系統設定 ---")]
+        [SerializeField] private int maxCarLevel = 10;   // 最高等級
+        [SerializeField] private int upgradeBaseCost = 500; // 基礎升級費用
+        
+        // 注意：實務上 currentCarLevel 應該要存檔 (SaveManager)，這裡先暫存在變數中
+        private int _currentCarLevel = 1; 
+
+        // 內部變數
         private Vector2 _lastSentInput = new Vector2(-999, -999); 
         private Coroutine _hurtCoroutine;
+        private bool isGameRunning = false;
 
         protected override void Awake()
         {
             base.Awake();
             
-            // --- [Debug 1] 確認 Awake 有被執行 ---
-            Debug.Log($"[GameHUD] Awake 被執行 (GameObject: {gameObject.name})");
-
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnMoneyChangedEvent, OnMoneyChangedEvent);
-            
-            // --- [Debug 2] 確認註冊程式碼有跑到 ---
-            Debug.Log("[GameHUD] 正在嘗試訂閱 OnPlayerHurtPressedEvent...");
-            
-            // 請確認這裡的語法是否正確，有些框架是 Subscribe<T> 而不是 SetSubscribe
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHurtPressedEvent, HandleHurtEvent);
         }
 
         void Start()
         {
-            GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = false });
+            // 初始化按鈕監聽
+            if(startGameButton) startGameButton.onClick.AddListener(OnStartGameClicked);
+            
+            // 其他按鈕保持原樣
+            if(storeButton)     storeButton.onClick.AddListener(() => GameManager.Instance.UIManager.OpenPanel<StoreMenu>(UIType.StoreMenu));
+            if(configButton)    configButton.onClick.AddListener(() => GameManager.Instance.UIManager.OpenPanel<StoreMenu>(UIType.StoreMenu));
+
+            // ★★★ 修改這裡：升級按鈕 改為執行升級邏輯 ★★★
+            if(upgradeButton)   upgradeButton.onClick.AddListener(OnUpgradeClicked);
+
+            ShowMainMenu(true);
+            
+            GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true });
             
             if(characterHurtCG != null) 
             {
@@ -51,37 +75,123 @@ namespace Game.UI
                 characterHurtCG.gameObject.SetActive(false);
             }
 
-            if (GameScoreManager.Instance != null)
-            {
-                UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney);
-                UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
-            }
+            // 更新初始顯示
+             UpdateScoreDisplayFromManager();
         }
 
         void Update()
         {
-            HandleMovementLogic();
-            UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney);
-            UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
+            if (isGameRunning)
+            {
+                HandleMovementLogic();
+                // 持續更新分數顯示 (如果有 GameScoreManager)
+                UpdateScoreDisplayFromManager();
+            }
         }
 
-        // 事件觸發的方法
+        // ──────────────────────────────────────────────
+        //  ★ 新增：車子升級邏輯
+        // ──────────────────────────────────────────────
+        private void OnUpgradeClicked()
+        {
+            // 1. 檢查是否已達最高等級
+            if (_currentCarLevel >= maxCarLevel)
+            {
+                Debug.Log($"<color=yellow>升級失敗：已達到最高等級 ({maxCarLevel})</color>");
+                return;
+            }
+
+            // 2. 計算升級費用 (這裡範例：費用 = 基礎費用 * 當前等級，等級越高越貴)
+            // 你也可以改成固定費用，直接寫 int cost = upgradeBaseCost;
+            int cost = upgradeBaseCost * _currentCarLevel; 
+
+            // 3. 取得玩家目前持有的金錢 (ID 100)
+            // InventoryManager.GetInventoryData 會確保回傳物件，即使沒錢也會回傳 quantity = 0
+            InventoryItemRuntimeData moneyData = InventoryManager.Instance.GetInventoryData(100);
+            int currentMoney = moneyData.quantity;
+
+            // 4. 判斷錢夠不夠
+            if (currentMoney >= cost)
+            {
+                // A. 扣除金錢
+                InventoryManager.Instance.RemoveItem(100, cost);
+
+                // B. 提升等級
+                _currentCarLevel++;
+
+                Debug.Log($"<color=green>升級成功！</color> 目前等級: {_currentCarLevel}, 花費: {cost}");
+
+                // C. 如果需要同步更新 UI (因為 Update 裡通常只在遊戲進行時跑，所以在選單也要手動刷一次)
+                UpdateScoreDisplayFromManager(); 
+                
+                // TODO: 記得在這裡呼叫存檔功能，例如 SaveManager.Instance.Save();
+            }
+            else
+            {
+                Debug.Log($"<color=red>金錢不足！</color> 需要: {cost}, 擁有: {currentMoney}");
+            }
+        }
+
+        // ──────────────────────────────────────────────
+        //  UI 狀態切換邏輯
+        // ──────────────────────────────────────────────
+
+        private void ShowMainMenu(bool show)
+        {
+            isGameRunning = !show; 
+            if(mainMenuGroup) mainMenuGroup.SetActive(show);
+            if(gameplayGroup) gameplayGroup.SetActive(!show);
+            GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = show });
+        }
+
+        private void OnStartGameClicked()
+        {
+            Debug.Log("遊戲開始！");
+            ShowMainMenu(false);
+            GameManager.Instance.SetAllCarsDrivable(true);
+            GameManager.Instance.MainGameEvent.Send(new GameStartedEvent());
+            
+            mainMenuGroup.SetActive(false);
+        }
+
+        // ──────────────────────────────────────────────
+        //  既有的遊戲邏輯
+        // ──────────────────────────────────────────────
+
+        private void HandleMovementLogic()
+        {
+            if (leftButton == null || rightButton == null) return;
+
+            bool isLeft = leftButton.IsPressed;
+            bool isRight = rightButton.IsPressed;
+            Vector2 targetInput;
+
+            float inputX = 0f;
+            if (isLeft && !isRight) inputX = -1f;
+            else if (isRight && !isLeft) inputX = 1f;
+
+            float inputY = 0f;
+            if (isLeft && isRight) inputY = -1f;
+            else inputY = 1f; 
+
+            targetInput = new Vector2(inputX, inputY);
+
+            if (targetInput != _lastSentInput)
+            {
+                SendMovementEvent(targetInput);
+                _lastSentInput = targetInput;
+            }
+        }
+
         private void HandleHurtEvent(PlayerHurtPressedEvent cmd)
         {
-            // --- [Debug 3] 確認收到訊號 ---
-            Debug.Log($"[GameHUD] <color=red>收到受傷訊號!</color> 時間: {Time.time}");
-            
             PlayHurtSound();
-
             if (_hurtCoroutine != null) StopCoroutine(_hurtCoroutine);
             _hurtCoroutine = StartCoroutine(FadeHurtEffect());
         }
 
         private IEnumerator FadeHurtEffect()
         {
-            // --- [Debug 4] 確認協程開始跑 ---
-            Debug.Log("[GameHUD] 開始執行淡入淡出協程");
-            
             characterHurtCG.gameObject.SetActive(true);
             float halfDuration = fadeDuration / 2;
             float timer = 0f;
@@ -106,60 +216,38 @@ namespace Game.UI
 
             characterHurtCG.alpha = 0f;
             characterHurtCG.gameObject.SetActive(false);
-            
-             // --- [Debug 5] 確認協程結束 ---
-             Debug.Log("[GameHUD] 淡入淡出結束");
         }
 
         private void PlayHurtSound()
         {
             if (AudioManager.Instance != null)
-            {
-                Debug.Log("[GameHUD] 呼叫播放音效");
                 AudioManager.Instance.PlaySFX(characterHurt); 
-            }
-            else
-            {
-                Debug.LogError("[GameHUD] 找不到 AudioManager!");
-            }
         }
 
-        // ... (中間省略 HandleMovementLogic, SendMovementEvent, OnMoneyChangedEvent 等不變的代碼) ...
-        
-        private void HandleMovementLogic()
-        {
-            bool isLeft = leftButton.IsPressed;
-            bool isRight = rightButton.IsPressed;
-            Vector2 targetInput;
-
-            float inputX = 0f;
-            if (isLeft && !isRight) inputX = -1f;
-            else if (isRight && !isLeft) inputX = 1f;
-
-            float inputY = 0f;
-            if (isLeft && isRight) inputY = -1f;
-            else inputY = 1f;
-
-            targetInput = new Vector2(inputX, inputY);
-
-            if (targetInput != _lastSentInput)
-            {
-                SendMovementEvent(targetInput);
-                _lastSentInput = targetInput;
-            }
-        }
-        
         private void SendMovementEvent(Vector2 input)
         {
-            GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() 
-            { 
-                MoveInput = input 
-            });
+            GameManager.Instance.MainGameEvent.Send(new MovementKeyPressedEvent() { MoveInput = input });
         }
         
         private void OnMoneyChangedEvent(MoneyChangedEvent cmd)
         {
-             //UpdateScoreDisplay(cmd.CurrentTotalMoney);
+             // 這裡可以選擇性更新
+             // UpdateScoreDisplay(cmd.CurrentTotalMoney);
+        }
+        
+        // 輔助函式：從 InventoryManager 或 ScoreManager 讀取分數並更新 UI
+        private void UpdateScoreDisplayFromManager()
+        {
+            // 如果你的分數是以 Inventory ID 100 為準，就用這行：
+            if (InventoryManager.Instance != null)
+            {
+                int money = InventoryManager.Instance.GetInventoryData(100).quantity;
+                UpdateScoreDisplay(money);
+            }
+            // 如果是以 GameScoreManager 為準，請保留你原本的寫法：
+            // if (GameScoreManager.Instance != null) UpdateScoreDisplay(GameScoreManager.Instance.CurrentMoney);
+            
+            if (GameQuestManager.Instance != null) UpdateTargetScoreDisplay(GameQuestManager.Instance.GetCurrentActiveQuest().targetValue);
         }
         
         private void UpdateScoreDisplay(int newMoney)
@@ -171,14 +259,14 @@ namespace Game.UI
         {
             if (targetScoreText != null) targetScoreText.text = $" {newMoney:N0} G"; 
         }
-
+        
         private void OnDisable()
         {
-            // --- [Debug 6] 確認是否提早被取消註冊 ---
-            Debug.Log($"[GameHUD] OnDisable 被呼叫，取消訂閱事件。 (GameObject: {gameObject.name})");
-
-            // GameManager.Instance.MainGameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
-            // GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(HandleHurtEvent);
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.MainGameEvent.Unsubscribe<MoneyChangedEvent>(OnMoneyChangedEvent);
+                GameManager.Instance.MainGameEvent.Unsubscribe<PlayerHurtPressedEvent>(HandleHurtEvent);
+            }
         }
     }
 }

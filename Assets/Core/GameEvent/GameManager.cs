@@ -36,6 +36,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameSo gameSo;
     [SerializeField] private TextAsset csvFile;
     [SerializeField] private Sprite sprite;
+
+    public CarStatsManager CarStatsManager;
+    
     public GameSo GameSo 
     { 
         get => gameSo; 
@@ -172,6 +175,26 @@ public class GameManager : Singleton<GameManager>
     public GameObject InstantiateFromManager(GameObject prefab, Transform parent = null, bool instantiateInWorldSpace = false)
     {
         return Instantiate(prefab, parent, instantiateInWorldSpace);
+    }
+    
+    /// <summary>
+    /// 設定場景中「所有」車輛是否可駕駛
+    /// </summary>
+    /// <param name="canDrive">true = 可開, false = 鎖死</param>
+    public void SetAllCarsDrivable(bool canDrive)
+    {
+        // 1. 搜尋場景中所有掛載 BaseCarController 的物件 (包含繼承它的 PlayerCar 或 EnemyCar)
+        // 注意：這會搜尋整個場景，效能消耗較大，請勿在 Update 中頻繁使用
+        BaseCarController[] allCars = FindObjectsOfType<BaseCarController>();
+
+        // 2. 遍歷所有車輛並設定狀態
+        foreach (var car in allCars)
+        {
+            // 呼叫你在 BaseCarController 寫好的 SetDrivable 方法
+            car.SetDrivable(canDrive);
+        }
+
+        Debug.Log($"[GameManager] 已將場景中 {allCars.Length} 台車輛的駕駛狀態設為: {canDrive}");
     }
 }
 
