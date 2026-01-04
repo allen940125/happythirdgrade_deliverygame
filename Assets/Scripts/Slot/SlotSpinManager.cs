@@ -17,6 +17,8 @@ public class SlotSpinManager : SessionSingleton<SlotSpinManager>
     [Header("參考")]
     public SlotSetting slotSetting;
 
+    public SlotSymbolSelector symbolSelector;
+
     [Header("旋轉設定")]
     [Tooltip("旋轉持續時間(秒) - 第一個Reel開始到停止的時間")]
     public float spinDuration = 2f;
@@ -77,12 +79,14 @@ public class SlotSpinManager : SessionSingleton<SlotSpinManager>
     {
         slotMachineController.SetActive(true);
         StartSpin();
+        symbolSelector.RandomizeAllSymbols();
     }
     
     // === 開始旋轉 ===
     // [ContextMenu("開始旋轉")] // 有了下面的按鈕，這個可以留著當備用，也可以拿掉
     private void StartSpin()
     {
+
         if (isSpinning)
         {
             Debug.LogWarning("已經在旋轉中!");

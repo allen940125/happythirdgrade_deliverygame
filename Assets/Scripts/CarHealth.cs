@@ -21,7 +21,7 @@ public class BaseCarHealth : MonoBehaviour
     [SerializeField] protected float currentHealth; // 改成 protected 讓子類別可以讀取
 
     [Header("通用特效")]
-    public ParticleSystem deathExplosion;
+    public GameObject deathExplosion;
     public List<DamageEffectStage> damageStages;
 
     protected BaseCarController carController; // 改成 BaseCarController 以支援所有車
@@ -104,14 +104,27 @@ public class BaseCarHealth : MonoBehaviour
         // 2. 共用行為：爆炸特效
         if (deathExplosion != null)
         {
-            // 讓特效脫離父物件，避免車子被 Destroy 時特效跟著消失
-            deathExplosion.transform.parent = null; 
-            deathExplosion.Play();
-            Destroy(deathExplosion.gameObject, 3f); 
+            // A. 讓特效脫離父物件 (避免隨車子被刪除)
+           // deathExplosion.transform.parent = null;
+
+            // B. 啟動物件
+            deathExplosion.SetActive(true);
+
+            // C. 抓取該物件下「所有」的粒子系統 (包含子物件)
+            ParticleSystem[] particles = deathExplosion.GetComponentsInChildren<ParticleSystem>();
+
+            // D. 全部一起播放
+            foreach (var p in particles)
+            {
+                p.Play();
+            }
+
+            // E. 3秒後刪除特效物件
+           // Destroy(deathExplosion, 3f);
         }
 
         // 3. 共用行為：物理炸飛
-        if(GetComponent<Rigidbody>())
+        if (GetComponent<Rigidbody>())
         {
             GetComponent<Rigidbody>().AddExplosionForce(50000f, transform.position + Vector3.down, 5f);
         }
