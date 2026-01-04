@@ -233,6 +233,12 @@ MonoBehaviour:
   gameSo: {fileID: 11400000, guid: e3f21a659afc2bb48be5d9da5a0ae8e4, type: 2}
   csvFile: {fileID: 4900000, guid: 22a2ef9a85f478d4da79228af3b38e39, type: 3}
   sprite: {fileID: 21300000, guid: 1a47bdc34223e5a44add86548fc87b9b, type: 3}
+  CarStatsManager: {fileID: 0}
+  currentLevel: 1
+  OwnsChar1: 1
+  OwnsChar2: 0
+  OwnsChar3: 0
+  CurrentCharID: 1
 --- !u!114 &3755704224224232043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,7 +662,12 @@ MonoBehaviour:
   testQuests:
   - questID: 201
     title: "\u9B54\u6CD5\u66F8\u4EFB\u52D9"
+    description: 
     status: 0
+    type: 0
+    targetValue: 0
+    currentValue: 0
+    rewardMoney: 0
 --- !u!1 &3605002932543874135
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +716,7 @@ MonoBehaviour:
     itemId: 0
     quantity: 0
   curCategoryTypeName: 0
-  initializeMoney: 10000
+  initializeMoney: 500
 --- !u!1 &4891671389261615830
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,6 +770,9 @@ MonoBehaviour:
         categoryGroups:
         - categoryName: 
           items: []
+    CarData:
+      CarID: 
+      CurrentLevel: 1
   CurrentSettings:
     AudioData:
       MasterVolume: 0.5

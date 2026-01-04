@@ -26,6 +26,7 @@ public class CarStatsManager : MonoBehaviour
 
     void Start()
     {
+        currentLevel = GameManager.Instance.currentLevel;
         UpdateCarStats();
     }
 
@@ -75,7 +76,8 @@ public class CarStatsManager : MonoBehaviour
     [ContextMenu("Level Up")]
     public void LevelUp()
     {
-        currentLevel++;
+        GameManager.Instance.currentLevel++;
+        currentLevel = GameManager.Instance.currentLevel;
         UpdateCarStats();
     }
 }

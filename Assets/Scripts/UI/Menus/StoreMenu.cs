@@ -1,6 +1,7 @@
 ﻿using Gamemanager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -74,7 +75,7 @@ namespace Game.UI
             base.Awake();
             InitializeButtons();
             
-            GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true});  
+            //GameManager.Instance.MainGameEvent.Send(new CursorToggledEvent() { ShowCursor = true});  
             
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStoreItemClickedEvent, OnStoreItemClickedEvent);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPurchaseItemClickedEvent, OnPurchaseItemClickedEvent);
@@ -97,6 +98,7 @@ namespace Game.UI
             base.OnDestroy();
             GameManager.Instance.MainGameEvent.Unsubscribe<StoreItemClickedEvent>(OnStoreItemClickedEvent);
             GameManager.Instance.MainGameEvent.Unsubscribe<PurchaseItemClickedEvent>(OnPurchaseItemClickedEvent);
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
         #region === 初始化按鈕 ===
@@ -289,9 +291,9 @@ namespace Game.UI
         void On_UpgradeCar_Gold_Clicked()
         {
             if (GameManager.Instance.CarStatsManager == null) return;
-            int curLevel = GameManager.Instance.CarStatsManager.currentLevel;
+            int curLevel = GameManager.Instance.currentLevel;
             if (curLevel >= 10) return;
-
+            
             int cost = upgradeCost_GoldBase * curLevel;
             var moneyData = InventoryManager.Instance.GetInventoryData(100);
             if (moneyData.quantity >= cost)
@@ -304,8 +306,8 @@ namespace Game.UI
         void On_UpgradeCar_Voucher_Clicked()
         {
             if (GameManager.Instance.CarStatsManager == null) return;
-            if (GameManager.Instance.CarStatsManager.currentLevel >= 10) return;
-
+            if (GameManager.Instance.currentLevel >= 10) return;
+            
             var voucherData = InventoryManager.Instance.GetInventoryData(voucherItemId);
             if (voucherData.quantity >= upgradeCost_VoucherFixed)
             {
@@ -324,7 +326,7 @@ namespace Game.UI
         void UpdateUpgradeInfoText()
         {
             if (GameManager.Instance.CarStatsManager == null) return;
-            int curLvl = GameManager.Instance.CarStatsManager.currentLevel;
+            int curLvl = GameManager.Instance.currentLevel;
             if (levelText) levelText.text = curLvl.ToString();
 
             if (curLvl >= 10)

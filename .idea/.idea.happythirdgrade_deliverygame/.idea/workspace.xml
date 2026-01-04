@@ -6,18 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="187d7a6d-813d-491e-a978-fad12e76f261" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.happythirdgrade_deliverygame/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/其他/兌換券.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/其他/兌換券.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/設定.結算.大叔/大叔.PNG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/設定.結算.大叔/大叔.PNG.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Image/設定.結算.大叔/大叔CG.PNG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Image/設定.結算.大叔/大叔CG.PNG.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/HUDs/GameHUD.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/GameEndMenu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/GameEndMenu.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/StoreMenu.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/UI/Prefab/Menus/StoreMenu.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/GameEvent/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/InventorySystem/InventoryManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/InventorySystem/InventoryManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Data/CSV/ItemDatabase.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/CSV/ItemDatabase.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/HUDs/GameHUD.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/GameOverMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/GameOverMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CarStatsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CarStatsManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/StoreMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Menus/StoreMenu.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -159,7 +150,8 @@
       <workItem from="1767095656661" duration="594000" />
       <workItem from="1767169579905" duration="969000" />
       <workItem from="1767417202040" duration="14338000" />
-      <workItem from="1767456803888" duration="8683000" />
+      <workItem from="1767456803888" duration="9300000" />
+      <workItem from="1767520799761" duration="1029000" />
     </task>
     <servers />
   </component>

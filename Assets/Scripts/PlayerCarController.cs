@@ -9,6 +9,19 @@ public class PlayerCarController : BaseCarController
     {
         // 只有玩家需要註冊自己
         GameManager.Instance.SetPlayer(gameObject);
+        
+        InventoryManager.Instance.AddItem(100, 500);
+        InventoryManager.Instance.AddItem(999, 1);
+        InventoryManager.Instance.AddItem(100, 500);
+        InventoryManager.Instance.AddItem(999, 1);
+        InventoryManager.Instance.AddItem(100, 500);
+        InventoryManager.Instance.AddItem(999, 1);
+        InventoryManager.Instance.AddItem(100, 500);
+        InventoryManager.Instance.AddItem(999, 1);
+        InventoryManager.Instance.AddItem(100, 500);
+        InventoryManager.Instance.AddItem(999, 1);
+            SaveManager.Instance.SaveGame(); // 統一保存存檔
+            SaveManager.Instance.SaveSettings();
     }
 
     private void OnEnable()
